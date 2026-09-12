@@ -294,14 +294,114 @@ body{background:linear-gradient(180deg,#FFFFFF,#FAFBFF 45%,#FFFFFF)}
 .strip span{color:#9AA4C4}
 
 /* —— 区块色彩节奏：不再白到底 —— */
-.sec.alt{background:linear-gradient(180deg,#F5F6FB,#EFF1F8)}
-#product{background:linear-gradient(180deg,#FFFFFF,#F7F5FF 100%)}
-#xhs-product{background:linear-gradient(180deg,#FFF6F8,#FFEFF3 100%)}
-#services{background:#fff}
-#showcase{background:linear-gradient(180deg,#F5F6FB,#EFF1F8)}
-#process{background:#fff}
-#about{background:linear-gradient(180deg,#F8F6FF,#FFFFFF 70%)}
-#faq{background:#fff}
+.sec.alt{background:linear-gradient(180deg,#F3F4FB,#EBEDF7)}
+#products{background:linear-gradient(180deg,#EFEBFE,#DCD4F8)}
+#product{position:relative;background:linear-gradient(180deg,#FFFFFF,#E3DBFB 42%,#D3C7F6)}
+#xhs-product{position:relative;background:linear-gradient(180deg,#FFEDF2,#FFD0DD)}
+#showcase{background:linear-gradient(180deg,#EFEBFE,#DCD3F8)}
+#process{background:linear-gradient(180deg,#EAF3FB,#D6E6F5)}
+#about{background:linear-gradient(180deg,#F1EDFF,#DED6F8)}
+#faq{background:linear-gradient(180deg,#EDF2FC,#DAE3F3)}
+/* 两侧品牌光晕，让浅色区块不是平板一块 */
+#product::before,#xhs-product::before,#services::before,#process::before{content:"";position:absolute;inset:0;pointer-events:none}
+#product::before{background:radial-gradient(760px 420px at 90% 2%,rgba(108,92,224,.20),transparent 66%)}
+#xhs-product::before{background:radial-gradient(760px 420px at 8% 2%,rgba(255,36,66,.18),transparent 66%)}
+#process::before{background:radial-gradient(700px 400px at 96% 10%,rgba(108,92,224,.16),transparent 66%)}
+#product .wrap,#xhs-product .wrap,#services .wrap,#process .wrap{position:relative;z-index:1}
+
+/* —— 中段深色带：服务区。全页节奏 深(首屏)-浅-深(服务)-浅-深(页脚) —— */
+#services{position:relative;background:linear-gradient(160deg,#241E52,#1B1840 55%,#191735)}
+#services::before{background:radial-gradient(820px 440px at 88% -6%,rgba(108,92,224,.55),transparent 66%)}
+#services .sec-head .tag{background:rgba(255,255,255,.12);color:#D5CFFF;border-color:rgba(255,255,255,.22)}
+#services .sec-head h2{color:#fff}
+#services .sec-head h2::after{background:linear-gradient(90deg,#A99BFF,#6ED8E6)}
+#services .sec-head p{color:#B7C0DA}
+#services .svc{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.15);box-shadow:none}
+#services .svc:hover{background:rgba(255,255,255,.11);border-color:rgba(255,255,255,.3)}
+#services .svc h3{color:#fff}
+#services .svc>p{color:#B7C0DA}
+#services .svc li{color:#AEB7D2}
+#services .svc .out{color:#8E97B4;border-top-color:rgba(255,255,255,.16)}
+#services .svc .out b{color:#fff}
+
+/* 链路节点上色 */
+.chain .n{background:#fff;border-color:#E0D9F9;box-shadow:0 8px 20px -16px rgba(108,92,224,.7)}
+.chain .n b{color:var(--lh)}
+#xhs-product .chain .n{border-color:#FFD4DE;box-shadow:0 8px 20px -16px rgba(255,36,66,.6)}
+#xhs-product .chain .n b{color:#D81B3C}
+
+/* 缩略图加品牌色衬底 */
+.thumb{padding:10px 10px 0;background:linear-gradient(160deg,#EDE8FD,#FFFFFF 62%)}
+.thumb img{border-radius:8px}
+.thumb figcaption{margin:10px -10px 0;background:#F6F4FF;border-top-color:#E6E1FA}
+#xhs-product .thumb{background:linear-gradient(160deg,#FFE7EE,#FFFFFF 62%)}
+#xhs-product .thumb figcaption{background:#FFF4F7;border-top-color:#FFDEE5}
+
+/* —— 首屏里的轮播：竖版紧凑 —— */
+.hero-car{box-shadow:0 34px 74px rgba(5,8,20,.6);border-color:rgba(255,255,255,.16)}
+.hero-car .car-slide{grid-template-columns:1fr;padding:22px 22px 50px;gap:12px}
+.hero-car .car-slide h3{font-size:19px;margin:8px 0 6px}
+.hero-car .car-slide p{font-size:13px}
+.hero-car .car-shot{padding:8px}
+.hero-car .car-nav{width:32px;height:32px;font-size:16px;top:46%}
+.hero-car .car-foot{height:46px}
+
+/* —— 两套系统对比卡 —— */
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.colm{position:relative;overflow:hidden;background:#fff;border:1px solid var(--border);border-radius:var(--r-lg);padding:24px 26px;box-shadow:var(--shadow)}
+.colm::before{content:"";position:absolute;left:0;top:0;height:4px;width:100%;background:linear-gradient(90deg,#6C5CE0,#9B7CF3)}
+.colm.xhs::before{background:linear-gradient(90deg,#FF2442,#FF7A8A)}
+.colm h3{font-size:19px;color:var(--ink);font-weight:800;margin:10px 0 4px}
+.colm .ctop p{font-size:12.5px;color:var(--muted)}
+.colm dl{margin:16px 0 18px;display:grid;grid-template-columns:88px 1fr;gap:9px 14px;font-size:13.5px}
+.colm dt{color:var(--muted)}
+.colm dd{color:var(--ink);font-weight:600}
+.mono-ver{color:var(--lh);font-weight:700}
+.colm.xhs .mono-ver{color:#D81B3C}
+@media (max-width:760px){.compare{grid-template-columns:1fr}.colm dl{grid-template-columns:1fr;gap:2px 0}.colm dt{margin-top:6px}}
+
+/* 标题下加一道品牌渐变短线 */
+.sec-head h2{position:relative;padding-bottom:16px}
+.sec-head h2::after{content:"";position:absolute;left:50%;transform:translateX(-50%);bottom:0;width:56px;height:3px;border-radius:99px;background:linear-gradient(90deg,#6C5CE0,#35C7D8)}
+#xhs-product .sec-head h2::after{background:linear-gradient(90deg,#FF2442,#FF7A8A)}
+
+/* 图标全部换成渐变实心色块，卡片不再是白纸 */
+.card{position:relative;overflow:hidden}
+.card::before{content:"";position:absolute;left:0;top:0;height:3px;width:100%;background:linear-gradient(90deg,#6C5CE0,#9B7CF3);opacity:.9}
+.card.xhs::before{background:linear-gradient(90deg,#FF2442,#FF7A8A)}
+.card h4{color:#171B2E}
+.about-item{position:relative;overflow:hidden;border-top:3px solid #6C5CE0}
+.about-item:nth-child(2){border-top-color:#35C7D8}
+.about-item:nth-child(3){border-top-color:#9B7BE8}
+.about-item:nth-child(4){border-top-color:#EE6C5C}
+.about-item:nth-child(5){border-top-color:#17A673}
+.about-item:nth-child(6){border-top-color:#E08A2B}
+.card .ci,.about-item .ai,.svc .si{background:linear-gradient(135deg,#7B6CF3,#9B8CFA);color:#fff;box-shadow:0 10px 20px -10px rgba(108,92,224,.75)}
+.card.xhs .ci{background:linear-gradient(135deg,#FF2442,#FF6B6B);box-shadow:0 10px 20px -10px rgba(255,36,66,.7)}
+.card:hover{border-color:var(--lh-line)}
+.card.xhs:hover{border-color:var(--xhs-line)}
+.svc{position:relative;overflow:hidden}
+.svc::before{content:"";position:absolute;left:0;top:0;height:3px;width:100%;background:linear-gradient(90deg,#6C5CE0,#9B8CFA)}
+.svc:nth-child(2)::before{background:linear-gradient(90deg,#35C7D8,#5ADCE8)}
+.svc:nth-child(3)::before{background:linear-gradient(90deg,#9B7BE8,#B79BF0)}
+.svc:nth-child(4)::before{background:linear-gradient(90deg,#EE6C5C,#F5A07C)}
+
+/* 流程：左侧色条 + 序号做成彩色圆环 */
+.step5{position:relative;overflow:hidden}
+.step5::before{content:"";position:absolute;left:0;top:0;width:4px;height:100%;background:linear-gradient(180deg,#6C5CE0,#35C7D8)}
+.step5:nth-child(2)::before{background:linear-gradient(180deg,#35C7D8,#5ADCE8)}
+.step5:nth-child(3)::before{background:linear-gradient(180deg,#9B7BE8,#B79BF0)}
+.step5:nth-child(4)::before{background:linear-gradient(180deg,#EE6C5C,#F5A07C)}
+.step5:nth-child(5)::before{background:linear-gradient(180deg,#17A673,#4ADE80)}
+.step5 .num{display:inline-grid;place-items:center;width:32px;height:32px;border-radius:50%;background:var(--lh-soft);color:var(--lh);font-size:12px;font-weight:800;margin-bottom:10px}
+
+/* 案例序号色块 + FAQ 展开高亮 */
+.case h4 span{background:linear-gradient(135deg,#7B6CF3,#9B8CFA);color:#fff}
+.faq details[open]{background:linear-gradient(90deg,#F5F3FE,#FFFFFF 60%)}
+.faq details[open] summary{color:var(--lh)}
+
+/* 缩略图说明条也带一点色 */
+.thumb figcaption{background:#FAFAFE;color:#6F7891}
 
 /* —— 小标签做成色块，不再是灰字 —— */
 .sec-head .tag{background:var(--lh-soft);color:var(--lh);border:1px solid var(--lh-line);padding:5px 14px;border-radius:99px;font-size:11.5px;letter-spacing:1.6px}
@@ -464,9 +564,44 @@ footer::before{content:"";position:absolute;left:0;top:0;height:3px;width:100%;b
             <span><i class="tick">✓</i>源码可交付</span>
           </div>
         </div>
-        <div class="frame">
-          <div class="bar"><i></i><i></i><i></i></div>
-          <img src="assets/app-main.png?v=20260913d" alt="LH 全链任务系统 主界面">
+        <!-- 首屏产品轮播：一进页面就能看到两套系统（自动播放 + 可手动切换） -->
+        <div class="carousel hero-car reveal" id="prodCarousel" aria-roledescription="轮播" aria-label="两套获客系统">
+          <div class="car-track" id="carTrack">
+            <article class="car-slide" data-accent="lh" role="group" aria-label="1 / 2：LH 全链任务系统">
+              <div class="badge-row">
+                <span class="pill lh-dark">Threads 版 · 紫罗兰</span>
+                <span class="pill" data-ver="threads">最新版</span>
+              </div>
+              <h3>LH 全链任务系统</h3>
+              <p>在 Threads 上按俄语关键词找「从中国购买 / 运输」的买家：多账号采集 → AI 审核 → 自动回复，全程无人值守。</p>
+              <div class="actions">
+                <a class="btn btn-primary btn-sm" href="https://api.lihui-cargo.ru/download" target="_blank" rel="noopener">立即下载</a>
+                <a class="btn btn-ghost btn-sm" href="#product">看详细介绍</a>
+              </div>
+              <div class="car-shot"><img src="assets/app-main.png?v=20260913d" alt="LH 全链任务系统 总览控制"></div>
+            </article>
+            <article class="car-slide" data-accent="xhs" role="group" aria-label="2 / 2：小红书私信 AI 获客">
+              <div class="badge-row">
+                <span class="pill xhs-dark">小红书版 · 品牌红</span>
+                <span class="pill xhs" data-ver="xhs">最新版</span>
+              </div>
+              <h3>小红书私信 AI 获客</h3>
+              <p>在小红书按关键词找有采购 / 合作意向的人：私信 + 评论采集 → AI 判意图 → 内置微信引擎自动触达。</p>
+              <div class="actions">
+                <a class="btn btn-xhs btn-sm" href="https://api.lihui-cargo.ru/xhs/package" target="_blank" rel="noopener">立即下载</a>
+                <a class="btn btn-ghost btn-sm" href="#xhs-product">看详细介绍</a>
+              </div>
+              <div class="car-shot"><img src="assets/xhs-main-1019.png?v=20260913b" alt="小红书私信 AI 获客 运行台"></div>
+            </article>
+          </div>
+          <button class="car-nav prev" id="carPrev" type="button" aria-label="上一屏">‹</button>
+          <button class="car-nav next" id="carNext" type="button" aria-label="下一屏">›</button>
+          <div class="car-foot">
+            <div class="dots" id="carDots" role="tablist" aria-label="切换产品">
+              <button type="button" class="on" aria-label="第 1 屏：LH 全链任务系统"></button>
+              <button type="button" aria-label="第 2 屏：小红书私信 AI 获客"></button>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -485,64 +620,41 @@ footer::before{content:"";position:absolute;left:0;top:0;height:3px;width:100%;b
       <div class="sec-head reveal">
         <div class="tag">自研产品</div>
         <h2>两套已经在跑的获客系统</h2>
-        <p>都是我们自己开发、自己迭代、客户正在用的 Windows 桌面软件。左右切换看看，或者直接下载试用。</p>
+        <p>都是我们自己开发、自己迭代、客户正在用的 Windows 桌面软件。先看下面的对比，确认哪套适合你，再下载。</p>
       </div>
       <div class="hint reveal">先看这里，别下错：<b>在 Threads（国外社媒）找俄语区客户 → 下载 Threads 版</b>；
         <b>在小红书找客户 → 下载小红书版</b>。两套是独立程序，装错版本用不了对方的平台。</div>
 
-      <div class="carousel reveal" id="prodCarousel" aria-roledescription="轮播" aria-label="两套获客系统">
-        <div class="car-track" id="carTrack">
-          <article class="car-slide" data-accent="lh" role="group" aria-label="1 / 2：LH 全链任务系统">
-            <div>
-              <div class="badge-row">
-                <span class="pill lh-dark">Threads 版 · 紫罗兰</span>
-                <span class="pill" data-ver="threads">最新版</span>
-              </div>
-              <h3>LH 全链任务系统</h3>
-              <p>在 Threads 上按俄语关键词找「从中国购买 / 运输」的买家：多账号拟人采集 → 模型多票审核 →
-                 自动回复 → 互动跟进 → 客户台账，全程无人值守。</p>
-              <ul class="points">
-                <li>最多 3 个账号并行，各自独立浏览器与登录态，A/B/C 错峰上线</li>
-                <li>采集速度慢 / 标准 / 快三档，可按账号单独设、运行中也能改</li>
-                <li>草稿模式与全自动一键切换，回复逐字输入更拟人</li>
-              </ul>
-              <div class="actions" style="margin-top:18px">
-                <a class="btn btn-primary" href="https://api.lihui-cargo.ru/download" target="_blank" rel="noopener">立即下载</a>
-                <a class="btn btn-ghost" href="#product">看详细介绍</a>
-              </div>
-            </div>
-            <div class="car-shot"><img src="assets/app-main.png?v=20260913d" alt="LH 全链任务系统 总览控制"></div>
-          </article>
-
-          <article class="car-slide" data-accent="xhs" role="group" aria-label="2 / 2：小红书私信 AI 获客">
-            <div>
-              <div class="badge-row">
-                <span class="pill xhs-dark">小红书版 · 品牌红</span>
-                <span class="pill xhs" data-ver="xhs">最新版</span>
-              </div>
-              <h3>小红书私信 AI 获客</h3>
-              <p>在小红书按关键词找有采购 / 合作意向的人：私信 + 评论采集 → AI 判断真实意图 → 生成自然话术 →
-                 通过内置微信引擎自动触达。</p>
-              <ul class="points xhs">
-                <li>多账号矩阵 ↔ 微信一一对应，同一客户只推送一次</li>
-                <li>只回命中意向词的私信，AI 判读需求后再留资</li>
-                <li>留资自动进台账（手机号 / 微信号），可导出跟进</li>
-              </ul>
-              <div class="actions" style="margin-top:18px">
-                <a class="btn btn-xhs" href="https://api.lihui-cargo.ru/xhs/package" target="_blank" rel="noopener">立即下载</a>
-                <a class="btn btn-ghost" href="#xhs-product">看详细介绍</a>
-              </div>
-            </div>
-            <div class="car-shot"><img src="assets/xhs-main-1019.png?v=20260913b" alt="小红书私信 AI 获客 运行台"></div>
-          </article>
-        </div>
-        <button class="car-nav prev" id="carPrev" type="button" aria-label="上一屏">‹</button>
-        <button class="car-nav next" id="carNext" type="button" aria-label="下一屏">›</button>
-        <div class="car-foot">
-          <div class="dots" id="carDots" role="tablist" aria-label="切换产品">
-            <button type="button" class="on" aria-label="第 1 屏：LH 全链任务系统"></button>
-            <button type="button" aria-label="第 2 屏：小红书私信 AI 获客"></button>
+      <div class="compare reveal">
+        <div class="colm lh">
+          <div class="ctop">
+            <span class="pill lh-dark">Threads 版 · 紫罗兰</span>
+            <h3>LH 全链任务系统</h3>
+            <p>面向俄语区市场 · <span class="mono-ver" data-ver="threads">最新版</span></p>
           </div>
+          <dl>
+            <dt>用在哪个平台</dt><dd>国外社媒 Threads</dd>
+            <dt>找的是谁</dt><dd>询价「从中国购买 / 运输」的俄语区买家</dd>
+            <dt>怎么触达</dt><dd>在帖子下自动回复，可先出草稿再人工放行</dd>
+            <dt>线索落到哪</dt><dd>本机客户台账 + 作者端远程管控</dd>
+            <dt>适合谁</dt><dd>跨境物流、货代、外贸工厂</dd>
+          </dl>
+          <a class="btn btn-primary" href="https://api.lihui-cargo.ru/download" target="_blank" rel="noopener">下载 Threads 版</a>
+        </div>
+        <div class="colm xhs">
+          <div class="ctop">
+            <span class="pill xhs-dark">小红书版 · 品牌红</span>
+            <h3>小红书私信 AI 获客</h3>
+            <p>面向国内小红书 · <span class="mono-ver" data-ver="xhs">最新版</span></p>
+          </div>
+          <dl>
+            <dt>用在哪个平台</dt><dd>小红书（私信 + 评论）</dd>
+            <dt>找的是谁</dt><dd>有采购 / 合作意向、会问价问档期的客户</dd>
+            <dt>怎么触达</dt><dd>AI 生成话术回私信，留资后推送到你的微信</dd>
+            <dt>线索落到哪</dt><dd>本机留资台账（手机号 / 微信号），可导出</dd>
+            <dt>适合谁</dt><dd>旅拍写真、装修建材、医美、教育、本地服务</dd>
+          </dl>
+          <a class="btn btn-xhs" href="https://api.lihui-cargo.ru/xhs/package" target="_blank" rel="noopener">下载 小红书版</a>
         </div>
       </div>
     </div>
@@ -971,7 +1083,7 @@ footer::before{content:"";position:absolute;left:0;top:0;height:3px;width:100%;b
     </div>
     <div class="foot-bottom">
       <span>© 2026 LH 智能自动化 · 保留所有权利</span>
-      <span>本页面内容与截图均为真实交付成果 · 构建 <b data-build>20260913-031546</b></span>
+      <span>本页面内容与截图均为真实交付成果 · 构建 <b data-build>20260913-032043</b></span>
     </div>
   </div>
 </footer>
