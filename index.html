@@ -357,6 +357,43 @@ footer{padding:50px 0 30px;background:#fff;border-top:1px solid var(--border);co
 .updbox-lh li::before{color:var(--primary)}
 .tech span + span{line-height:1.6}
 .tech code{background:#F1F2F7;border:1px solid var(--border);border-radius:6px;padding:1px 6px;font-size:12.5px;color:var(--ink);font-family:Consolas,"Courier New",monospace}
+
+/* ===== 首页产品轮播：两套系统，每屏一图 + 立即下载（2026-09-13） ===== */
+.carousel{position:relative;margin-top:22px;border-radius:20px;background:#fff;border:1px solid var(--border);box-shadow:var(--shadow-lg);overflow:hidden}
+.car-track{display:flex;transition:transform .55s cubic-bezier(.4,0,.2,1)}
+.car-slide{flex:0 0 100%;display:grid;grid-template-columns:1.02fr .98fr;gap:26px;padding:32px 34px 58px;align-items:center;position:relative}
+.car-slide::before{content:"";position:absolute;left:0;top:0;height:5px;width:100%}
+.car-slide[data-accent="lh"]::before{background:linear-gradient(90deg,#6C5CE0,#9B7CF3)}
+.car-slide[data-accent="xhs"]::before{background:linear-gradient(90deg,#FF2442,#FF7A8A)}
+.car-slide[data-accent="lh"]{background:linear-gradient(135deg,rgba(108,92,224,.06),rgba(108,92,224,0) 62%)}
+.car-slide[data-accent="xhs"]{background:linear-gradient(135deg,rgba(255,36,66,.06),rgba(255,36,66,0) 62%)}
+.car-slide h3{font-size:26px;color:var(--ink);font-weight:800;margin:11px 0 12px;letter-spacing:-.3px}
+.car-slide p{font-size:14.5px;color:var(--body)}
+.car-badge-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.car-ver{font-size:12.5px;font-weight:700;color:var(--primary);background:var(--primary-soft);border:1px solid rgba(108,92,224,.2);border-radius:99px;padding:4px 11px;white-space:nowrap}
+.car-slide[data-accent="xhs"] .car-ver{color:#D81B3C;background:#FFEEF1;border-color:rgba(255,36,66,.22)}
+.car-slide[data-accent="xhs"] .brand-badge{background:#FF2442;color:#fff;border-color:#FF2442}
+.car-points{list-style:none;margin:16px 0 0;display:grid;gap:9px}
+.car-points li{font-size:13.5px;color:var(--body);display:flex;gap:9px;align-items:flex-start}
+.car-points li::before{content:"✓";font-weight:800;font-size:12px;margin-top:2px}
+.car-slide[data-accent="lh"] .car-points li::before{color:var(--primary)}
+.car-slide[data-accent="xhs"] .car-points li::before{color:#FF2442}
+.car-shot{border-radius:14px;overflow:hidden;border:1px solid var(--border);box-shadow:var(--shadow);background:#fff}
+.car-shot img{width:100%;display:block}
+.car-bar{position:absolute;left:0;right:0;bottom:0;height:56px;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,rgba(255,255,255,0),#fff 45%);z-index:4}
+.car-dots{display:flex;gap:8px}
+.car-dots button{width:9px;height:9px;border-radius:99px;border:0;background:#D8DCE8;cursor:pointer;transition:all .25s;padding:0}
+.car-dots button.on{width:26px;background:var(--primary)}
+.car-nav{position:absolute;top:44%;transform:translateY(-50%);width:38px;height:38px;border-radius:50%;border:1px solid var(--border);background:#fff;color:var(--ink);font-size:19px;line-height:1;cursor:pointer;box-shadow:var(--shadow);display:grid;place-items:center;z-index:5;transition:background .2s}
+.car-nav:hover{background:var(--primary-soft)}
+.car-nav.prev{left:12px}
+.car-nav.next{right:12px}
+@media (max-width:1024px){
+  .car-slide{grid-template-columns:1fr;padding:24px 20px 60px;gap:20px}
+  .car-slide h3{font-size:22px}
+  .car-nav{width:32px;height:32px;font-size:16px}
+}
+@media (prefers-reduced-motion:reduce){.car-track{transition:none}}
 </style>
 </head>
 <body>
@@ -442,35 +479,69 @@ footer{padding:50px 0 30px;background:#fff;border-top:1px solid var(--border);co
         <div class="sec-head reveal" id="pick" style="margin-top:10px">
           <div class="tag">自研产品</div>
           <h2>两套已经在跑的获客系统</h2>
-          <p>都是我们自己开发、自己迭代、客户在用的桌面软件：一套做 Threads（俄语区），一套做小红书。点下面直接看介绍或下载。</p>
+          <p>都是我们自己开发、自己迭代、客户在用的桌面软件：一套做 Threads（俄语区），一套做小红书。
+            下面两张卡片会自动轮播（也可以点左右箭头或下面的圆点切换），看到合适的直接点「立即下载」。</p>
         </div>
         <div class="pick-hint reveal">先看这里，别下错：<b>在 Threads（国外社媒）找俄语区客户 → 下左边的「Threads 版」</b>；
           <b>在小红书找客户 → 下右边的「小红书版」</b>。两套是两个独立程序，装错版本用不了对方的平台。</div>
-        <div class="grid3" style="grid-template-columns:repeat(2,1fr)">
-          <div class="feature reveal brand-card brand-lh" style="align-items:flex-start">
-            <div class="fi v">TH</div>
-            <div>
-              <span class="brand-badge">Threads 版 · 紫罗兰</span>
-              <h4>LH 全链任务系统</h4>
-              <p>在 Threads 上按俄语关键词找「从中国购买 / 运输」的买家：拟人采集 → AI 多票审核 → 自动生成俄语回复 →
-                自动发布 → 客户台账 + 云端授权。支持多账号独立环境、云端策略热更新、一键自动更新，程序内置《使用说明》。</p>
-              <div class="dl-actions" style="margin-top:10px">
-                <a class="btn btn-primary" href="#product">看详细介绍</a>
-                <a class="btn btn-ghost" href="https://api.lihui-cargo.ru/download" target="_blank" rel="noopener">下载 Threads 版客户端</a>
+
+        <!-- 两套产品轮播：自动播放 + 手动切换（2026-09-13） -->
+        <div class="carousel reveal" id="prodCarousel" aria-roledescription="轮播" aria-label="两套获客系统">
+          <div class="car-track" id="carTrack">
+            <article class="car-slide" data-accent="lh" role="group" aria-label="1 / 2：LH 全链任务系统">
+              <div class="car-info">
+                <div class="car-badge-row">
+                  <span class="brand-badge">Threads 版 · 紫罗兰</span>
+                  <span class="car-ver" data-ver="threads">最新版</span>
+                </div>
+                <h3>LH 全链任务系统</h3>
+                <p>在 Threads 上按俄语关键词找「从中国购买 / 运输」的买家：多账号拟人采集 → 模型多票审核 →
+                   自动生成俄语回复 → 互动跟进 → 客户台账 + 云端授权，全程无人值守。</p>
+                <ul class="car-points">
+                  <li>最多 3 个账号并行，各自独立浏览器与登录态，A/B/C 错峰上线</li>
+                  <li>采集速度慢 / 标准 / 快三档，可按账号单独设、运行中也能改</li>
+                  <li>回复拟人化（逐字输入 + 发布前停顿），草稿模式与全自动一键切换</li>
+                </ul>
+                <div class="dl-actions" style="margin-top:18px">
+                  <a class="btn btn-primary" href="https://api.lihui-cargo.ru/download" target="_blank" rel="noopener">立即下载</a>
+                  <a class="btn btn-ghost" href="#product">看详细介绍</a>
+                </div>
               </div>
-            </div>
+              <div class="car-shot">
+                <img src="assets/app-main.png?v=20260913c" alt="LH 全链任务系统 总览控制界面">
+              </div>
+            </article>
+
+            <article class="car-slide" data-accent="xhs" role="group" aria-label="2 / 2：小红书私信 AI 获客">
+              <div class="car-info">
+                <div class="car-badge-row">
+                  <span class="brand-badge">小红书版 · 品牌红</span>
+                  <span class="car-ver" data-ver="xhs">最新版</span>
+                </div>
+                <h3>小红书私信 AI 获客</h3>
+                <p>在小红书按关键词找有采购 / 合作意向的人：私信 + 评论双通道采集 → AI 判断真实意图 → 生成自然话术 →
+                   内置微信引擎自动触达 → 线索台账去重，话术可按行业 / 城市风格自定义。</p>
+                <ul class="car-points">
+                  <li>多账号矩阵 ↔ 微信一一对应，同一客户只推送一次</li>
+                  <li>只回命中意向词的私信，AI 判读真实需求后再留资</li>
+                  <li>留资自动进台账（手机号 / 微信号），内置微信发送引擎</li>
+                </ul>
+                <div class="dl-actions" style="margin-top:18px">
+                  <a class="btn btn-primary" href="https://api.lihui-cargo.ru/xhs/package" target="_blank" rel="noopener">立即下载</a>
+                  <a class="btn btn-ghost" href="#xhs-product">看详细介绍</a>
+                </div>
+              </div>
+              <div class="car-shot">
+                <img src="assets/xhs-main-1019.png?v=20260913b" alt="小红书私信 AI 获客 运行台界面">
+              </div>
+            </article>
           </div>
-          <div class="feature reveal brand-card brand-xhs" style="align-items:flex-start">
-            <div class="fi a">XHS</div>
-            <div>
-              <span class="brand-badge">小红书版 · 品牌红</span>
-              <h4>小红书私信 AI 获客</h4>
-              <p>在小红书按关键词找有采购 / 合作意向的人：私信 + 评论双通道采集 → AI 判断真实意图 → 生成自然话术 →
-                内置微信引擎自动触达 → 线索台账去重。话术可按行业 / 城市风格自定义。</p>
-              <div class="dl-actions" style="margin-top:10px">
-                <a class="btn btn-primary" href="#xhs-product">看详细介绍</a>
-              <a class="btn btn-ghost" href="https://api.lihui-cargo.ru/xhs/dl?f=XhsLead-package-1.0.19.zip" target="_blank" rel="noopener">下载 小红书版完整包</a>
-              </div>
+          <button class="car-nav prev" id="carPrev" type="button" aria-label="上一屏">‹</button>
+          <button class="car-nav next" id="carNext" type="button" aria-label="下一屏">›</button>
+          <div class="car-bar">
+            <div class="car-dots" id="carDots" role="tablist" aria-label="切换产品">
+              <button type="button" class="on" aria-label="第 1 屏：LH 全链任务系统"></button>
+              <button type="button" aria-label="第 2 屏：小红书私信 AI 获客"></button>
             </div>
           </div>
         </div>
@@ -550,8 +621,8 @@ footer{padding:50px 0 30px;background:#fff;border-top:1px solid var(--border);co
 
       <div class="shots">
         <div class="shot reveal" data-src="assets/app-main.png?v=20260913c">
-          <img src="assets/app-main.png?v=20260913c" alt="LH 全链任务系统 v6.5.23 总览控制">
-          <div class="shot-cap">总览控制（v6.5.23）：本次已回复 / 待审核 / 已扫描帖子 / 授权剩余四张实时卡 + 任务参数、三档采集速度、运行日志</div>
+          <img src="assets/app-main.png?v=20260913c" alt="LH 全链任务系统 总览控制">
+          <div class="shot-cap">总览控制：本次已回复 / 待审核 / 已扫描帖子 / 授权剩余四张实时卡 + 任务参数、三档采集速度、运行日志</div>
         </div>
         <div class="shot reveal" data-src="assets/app-accounts.png?v=20260913c">
           <img src="assets/app-accounts.png?v=20260913c" alt="账号矩阵设置">
@@ -571,9 +642,9 @@ footer{padding:50px 0 30px;background:#fff;border-top:1px solid var(--border);co
         </div>
       </div>
 
-      <div class="updbox updbox-lh reveal">
-        <h4>本次更新 · v6.5.23 <i>最新</i></h4>
-        <ul>
+            <div class="updbox updbox-lh reveal">
+            <h4>最近更新 <i data-ver="threads">最新</i></h4>
+              <ul data-notes="threads">
           <li><b>每个账号各自计时</b>：设置「跑 40 分钟 / 休 20 分钟」时，A / B / C 各自跑满 40 分钟、再各自休息 20 分钟。以前 A 先启动、B 和 C 延时启动，B / C 一上来任务就快结束了——现在不会了。</li>
           <li><b>回复更拟人</b>：回复内容改成<b>逐字输入</b>（不再是整段粘贴），并且点发布前会停顿几秒。</li>
           <li><b>统计改成「本次启动后清零」</b>：界面上的回复 / 草稿 / 扫描数字不再永久累计，一眼看清这一轮跑了多少。</li>
@@ -599,7 +670,7 @@ footer{padding:50px 0 30px;background:#fff;border-top:1px solid var(--border);co
       </div>
 
       <div class="specs reveal">
-        <span class="chip">最新版本 <b>v6.5.23 · 2026-09-13</b></span>
+        <span class="chip">当前版本 <b data-ver="threads">以客户端「检查更新」为准</b></span>
         <span class="chip">运行环境 <b>Windows 10/11 · .NET 4.8</b></span>
         <span class="chip">账号 <b>最多 3 个 Threads 号并行</b></span>
         <span class="chip">浏览器 <b>Edge / Chrome · 独立登录态</b></span>
@@ -621,7 +692,7 @@ footer{padding:50px 0 30px;background:#fff;border-top:1px solid var(--border);co
                 <div class="dl-title">LH 全链任务系统</div>
               <div class="dl-sub">桌面智能获客客户端 · Windows 独立版</div>
             </div>
-                <span class="dl-version">v6.5.23 正式版</span>
+                <span class="dl-version" data-ver="threads">最新版</span>
           </div>
               <p class="dl-desc">智能采集、AI 审核、自动回复、客户台账与云端授权一体化。<b>程序已内置《使用说明》，首次运行会自动在程序目录生成 使用说明.md</b>（也可点程序左侧「07 使用说明」直接打开）。下载后首次启动会显示机器码，发送给我们即可获得授权激活码；未激活可完整预览界面与全部功能说明。</p>
           <div class="dl-actions">
@@ -659,7 +730,7 @@ footer{padding:50px 0 30px;background:#fff;border-top:1px solid var(--border);co
               <div class="tag">产品线 · 小红书</div>
               <h2>小红书私信 AI 获客</h2>
               <p>跑在小红书上的「私信 → 留资 → 微信」全链自动化：多账号采集私信与评论 → AI 大脑判断真实意向并生成话术
-                → 通过内置微信引擎把线索推到对应微信。最新 v1.0.19 换成全新的<b>小红书红主题</b>，和 Threads 版一眼区分。
+                → 通过内置微信引擎把线索推到对应微信。界面已经换成全新的<b>小红书红主题</b>，和 Threads 版一眼区分。
                 适合旅拍/写真、装修建材、医美、教育、跨境物流等靠私聊成交的行业。</p>
             </div>
 
@@ -684,34 +755,34 @@ footer{padding:50px 0 30px;background:#fff;border-top:1px solid var(--border);co
 
             <div class="shots">
               <div class="shot reveal" data-src="assets/xhs-main-1019.png?v=20260913b">
-                <img src="assets/xhs-main-1019.png?v=20260913b" alt="小红书私信AI获客 v1.0.19 运行台（全新小红书红主题）">
-                <div class="shot-cap">运行台（v1.0.19 · 全新小红书红主题）：今日私信 / 留资命中 / 已推微信 / AI 大脑状态四张实时卡 + 采集控制、一键体检与滚动日志</div>
+                <img src="assets/xhs-main-1019.png?v=20260913b" alt="小红书私信AI获客 运行台（全新小红书红主题）">
+                <div class="shot-cap">运行台（全新小红书红主题）：今日私信 / 留资命中 / 已推微信 / AI 大脑状态四张实时卡 + 采集控制、一键体检与滚动日志</div>
               </div>
               <div class="shot reveal" data-src="assets/xhs-brain-1019.png?v=20260913b">
-                <img src="assets/xhs-brain-1019.png?v=20260913b" alt="小红书私信AI获客 v1.0.19 AI 大脑设置">
+                <img src="assets/xhs-brain-1019.png?v=20260913b" alt="小红书私信AI获客 AI 大脑设置">
                 <div class="shot-cap">AI 大脑设置：模型 / API 密钥 / 业务简介 / 意向词与相似词 / 自进化开关，一个入口配完</div>
               </div>
               <div class="shot reveal" data-src="assets/xhs-accounts-1019.png?v=20260913b">
-                <img src="assets/xhs-accounts-1019.png?v=20260913b" alt="小红书私信AI获客 v1.0.19 账号与微信推送">
+                <img src="assets/xhs-accounts-1019.png?v=20260913b" alt="小红书私信AI获客 账号与微信推送">
                 <div class="shot-cap">账号与微信推送：多账号各自独立浏览器登录态，每个小红书号单独指定推到哪个微信</div>
               </div>
               <div class="shot reveal" data-src="assets/xhs-stats-1019.png?v=20260913b">
-                <img src="assets/xhs-stats-1019.png?v=20260913b" alt="小红书私信AI获客 v1.0.19 回复统计">
+                <img src="assets/xhs-stats-1019.png?v=20260913b" alt="小红书私信AI获客 回复统计">
                 <div class="shot-cap">回复统计（每个账号 · 日 / 月）：AI 成功生成多少条、按账号分开记，跨重启累计</div>
               </div>
               <div class="shot reveal" data-src="assets/xhs-leads-1019.png?v=20260913b">
-                <img src="assets/xhs-leads-1019.png?v=20260913b" alt="小红书私信AI获客 v1.0.19 留资台账">
+                <img src="assets/xhs-leads-1019.png?v=20260913b" alt="小红书私信AI获客 留资台账">
                 <div class="shot-cap">留资台账：客户留下的手机号 / 微信号自动入表 + 推送状态，最新在最上面</div>
               </div>
               <div class="shot reveal" data-src="assets/xhs-merchant-1019.png?v=20260913b">
-                <img src="assets/xhs-merchant-1019.png?v=20260913b" alt="小红书私信AI获客 v1.0.19 商家档案">
+                <img src="assets/xhs-merchant-1019.png?v=20260913b" alt="小红书私信AI获客 商家档案">
                 <div class="shot-cap">商家档案：客户问「你们是哪儿的 / 有什么风格」，AI 就按这份档案回答</div>
               </div>
             </div>
 
             <div class="updbox reveal">
-              <h4>本次更新 · v1.0.19 <i>最新</i></h4>
-              <ul>
+              <h4>最近更新 <i data-ver="xhs">最新</i></h4>
+              <ul data-notes="xhs">
                 <li><b>全新小红书红主题</b>：左侧栏白底 + 左上角红色品牌块 + 红色选中标记，四张数据卡统一红色系——和另一套 Threads 版一眼区分，客户不会再装错。</li>
                 <li><b>程序名统一为「小红书私信 AI 获客」</b>（去掉旧版"离线版"字样），窗口标题、任务栏、开始菜单保持一致。</li>
                 <li><b>左侧菜单图标全部重新绘制</b>：六个入口改成矢量图标、位置重新对齐，不再高低不齐。</li>
@@ -721,7 +792,7 @@ footer{padding:50px 0 30px;background:#fff;border-top:1px solid var(--border);co
             </div>
 
             <div class="specs reveal">
-              <span class="chip">最新版本 <b>v1.0.19 · 2026-09-13</b></span>
+        <span class="chip">当前版本 <b data-ver="xhs">以下载页显示为准</b></span>
               <span class="chip">运行环境 <b>Windows 10/11</b></span>
               <span class="chip">账号 <b>多账号 · 独立浏览器登录态</b></span>
               <span class="chip">触达 <b>微信（内置引擎）</b></span>
@@ -739,12 +810,13 @@ footer{padding:50px 0 30px;background:#fff;border-top:1px solid var(--border);co
                 <div class="dl-title">小红书私信 AI 获客</div>
                 <div class="dl-sub">桌面自动获客客户端 · 私信 / 评论采集 + 微信自动触达</div>
               </div>
-              <span class="dl-version">v1.0.19 正式版</span>
+              <span class="dl-version" data-ver="xhs">最新版</span>
             </div>
             <p class="dl-desc">在小红书按关键词找有采购/合作意向的用户，采集私信与评论，AI 判断意图并生成回复，再通过内置微信引擎自动触达；支持自定义话术、城市/行业风格，台账与词库全部存本机。<b>下载完整包即含程序 + 使用说明 + 发送引擎</b>；首次启动显示机器码，发给我们即可获得授权激活码。</p>
             <div class="dl-actions">
-              <a class="btn btn-primary btn-big" href="https://api.lihui-cargo.ru/xhs/dl?f=XhsLead-package-1.0.19.zip" target="_blank" rel="noopener">下载完整包（推荐）</a>
-              <a class="btn btn-ghost" href="https://api.lihui-cargo.ru/xhs/dl?f=XhsLead-1.0.19.exe" target="_blank" rel="noopener">只要主程序</a>
+              <a class="btn btn-primary btn-big" href="https://api.lihui-cargo.ru/xhs/package" target="_blank" rel="noopener">下载完整包（推荐）</a>
+              <a class="btn btn-ghost" href="https://api.lihui-cargo.ru/xhs/download" target="_blank" rel="noopener">只要主程序</a>
+              <a class="btn btn-ghost" href="https://api.lihui-cargo.ru/xhs" target="_blank" rel="noopener">打开下载页</a>
             </div>
             <div class="not-this">⚠ 这是 <b>小红书版</b>：用于在小红书找客户并推送到微信。想在 Threads 上找俄语区客户，请下载上面的「Threads 版」↑</div>
             <div class="dl-meta">
@@ -1057,6 +1129,85 @@ document.documentElement.classList.add('js');
       document.addEventListener('click', function(e){ if(!wrap.contains(e.target)){ wrap.classList.remove('open'); btn.setAttribute('aria-expanded','false'); } });
       document.addEventListener('keydown', function(e){ if(e.key === 'Escape'){ wrap.classList.remove('open'); btn.setAttribute('aria-expanded','false'); } });
       wrap.querySelectorAll('.nav-dl-menu a').forEach(function(a){ a.addEventListener('click', function(){ wrap.classList.remove('open'); }); });
+    })();
+
+    // 首页产品轮播：自动播放 + 箭头 / 圆点 / 左右方向键 / 触屏滑动
+    (function(){
+      var box = document.getElementById('prodCarousel');
+      var track = document.getElementById('carTrack');
+      if(!box || !track || track.children.length < 2) return;
+      var slides = track.children, dots = document.getElementById('carDots');
+      var prev = document.getElementById('carPrev'), next = document.getElementById('carNext');
+      var n = slides.length, i = 0, timer = null;
+      var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      function go(k){
+        i = (k % n + n) % n;
+        track.style.transform = 'translateX(' + (-i * 100) + '%)';
+        if(dots) for(var d = 0; d < dots.children.length; d++) dots.children[d].classList.toggle('on', d === i);
+        if(!reduce) restart();
+      }
+      function restart(){ stop(); if(!reduce) timer = setInterval(function(){ go(i + 1); }, 7000); }
+      function stop(){ if(timer){ clearInterval(timer); timer = null; } }
+      if(prev) prev.addEventListener('click', function(){ go(i - 1); });
+      if(next) next.addEventListener('click', function(){ go(i + 1); });
+      if(dots) Array.prototype.forEach.call(dots.children, function(b, d){ b.addEventListener('click', function(){ go(d); }); });
+      box.addEventListener('mouseenter', stop);
+      box.addEventListener('mouseleave', restart);
+      box.addEventListener('focusin', stop);
+      box.addEventListener('focusout', restart);
+      document.addEventListener('visibilitychange', function(){ if(document.hidden){ stop(); } else { restart(); } });
+      var x0 = null;
+      box.addEventListener('touchstart', function(e){ x0 = e.touches[0].clientX; }, { passive: true });
+      box.addEventListener('touchend', function(e){
+        if(x0 === null) return;
+        var dx = e.changedTouches[0].clientX - x0;
+        if(Math.abs(dx) > 40) go(dx < 0 ? i + 1 : i - 1);
+        x0 = null;
+      });
+      document.addEventListener('keydown', function(e){
+        if(e.target && /INPUT|TEXTAREA|SELECT/.test(e.target.tagName)) return;
+        if(e.key === 'ArrowLeft') go(i - 1);
+        else if(e.key === 'ArrowRight') go(i + 1);
+      });
+      restart();
+    })();
+
+    // 版本号与更新说明全部从云端清单动态读取 —— 页面里不写死任何版本号 / 文件名
+    (function(){
+      var API = 'https://api.lihui-cargo.ru';
+      var MARKS = /[\u2460-\u2473]/;   // ①…⑳
+      function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+      function fillVersion(kind, ver){
+        var txt = ver ? ('v' + ver) : '最新版';
+        document.querySelectorAll('[data-ver="' + kind + '"]').forEach(function(el){
+          el.textContent = txt + (el.classList.contains('dl-version') ? ' 正式版' : '');
+        });
+      }
+      function fillNotes(kind, text){
+        var ul = document.querySelector('[data-notes="' + kind + '"]');
+        if(!ul || !text) return;
+        var body = text.replace(/^[\s\S]*?(?=[\u2460-\u2473])/, '');   // 砍掉第一个序号之前的开头
+        var parts = body.split(/[\u2460-\u2473]/).map(function(s){ return s.trim().replace(/[；;]\s*$/, ''); })
+                        .filter(function(s){ return s.length > 4; });
+        if(parts.length < 2) return;
+        ul.innerHTML = parts.map(function(s){
+          var k = s.search(/[：:]/);
+          if(k > 0 && k <= 24) return '<li><b>' + esc(s.slice(0, k + 1)) + '</b>' + esc(s.slice(k + 1)) + '</li>';
+          return '<li>' + esc(s) + '</li>';
+        }).join('');
+      }
+      function load(path, kind){
+        fetch(API + path, { cache: 'no-store' })
+          .then(function(r){ return r.json(); })
+          .then(function(j){
+            if(!j) return;
+            if(j.version) fillVersion(kind, j.version);
+            if(j.notes) fillNotes(kind, j.notes);
+          })
+          .catch(function(){ /* 取不到就保留页面上的兜底文案，不影响其它功能 */ });
+      }
+      load('/manifest', 'threads');
+      load('/xhs/manifest', 'xhs');
     })();
 
 // 复制联系方式
