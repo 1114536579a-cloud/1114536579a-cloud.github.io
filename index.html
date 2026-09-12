@@ -449,6 +449,25 @@ nav.main.open a:hover{color:var(--lh)}
 section[id]{scroll-margin-top:84px}
 .hero{padding-top:138px}
 
+/* —— 导航上两个下载按钮：直接可见、直接可点，不用先点开 —— */
+.top-cta{gap:8px}
+.dl-btn{font-size:13.5px;padding:8px 14px;border:0;color:#fff}
+.dl-lh{background:linear-gradient(135deg,#6C5CE0,#8B7AF0);box-shadow:0 10px 20px -12px rgba(108,92,224,1)}
+.dl-lh:hover{background:linear-gradient(135deg,#5B4BD0,#7B69EE)}
+.dl-xhs{background:linear-gradient(135deg,#FF2442,#FF6B6B);box-shadow:0 10px 20px -12px rgba(255,36,66,1)}
+.dl-xhs:hover{background:linear-gradient(135deg,#E61E3B,#FF5A5A)}
+.only-mobile{display:none}
+@media (max-width:1024px){
+  nav.main{gap:14px}
+  .dl-btn{font-size:12.5px;padding:7px 11px}
+}
+@media (max-width:760px){
+  .top-cta .dl-btn{display:none}
+  nav.main.open .only-mobile{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:10px;border-bottom:0 !important;margin-top:10px;padding:12px 0}
+  nav.main.open .only-mobile.dl-m.lh{background:linear-gradient(135deg,#6C5CE0,#8B7AF0)}
+  nav.main.open .only-mobile.dl-m.xhs{background:linear-gradient(135deg,#FF2442,#FF6B6B)}
+}
+
 #contact{padding:64px 0 52px;background:linear-gradient(180deg,#171B33,#12162B)}
 .contact{background:transparent;border:0;box-shadow:none;padding:0}
 .contact h2{color:#fff}
@@ -519,25 +538,18 @@ footer::before{content:"";position:absolute;left:0;top:0;height:3px;width:100%;b
       <a href="#showcase">案例</a>
       <a href="#process">流程</a>
       <a href="#faq">常见问题</a>
+      <a class="only-mobile dl-m lh" href="https://api.lihui-cargo.ru/download" target="_blank" rel="noopener">⬇ 下载 Threads 版（约 870 KB）</a>
+      <a class="only-mobile dl-m xhs" href="https://api.lihui-cargo.ru/xhs/package" target="_blank" rel="noopener">⬇ 下载 小红书版（完整包 26 MB）</a>
     </nav>
     <div class="top-cta">
-      <div class="dl-wrap" id="navDlWrap">
-        <button class="dl-btn" id="navDlBtn" type="button" aria-haspopup="true" aria-expanded="false">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-          下载客户端
-        </button>
-        <div class="dl-menu" id="navDlMenu" role="menu">
-          <a href="https://api.lihui-cargo.ru/download" target="_blank" rel="noopener" role="menuitem">
-            <span class="di lh">LH</span>
-            <span><b>LH 全链任务系统（Threads 版）</b><small>紫罗兰界面 · 在 Threads 上找俄语区客户 · 约 870 KB</small></span>
-          </a>
-          <a href="https://api.lihui-cargo.ru/xhs/package" target="_blank" rel="noopener" role="menuitem">
-            <span class="di xhs">XHS</span>
-            <span><b>小红书私信 AI 获客（小红书版）</b><small>品牌红界面 · 小红书私信 / 评论采集 · 完整包约 26 MB</small></span>
-          </a>
-          <a class="all" href="#products" role="menuitem">不确定下哪个？看两套系统的区别 →</a>
-        </div>
-      </div>
+      <a class="dl-btn dl-lh" href="https://api.lihui-cargo.ru/download" target="_blank" rel="noopener">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        下载 Threads 版
+      </a>
+      <a class="dl-btn dl-xhs" href="https://api.lihui-cargo.ru/xhs/package" target="_blank" rel="noopener">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        下载 小红书版
+      </a>
       <button class="burger" id="burger" type="button" aria-label="菜单">☰</button>
     </div>
   </div>
@@ -1083,7 +1095,7 @@ footer::before{content:"";position:absolute;left:0;top:0;height:3px;width:100%;b
     </div>
     <div class="foot-bottom">
       <span>© 2026 LH 智能自动化 · 保留所有权利</span>
-      <span>本页面内容与截图均为真实交付成果 · 构建 <b data-build>20260913-032043</b></span>
+      <span>本页面内容与截图均为真实交付成果 · 构建 <b data-build>20260913-032553</b></span>
     </div>
   </div>
 </footer>
@@ -1111,20 +1123,6 @@ document.documentElement.classList.add('js');
   if(!b || !m) return;
   b.addEventListener('click', function(){ m.classList.toggle('open'); });
   m.querySelectorAll('a').forEach(function(a){ a.addEventListener('click', function(){ m.classList.remove('open'); }); });
-})();
-
-// 下载客户端：两套产品下拉（触屏点一下开，点别处关）
-(function(){
-  var wrap = document.getElementById('navDlWrap'), btn = document.getElementById('navDlBtn');
-  if(!wrap || !btn) return;
-  btn.addEventListener('click', function(e){
-    e.preventDefault();
-    var open = wrap.classList.toggle('open');
-    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
-  });
-  document.addEventListener('click', function(e){ if(!wrap.contains(e.target)){ wrap.classList.remove('open'); btn.setAttribute('aria-expanded','false'); } });
-  document.addEventListener('keydown', function(e){ if(e.key === 'Escape'){ wrap.classList.remove('open'); btn.setAttribute('aria-expanded','false'); } });
-  wrap.querySelectorAll('.dl-menu a').forEach(function(a){ a.addEventListener('click', function(){ wrap.classList.remove('open'); }); });
 })();
 
 // 产品轮播：自动播放 + 箭头 / 圆点 / 左右方向键 / 触屏滑动
