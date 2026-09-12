@@ -323,6 +323,26 @@ body{background:linear-gradient(180deg,#FFFFFF,#FAFBFF 45%,#FFFFFF)}
 
 /* —— 首屏在小屏也要好看 —— */
 /* —— 结尾深色带：联系 + 页脚，和首屏首尾呼应 —— */
+/* —— 顶部导航：浮在深色首屏上，滚动后变深色磨砂 —— */
+header.top{position:fixed;top:0;left:0;right:0;background:transparent;border-bottom:1px solid transparent;transition:background .28s ease,border-color .28s ease,backdrop-filter .28s ease}
+header.top::before{content:"";position:absolute;left:0;top:0;height:3px;width:100%;background:linear-gradient(90deg,#6C5CE0,#35C7D8 48%,#FF2442)}
+header.top.scrolled{background:rgba(15,19,36,.92);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-bottom-color:rgba(255,255,255,.1)}
+header.top .brand{color:#fff}
+header.top .brand small{color:#8A93B0}
+nav.main a{color:#C4CBE1}
+nav.main a:hover{color:#fff}
+nav.main a::after{background:#A99BFF}
+.dl-btn{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.4);color:#fff}
+.dl-btn:hover{background:rgba(255,255,255,.2)}
+.burger{border-color:rgba(255,255,255,.35);color:#fff}
+/* 展开的导航面板仍然是白底，里面的链接要变深色 */
+nav.main.open{box-shadow:var(--shadow)}
+nav.main.open a{color:var(--body)}
+nav.main.open a:hover{color:var(--lh)}
+/* 固定头不遮锚点 */
+section[id]{scroll-margin-top:84px}
+.hero{padding-top:138px}
+
 #contact{padding:64px 0 52px;background:linear-gradient(180deg,#171B33,#12162B)}
 .contact{background:transparent;border:0;box-shadow:none;padding:0}
 .contact h2{color:#fff}
@@ -344,10 +364,10 @@ footer::before{content:"";position:absolute;left:0;top:0;height:3px;width:100%;b
 .foot-bottom b{color:#A9B2CB}
 
 @media (max-width:1024px){
-  .hero{padding:56px 0 46px}
+  .hero{padding:112px 0 46px}
 }
 @media (max-width:760px){
-  .hero{padding:44px 0 38px}
+  .hero{padding:100px 0 38px}
   .strip{margin-top:28px}
 }
 
@@ -945,7 +965,7 @@ footer::before{content:"";position:absolute;left:0;top:0;height:3px;width:100%;b
     </div>
     <div class="foot-bottom">
       <span>© 2026 LH 智能自动化 · 保留所有权利</span>
-      <span>本页面内容与截图均为真实交付成果 · 构建 <b data-build>20260913-031006</b></span>
+      <span>本页面内容与截图均为真实交付成果 · 构建 <b data-build>20260913-031250</b></span>
     </div>
   </div>
 </footer>
@@ -957,6 +977,15 @@ footer::before{content:"";position:absolute;left:0;top:0;height:3px;width:100%;b
 
 <script>
 document.documentElement.classList.add('js');
+
+// 顶部导航：浮在深色首屏上，滚过一段后变深色磨砂
+(function(){
+  var h = document.querySelector('header.top');
+  if(!h) return;
+  function sync(){ h.classList.toggle('scrolled', window.scrollY > 40); }
+  sync();
+  window.addEventListener('scroll', sync, { passive: true });
+})();
 
 // 移动端菜单
 (function(){
