@@ -48,6 +48,26 @@ nav.menu a:hover::after{width:100%}
 .nav-dl{display:inline-flex;align-items:center;gap:6px;background:#fff;color:var(--primary);border:1.5px solid var(--primary);padding:8px 16px;border-radius:10px;font-size:14px;font-weight:700;transition:background .2s,transform .2s}
 .nav-dl:hover{background:var(--primary-soft);transform:translateY(-1px)}
 .nav-dl svg{flex:0 0 auto}
+
+/* 下载客户端 · 两套产品二选一（2026-09-13） */
+.nav-dl-wrap{position:relative}
+.nav-dl-wrap .nav-dl{cursor:pointer;font-family:inherit;background:#fff}
+.nav-dl-menu{position:absolute;right:0;top:calc(100% + 10px);width:min(340px,calc(100vw - 36px));background:#fff;border:1px solid var(--border);border-radius:14px;box-shadow:var(--shadow-lg);padding:8px;display:none;z-index:70;text-align:left}
+.nav-dl-wrap.open .nav-dl-menu{display:block}
+@media (hover:hover){.nav-dl-wrap:hover .nav-dl-menu{display:block}}
+.nav-dl-menu::before{content:"";position:absolute;top:-12px;left:0;right:0;height:12px}
+.nav-dl-menu a{display:flex;gap:11px;align-items:flex-start;padding:11px 12px;border-radius:10px;transition:background .2s}
+.nav-dl-menu a:hover{background:var(--primary-soft)}
+.nav-dl-menu .dlm-ico{flex:0 0 38px;height:38px;border-radius:11px;display:grid;place-items:center;color:#fff;font-weight:800;font-size:12px;letter-spacing:.5px}
+.nav-dl-menu .dlm-ico.lh{background:linear-gradient(135deg,#6C5CE0,#8B7AF0)}
+.nav-dl-menu .dlm-ico.xhs{background:linear-gradient(135deg,#FF2442,#FF6B6B)}
+.nav-dl-menu b{display:block;color:var(--ink);font-size:13.5px;font-weight:800;line-height:1.4}
+.nav-dl-menu small{display:block;color:var(--muted);font-size:11.5px;line-height:1.5;font-weight:400;margin-top:2px}
+.nav-dl-menu .dlm-all{justify-content:center;text-align:center;margin-top:6px;padding:10px 12px;border-top:1px dashed var(--border);color:var(--primary);font-size:12.5px;font-weight:700;border-radius:10px}
+@media (max-width:1024px){
+  .nav-dl-menu{position:fixed;left:16px;right:16px;top:76px;width:auto;max-height:calc(100vh - 96px);overflow:auto}
+  .nav-dl-menu::before{display:none}
+}
 .burger{display:none;margin-left:auto;background:none;border:1px solid var(--border);border-radius:9px;padding:7px 10px;font-size:16px;color:var(--ink)}
 
 /* ===== Hero ===== */
@@ -348,10 +368,29 @@ footer{padding:50px 0 30px;background:#fff;border-top:1px solid var(--border);co
       <a href="#about">关于我们</a>
       <a href="#faq">常见问题</a>
     </nav>
-    <a class="nav-dl" href="https://api.lihui-cargo.ru/download" target="_blank" rel="noopener">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-      下载客户端
-    </a>
+    <div class="nav-dl-wrap" id="navDlWrap">
+      <button class="nav-dl" id="navDlBtn" type="button" aria-haspopup="true" aria-expanded="false">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        下载客户端
+      </button>
+      <div class="nav-dl-menu" id="navDlMenu" role="menu">
+        <a href="https://api.lihui-cargo.ru/download" target="_blank" rel="noopener" role="menuitem">
+          <span class="dlm-ico lh">LH</span>
+          <span>
+            <b>LH 全链任务系统（Threads 版）</b>
+            <small>紫罗兰界面 · 在 Threads 上找俄语区客户 · 约 870 KB</small>
+          </span>
+        </a>
+        <a href="https://api.lihui-cargo.ru/xhs/package" target="_blank" rel="noopener" role="menuitem">
+          <span class="dlm-ico xhs">XHS</span>
+          <span>
+            <b>小红书私信 AI 获客（小红书版）</b>
+            <small>品牌红界面 · 小红书私信/评论采集 · 完整包约 26 MB（含引擎+说明）</small>
+          </span>
+        </a>
+        <a class="dlm-all" href="#pick" role="menuitem">不确定下哪个？看两套系统的区别 →</a>
+      </div>
+    </div>
     <a class="nav-cta" href="#contact">免费咨询</a>
     <button class="burger" id="burger" aria-label="menu">☰</button>
   </div>
@@ -374,9 +413,9 @@ footer{padding:50px 0 30px;background:#fff;border-top:1px solid var(--border);co
             全部远程协作、源码可控、上线即可用。
           </p>
           <div class="hero-actions">
-            <a class="btn btn-primary" href="https://api.lihui-cargo.ru/download" target="_blank" rel="noopener">
+            <a class="btn btn-primary" href="#pick">
               <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-              立即下载客户端
+              下载客户端（两套可选）
             </a>
             <a class="btn btn-ghost" href="#product">了解产品 →</a>
           </div>
@@ -394,7 +433,7 @@ footer{padding:50px 0 30px;background:#fff;border-top:1px solid var(--border);co
       </div>
 
         <!-- 两套自研程序入口（2026-09-13 新增：首页上方直达） -->
-        <div class="sec-head reveal" style="margin-top:10px">
+        <div class="sec-head reveal" id="pick" style="margin-top:10px">
           <div class="tag">自研产品</div>
           <h2>两套已经在跑的获客系统</h2>
           <p>都是我们自己开发、自己迭代、客户在用的桌面软件：一套做 Threads（俄语区），一套做小红书。点下面直接看介绍或下载。</p>
@@ -911,7 +950,8 @@ footer{padding:50px 0 30px;background:#fff;border-top:1px solid var(--border);co
       <div class="foot-col">
         <h4>产品</h4>
         <a href="#product">LH 全链任务系统</a>
-        <a href="https://api.lihui-cargo.ru/download" target="_blank" rel="noopener">下载客户端</a>
+        <a href="https://api.lihui-cargo.ru/download" target="_blank" rel="noopener">下载 LH 全链任务系统</a>
+        <a href="https://api.lihui-cargo.ru/xhs/package" target="_blank" rel="noopener">下载 小红书私信 AI 获客</a>
         <a href="#showcase">案例展示</a>
       </div>
       <div class="foot-col">
@@ -936,8 +976,22 @@ footer{padding:50px 0 30px;background:#fff;border-top:1px solid var(--border);co
 document.documentElement.classList.add('js');
 
 // 移动端菜单
-document.getElementById('burger').addEventListener('click', function(){ document.getElementById('menu').classList.toggle('open'); });
-document.querySelectorAll('#menu a').forEach(function(a){ a.addEventListener('click', function(){ document.getElementById('menu').classList.remove('open'); }); });
+    document.getElementById('burger').addEventListener('click', function(){ document.getElementById('menu').classList.toggle('open'); });
+    document.querySelectorAll('#menu a').forEach(function(a){ a.addEventListener('click', function(){ document.getElementById('menu').classList.remove('open'); }); });
+
+    // 下载客户端：两套产品下拉（触屏点一下开，点别处关）
+    (function(){
+      var wrap = document.getElementById('navDlWrap'), btn = document.getElementById('navDlBtn');
+      if(!wrap || !btn) return;
+      btn.addEventListener('click', function(e){
+        e.preventDefault();
+        var open = wrap.classList.toggle('open');
+        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+      document.addEventListener('click', function(e){ if(!wrap.contains(e.target)){ wrap.classList.remove('open'); btn.setAttribute('aria-expanded','false'); } });
+      document.addEventListener('keydown', function(e){ if(e.key === 'Escape'){ wrap.classList.remove('open'); btn.setAttribute('aria-expanded','false'); } });
+      wrap.querySelectorAll('.nav-dl-menu a').forEach(function(a){ a.addEventListener('click', function(){ wrap.classList.remove('open'); }); });
+    })();
 
 // 复制联系方式
 document.querySelectorAll('.copy').forEach(function(btn){
