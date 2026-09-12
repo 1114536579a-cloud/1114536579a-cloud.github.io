@@ -351,6 +351,12 @@ footer{padding:50px 0 30px;background:#fff;border-top:1px solid var(--border);co
 .updbox li{font-size:13.5px;color:var(--body);display:flex;gap:9px;align-items:flex-start}
 .updbox li::before{content:"●";color:#FF2442;font-size:8px;line-height:1.9;flex:0 0 auto}
 .updbox li b{color:var(--ink)}
+/* Threads 版用紫罗兰，和红主题的小红书区分开 */
+.updbox-lh{border-color:#DED7FB;border-left-color:var(--primary)}
+.updbox-lh h4 i{background:var(--primary)}
+.updbox-lh li::before{color:var(--primary)}
+.tech span + span{line-height:1.6}
+.tech code{background:#F1F2F7;border:1px solid var(--border);border-radius:6px;padding:1px 6px;font-size:12.5px;color:var(--ink);font-family:Consolas,"Courier New",monospace}
 </style>
 </head>
 <body>
@@ -510,37 +516,97 @@ footer{padding:50px 0 30px;background:#fff;border-top:1px solid var(--border);co
       </div>
 
       <div class="sec-head reveal">
-        <div class="tag">主打产品</div>
+        <div class="tag">主打产品 · Threads 版</div>
         <h2>LH 全链任务系统</h2>
-        <p>一套把「找客户」全流程自动化的桌面系统：智能采集 → AI 审核 → 自动回复 → 客户台账 → 云端授权与远程管控。
-           已稳定迭代十余个版本，从界面到内核都可按你的行业定制。</p>
+        <p>一套把「在 Threads 上找俄语区客户」全流程自动化的 Windows 桌面系统：
+          多账号拟人采集 → 本地初筛 → 模型多票审核 → 自动回复 / 草稿 → 互动跟进 → 客户台账 → 云端授权与远程管控。
+          <b>不依赖浏览器扩展，也不依赖任何第三方桌面程序，采集与回复引擎全部内置</b>，已稳定迭代 20+ 个版本。</p>
       </div>
 
       <div class="grid3">
-        <div class="feature reveal"><div class="fi p">⚙</div><div><h4>账号矩阵 · 独立环境</h4><p>多账号独立浏览器目录并发运行，每个账号可单独设置采集速度，节奏拟人化降低风险。</p></div></div>        <div class="feature reveal"><div class="fi c">◈</div><div><h4>AI 智能审核</h4><p>接入你自己的大模型 API，逐帖判断"是否值得回复"，多票表决 + 自动重试，稳定输出回复文案。</p></div></div>
-        <div class="feature reveal"><div class="fi a">✎</div><div><h4>自动回复 / 草稿双模式</h4><p>可只生成草稿人工确认后发送，也可全自动；发送失败不停机，结果全程记台账。</p></div></div>
-        <div class="feature reveal"><div class="fi g">◎</div><div><h4>API 当大脑：自主进化</h4><p>模型不只判帖，还负责策略层——自己决定去哪找关键词、按产出进化词库、定期出中文复盘。</p></div></div>
-        <div class="feature reveal"><div class="fi v">▣</div><div><h4>客户台账 + 远程管控</h4><p>配套作者端控制台：客户名单、在线状态、授权签发、远程停用/恢复一屏管理。</p></div></div>
-        <div class="feature reveal"><div class="fi o">⚡</div><div><h4>云端策略 + 自动更新</h4><p>核心策略与提示词云端热更新；客户端一键检测新版本、自动下载替换重启。</p></div></div>
+        <div class="feature reveal"><div class="fi p">⚙</div><div><h4>账号矩阵 · 独立登录态</h4><p>最多 3 个 Threads 号并行：每个号独立控制端口、独立 Edge / Chrome 资料目录、独立登录态；A / B / C 错峰上线，互不串号、互不抢登录。</p></div></div>
+        <div class="feature reveal"><div class="fi c">⌁</div><div><h4>采集速度三档 · 可按账号单独设</h4><p>慢 / 标准 / 快换的是<b>整套浏览器行为</b>——滚动步长、滚动间隔、每页滚动上限、页内停留、审核并发一起换。运行中改档位下一轮就生效，不用重启任务。</p></div></div>
+        <div class="feature reveal"><div class="fi a">◈</div><div><h4>模型门禁：关思考 + 3 票表决</h4><p>同一条帖子连问 3 次取多数，避免单次调用的随机性把真实线索判掉；「多数跳过但有一票可回复」的边缘样本会自动复判一次。</p></div></div>
+        <div class="feature reveal"><div class="fi g">✎</div><div><h4>自动回复 / 草稿双模式</h4><p>默认只写草稿、由你人工确认后再发；取消勾选才全自动。两种模式都保留每小时上限与异常停号保护，结果全程记台账。</p></div></div>
+        <div class="feature reveal"><div class="fi v">💬</div><div><h4>互动跟进：回评 / 私信再捞一遍</h4><p>评论之后有人回评或私信，程序会判断内容里有没有真实意图，命中就生成自然话术引导对方看主页资料里的联系方式；<b>只在侧栏出现新消息提示时才点进去看</b>，不频繁刷新。</p></div></div>
+        <div class="feature reveal"><div class="fi o">◎</div><div><h4>API 当大脑：关键词自进化</h4><p>模型不只判帖，还负责策略层——按真实产出新增 / 淘汰 / 加权关键词，每轮输出中文复盘报告；所有改动必须过词形、额度、淘汰节奏等 6 道安全护栏。</p></div></div>
+        <div class="feature reveal"><div class="fi p">⏱</div><div><h4>每个账号各自计时</h4><p>设置「跑 40 分钟、休 20 分钟」时，A / B / C <b>各自跑满 40 分钟再各自休息 20 分钟</b>；不会出现 B、C 延时启动后「刚开跑任务就快结束了」。</p></div></div>
+        <div class="feature reveal"><div class="fi c">▣</div><div><h4>客户台账 + 作者端管控</h4><p>每条动作都落盘成台账（data\activity.jsonl）；配套作者端可看客户名单、在线状态、授权签发与远程停用 / 恢复，一屏管理。</p></div></div>
+        <div class="feature reveal"><div class="fi a">⚡</div><div><h4>云端策略 + 自动更新</h4><p>核心策略与提示词云端热更新，不用重新发版；客户端启动自动检查更新，侧栏也有「⟳ 检查更新」按钮，可自动下载替换重启。</p></div></div>
+        <div class="feature reveal"><div class="fi g">🛡</div><div><h4>软件保护（防破解 / 防分析）</h4><p>编译机锁 + 出厂水印 + 混淆签名 + 运行时反分析检测；核心授权逻辑放云端，词库与公钥不再以明文存在客户端里。</p></div></div>
+        <div class="feature reveal"><div class="fi v">📘</div><div><h4>内置《使用说明》</h4><p>说明书直接内嵌在程序里，首次运行自动释放到程序目录，点侧栏「07 使用说明」随时打开；换电脑、换人接手都不用另外找文档。</p></div></div>
+        <div class="feature reveal"><div class="fi o">🧾</div><div><h4>日志全程可查</h4><p>logs\launcher.log 把每页采集、每轮审核的票型与结论、每次发送结果都记下来；一条线索为什么跳过、为什么没发出去，照日志一分钟能定位。</p></div></div>
       </div>
 
       <!-- 运作链路 -->
       <div class="pipeline reveal">
-        <div class="node"><b>采集</b><span>多账号 · 拟人节奏</span></div><div class="flow">→</div>
-        <div class="node"><b>AI 审核</b><span>多票表决 · 自动重试</span></div><div class="flow">→</div>
-        <div class="node"><b>生成回复</b><span>外文文案 · 草稿双模式</span></div><div class="flow">→</div>
-        <div class="node"><b>自动发布</b><span>失败不停 · 全程台账</span></div><div class="flow">→</div>
+        <div class="node"><b>多账号采集</b><span>三档节奏 · 错峰上线</span></div><div class="flow">→</div>
+        <div class="node"><b>本地初筛</b><span>关键词 + 词形规则</span></div><div class="flow">→</div>
+        <div class="node"><b>模型审核</b><span>关思考 · 3 票表决</span></div><div class="flow">→</div>
+        <div class="node"><b>生成回复</b><span>外文文案 · 草稿/自动</span></div><div class="flow">→</div>
+        <div class="node"><b>互动跟进</b><span>回评 / 私信再捞</span></div><div class="flow">→</div>
         <div class="node"><b>客户沉淀</b><span>台账 + 云端授权</span></div>
       </div>
 
-      <div class="shots">        <div class="shot reveal" data-src="assets/app-main.png">
-          <img src="assets/app-main.png" alt="主界面：数据卡 + 任务参数 + 采集速度 + 发送曲线">
-          <div class="shot-cap">主界面 · 实时数据看板：今日回复 / 草稿 / 扫描量 / 授权状态 + 发送曲线</div>
+      <div class="shots">
+        <div class="shot reveal" data-src="assets/app-main.png?v=20260913c">
+          <img src="assets/app-main.png?v=20260913c" alt="LH 全链任务系统 v6.5.23 总览控制">
+          <div class="shot-cap">总览控制（v6.5.23）：本次已回复 / 待审核 / 已扫描帖子 / 授权剩余四张实时卡 + 任务参数、三档采集速度、运行日志</div>
         </div>
-        <div class="shot reveal" data-src="assets/app-settings.png">
-          <img src="assets/app-settings.png" alt="安全与限速设置">
-          <div class="shot-cap">安全与限速：人工审核开关、回复上限、异常保护</div>
+        <div class="shot reveal" data-src="assets/app-accounts.png?v=20260913c">
+          <img src="assets/app-accounts.png?v=20260913c" alt="账号矩阵设置">
+          <div class="shot-cap">账号矩阵：参与运行 / 账号代号 / 浏览器选择 / Threads 账号 / 采集速度 / 独立登录态目录，一表管完</div>
         </div>
+        <div class="shot reveal" data-src="assets/app-model.png?v=20260913c">
+          <img src="assets/app-model.png?v=20260913c" alt="模型 API 设置">
+          <div class="shot-cap">模型 API：选服务商自动带出接口地址与推荐模型（DeepSeek 一键填），只需粘 API Key；Key 只在当前 Windows 用户下加密保存、不写日志</div>
+        </div>
+        <div class="shot reveal" data-src="assets/app-safety.png?v=20260913c">
+          <img src="assets/app-safety.png?v=20260913c" alt="安全与限速设置">
+          <div class="shot-cap">安全与限速：单账号 / 全局每小时回复上限、草稿模式开关、互动跟进开关，以及去重、错峰、异常停号等内置规则</div>
+        </div>
+        <div class="shot reveal" data-src="assets/app-brain.png?v=20260913c">
+          <img src="assets/app-brain.png?v=20260913c" alt="API 大脑设置">
+          <div class="shot-cap">API 大脑：关键词自进化 + 每轮复盘开关、复盘间隔与词库护栏额度、写给大脑看的业务说明、复盘报告一键打开</div>
+        </div>
+      </div>
+
+      <div class="updbox updbox-lh reveal">
+        <h4>本次更新 · v6.5.23 <i>最新</i></h4>
+        <ul>
+          <li><b>每个账号各自计时</b>：设置「跑 40 分钟 / 休 20 分钟」时，A / B / C 各自跑满 40 分钟、再各自休息 20 分钟。以前 A 先启动、B 和 C 延时启动，B / C 一上来任务就快结束了——现在不会了。</li>
+          <li><b>回复更拟人</b>：回复内容改成<b>逐字输入</b>（不再是整段粘贴），并且点发布前会停顿几秒。</li>
+          <li><b>统计改成「本次启动后清零」</b>：界面上的回复 / 草稿 / 扫描数字不再永久累计，一眼看清这一轮跑了多少。</li>
+          <li><b>新增互动跟进</b>：有人回评或私信时分析内容意图，命中就引导对方看主页资料里的联系方式；只在侧栏出现新消息提示时才点进去看。</li>
+          <li><b>修「审核通过却发不出去」</b>：回复入口与发布按钮支持中 / 英 / 俄 / 乌 / 哈多种界面文案并轮询重试；确实找不到时，把弹层里<b>真实的按钮文案</b>打进日志，一次就能定位。</li>
+          <li><b>软件保护升级</b>：编译机锁 + 出厂水印 + 混淆签名 + 反分析检测，词库与公钥不再以明文存在客户端里。</li>
+        </ul>
+      </div>
+
+      <div class="tech reveal">
+        <div><span class="k">独立运行</span><span>不依赖 Codex / ChatGPT 桌面版 / 浏览器扩展，采集与回复引擎内置在程序里</span></div>
+        <div><span class="k">浏览器环境</span><span>Edge（默认 9222 / 9224 / 9226 端口）或 Chrome（9322 / 9324 / 9326），每个账号独立资料目录</span></div>
+        <div><span class="k">采集速度</span><span>慢 / 标准 / 快三档，整套浏览器行为一起换；可给三个号设成不同档位，运行中也能改</span></div>
+        <div><span class="k">模型接入</span><span>任意兼容 OpenAI <code>/chat/completions</code> 的服务；DeepSeek 可直接一键带出地址与推荐模型</span></div>
+        <div><span class="k">审核口径</span><span>关闭思考 + 3 票表决取多数；慢速档还会逐条打开作者主页做人工式核查</span></div>
+        <div><span class="k">去重规则</span><span>帖子级永久去重，多个账号不会重复回复同一篇帖子、也不会重复触达同一个作者</span></div>
+        <div><span class="k">限速与保护</span><span>单账号 / 全部账号每小时上限；验证码、平台风控、登录失效时立即停止该账号，不盲目点击</span></div>
+        <div><span class="k">发送方式</span><span>草稿模式（默认，只写待审队列）或全自动发送；失败会清理回复层继续采集，不停机</span></div>
+        <div><span class="k">互动跟进</span><span>只在侧栏出现新消息提示时才看通知 / 私信，每轮最多处理 3 条，回复里不写电话与链接</span></div>
+        <div><span class="k">数据落地</span><span>data\activity.jsonl（动作台账）、data\engagement.jsonl（互动记录）、data\brain\*.md（复盘报告）</span></div>
+        <div><span class="k">授权方式</span><span>机器码绑定 · V2 离线签名校验 · 到期自动停用；核心运行许可放云端滚动续签</span></div>
+        <div><span class="k">程序保护</span><span>编译机锁 · 出厂水印 · 混淆签名 · 运行时反分析检测；密钥与词库不以明文外发</span></div>
+      </div>
+
+      <div class="specs reveal">
+        <span class="chip">最新版本 <b>v6.5.23 · 2026-09-13</b></span>
+        <span class="chip">运行环境 <b>Windows 10/11 · .NET 4.8</b></span>
+        <span class="chip">账号 <b>最多 3 个 Threads 号并行</b></span>
+        <span class="chip">浏览器 <b>Edge / Chrome · 独立登录态</b></span>
+        <span class="chip">模型 <b>任意 OpenAI 兼容 API</b></span>
+        <span class="chip">发送 <b>草稿模式 / 全自动</b></span>
+        <span class="chip">授权 <b>机器码绑定 · 可远程停用</b></span>
+        <span class="chip">体积 <b>约 870 KB（免安装）</b></span>
       </div>
 
       <!-- 下载入口：独立专业下载卡 -->
@@ -804,15 +870,15 @@ footer{padding:50px 0 30px;background:#fff;border-top:1px solid var(--border);co
 
       <div class="grid2">
         <div class="case reveal">
-          <div class="shot" data-src="assets/app-main.png"><img src="assets/app-main.png" alt="桌面获客系统主界面"></div>
+          <div class="shot" data-src="assets/app-main.png?v=20260913c"><img src="assets/app-main.png?v=20260913c" alt="桌面获客系统主界面"></div>
           <div class="case-body"><h4>① 行业获客自动化系统</h4><p>面向跨境 / 物流 / 外贸的社媒获客：多账号矩阵采集、AI 判断意向、自动生成外文回复、客户台账沉淀，全程无人值守。附作者端客户管理与远程授权控制台。</p></div>
         </div>
         <div class="case reveal">
-          <div class="shot" data-src="assets/app-console.png"><img src="assets/app-console.png" alt="作者端客户管理控制台"></div>
-          <div class="case-body"><h4>② 软件作者运营控制台</h4><p>客户台账、在线状态、授权签发、远程停用 / 恢复、一键发版，把"卖软件"变成可管理、可追踪的生意。</p></div>
+          <div class="shot" data-src="assets/app-brain.png?v=20260913c"><img src="assets/app-brain.png?v=20260913c" alt="API 大脑策略设置"></div>
+          <div class="case-body"><h4>② 会自己调策略的 AI 大脑</h4><p>把模型从「单条判断器」升级成策略层：按真实产出进化关键词、每轮出中文复盘报告；模型想改词库必须过 6 道安全护栏，幻觉写不进线上策略。</p></div>
         </div>
         <div class="case reveal">
-          <div class="shot" data-src="assets/app-settings.png"><img src="assets/app-settings.png" alt="安全与限速设置"></div>
+          <div class="shot" data-src="assets/app-safety.png?v=20260913c"><img src="assets/app-safety.png?v=20260913c" alt="安全与限速设置"></div>
           <div class="case-body"><h4>③ 安全策略与风控面板</h4><p>人工审核开关、每小时上限、异常自动停止、独立浏览器环境，把自动化的风险控制在可接受范围内。</p></div>
         </div>
         <div class="case reveal" style="display:flex;flex-direction:column;justify-content:center">
