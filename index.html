@@ -261,6 +261,75 @@ footer{background:var(--bg-soft);border-top:1px solid var(--border);padding:52px
 html.js .reveal{opacity:0;transform:translateY(18px)}
 html.js .reveal.in{opacity:1;transform:none}
 
+/* ===================== 主题强化：去"惨白"（2026-09-13） ===================== */
+body{background:linear-gradient(180deg,#FFFFFF,#FAFBFF 45%,#FFFFFF)}
+
+/* —— 深色首屏：光晕 + 细网格 + 白字 —— */
+.hero{position:relative;overflow:hidden;padding:72px 0 62px;
+  background:
+    radial-gradient(1100px 560px at 10% -12%,rgba(108,92,224,.58),transparent 62%),
+    radial-gradient(820px 460px at 96% 6%,rgba(53,199,216,.26),transparent 64%),
+    linear-gradient(160deg,#141833,#1C2140 56%,#161A31)}
+.hero::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);
+  background-size:46px 46px;
+  -webkit-mask-image:radial-gradient(circle at 50% 0%,#000,transparent 78%);
+  mask-image:radial-gradient(circle at 50% 0%,#000,transparent 78%)}
+.hero .wrap{position:relative;z-index:2}
+.hero .badge{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.22);color:#DCD8FF}
+.hero .badge i{background:#8B7AF0;box-shadow:0 0 0 4px rgba(139,122,240,.25)}
+.hero h1{color:#fff}
+.hero h1 em{background:linear-gradient(96deg,#B0A4FF,#6ED8E6);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero .lead{color:#B7C0DA}
+.hero .ticks{color:#98A2C0}
+.hero .ticks .tick{background:rgba(255,255,255,.13);color:#CFC9FF}
+.hero .btn-ghost{background:rgba(255,255,255,.08);color:#fff;border-color:rgba(255,255,255,.24);box-shadow:none}
+.hero .btn-ghost:hover{background:rgba(255,255,255,.17);color:#fff;border-color:rgba(255,255,255,.42)}
+.hero .frame{box-shadow:0 34px 74px rgba(5,8,20,.6);border-color:rgba(255,255,255,.16)}
+
+/* —— 信任条：玻璃卡，落在深色首屏里 —— */
+.strip{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.16);box-shadow:none;margin-top:40px;backdrop-filter:blur(6px)}
+.strip div{border-right-color:rgba(255,255,255,.14)}
+.strip b{color:#fff}
+.strip span{color:#9AA4C4}
+
+/* —— 区块色彩节奏：不再白到底 —— */
+.sec.alt{background:linear-gradient(180deg,#F5F6FB,#EFF1F8)}
+#product{background:linear-gradient(180deg,#FFFFFF,#F7F5FF 100%)}
+#xhs-product{background:linear-gradient(180deg,#FFF6F8,#FFEFF3 100%)}
+#services{background:#fff}
+#showcase{background:linear-gradient(180deg,#F5F6FB,#EFF1F8)}
+#process{background:#fff}
+#about{background:linear-gradient(180deg,#F8F6FF,#FFFFFF 70%)}
+#faq{background:#fff}
+
+/* —— 小标签做成色块，不再是灰字 —— */
+.sec-head .tag{background:var(--lh-soft);color:var(--lh);border:1px solid var(--lh-line);padding:5px 14px;border-radius:99px;font-size:11.5px;letter-spacing:1.6px}
+#xhs-product .sec-head .tag,
+#showcase .sec-head .tag{background:var(--xhs-soft);color:#D81B3C;border-color:var(--xhs-line)}
+
+/* —— 卡片：边界更清楚、悬停有反馈 —— */
+.card,.about-item,.step5,.case,.svc{border-color:#E0E5F1;box-shadow:0 2px 6px rgba(20,26,45,.045),0 14px 30px -22px rgba(20,26,45,.28)}
+.card:hover,.about-item:hover,.step5:hover,.case:hover,.svc:hover{border-color:#CBD4E7;box-shadow:0 6px 16px rgba(20,26,45,.07),0 30px 50px -26px rgba(20,26,45,.34)}
+.card .ci,.about-item .ai,.svc .si{box-shadow:inset 0 0 0 1px rgba(108,92,224,.14)}
+.card.xhs .ci{box-shadow:inset 0 0 0 1px rgba(255,36,66,.14)}
+
+/* —— 截图：给品牌底色，白底软件截图不再糊成一片 —— */
+.car-shot{background:linear-gradient(135deg,#EFECFD,#FFFFFF 58%);padding:10px;border-color:#E2DDFB;box-shadow:0 20px 44px -22px rgba(108,92,224,.55)}
+.car-slide[data-accent="xhs"] .car-shot{background:linear-gradient(135deg,#FFE8EE,#FFFFFF 58%);border-color:#FFD2DB;box-shadow:0 20px 44px -22px rgba(255,36,66,.45)}
+.thumb{background:linear-gradient(180deg,#F3F4FA,#FFFFFF 72%)}
+.thumb:hover{border-color:#CBD4E7}
+.frame{background:#fff}
+
+/* —— 首屏在小屏也要好看 —— */
+@media (max-width:1024px){
+  .hero{padding:56px 0 46px}
+}
+@media (max-width:760px){
+  .hero{padding:44px 0 38px}
+  .strip{margin-top:28px}
+}
+
 /* ===================== 响应式 ===================== */
 @media (max-width:1024px){
   .cards,.about-grid2{grid-template-columns:repeat(2,1fr)}
@@ -855,7 +924,7 @@ html.js .reveal.in{opacity:1;transform:none}
     </div>
     <div class="foot-bottom">
       <span>© 2026 LH 智能自动化 · 保留所有权利</span>
-      <span>本页面内容与截图均为真实交付成果 · 构建 <b data-build>20260913-030312</b></span>
+      <span>本页面内容与截图均为真实交付成果 · 构建 <b data-build>20260913-030706</b></span>
     </div>
   </div>
 </footer>
