@@ -4,872 +4,660 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>LH 智能自动化 · AI 部署 / AI 工作流搭建 / 网站搭建与设计 / 程序定制</title>
-<meta name="description" content="LH 智能自动化：AI 模型部署、AI 工作流搭建、网站搭建与设计、软件程序定制。自研「LH 全链任务系统」桌面获客工具，采集、AI 审核、自动回复、云端授权一体化。">
+<meta name="description" content="LH 智能自动化：AI 模型部署、AI 工作流搭建、网站搭建与设计、软件程序定制。自研「LH 全链任务系统」与「小红书私信 AI 获客」两套桌面获客工具，已在客户处稳定运行。">
 <style>
+/* ===================== 设计变量 ===================== */
 :root{
-  --primary:#6C5CE0; --primary-dark:#5B49C0; --primary-soft:#EEEAFC;
-  --cyan:#35C7D8; --coral:#EE6C5C; --green:#2BB673; --amber:#E08A2B;
-  --ink:#1E2230; --body:#4A5268; --muted:#8A93A8; --faint:#AEB6C7;
-  --bg:#F5F6FA; --surface:#FFFFFF; --border:#E8EBF4;
-  --tile1a:#7B6CF3; --tile1b:#9B8CFA;
-  --tile2a:#EE6C5C; --tile2b:#F5A07C;
-  --tile3a:#9B7BE8; --tile3b:#B79BF0;
-  --tile4a:#35C7D8; --tile4b:#5ADCE8;
-  --radius:16px; --shadow:0 10px 30px rgba(30,34,48,.07); --shadow-lg:0 18px 50px rgba(30,34,48,.13);
+  --lh:#6C5CE0; --lh-soft:#EFECFD; --lh-line:rgba(108,92,224,.22);
+  --xhs:#FF2442; --xhs-soft:#FFEEF1; --xhs-line:rgba(255,36,66,.22);
+  --ink:#1B2030; --body:#4C5468; --muted:#8A93A8; --faint:#B6BDCB;
+  --bg:#FFFFFF; --bg-soft:#F6F7FB; --surface:#FFFFFF;
+  --border:#E7EAF2; --border-strong:#D9DEEA;
+  --green:#17A673;
+  --shadow-sm:0 2px 8px rgba(27,32,48,.05);
+  --shadow:0 10px 30px rgba(27,32,48,.07);
+  --shadow-lg:0 20px 50px rgba(27,32,48,.12);
+  --r-sm:10px; --r:14px; --r-lg:20px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
 body{
   font-family:"Microsoft YaHei UI","PingFang SC","Helvetica Neue",Arial,sans-serif;
-  color:var(--body); background:var(--bg); line-height:1.75; -webkit-font-smoothing:antialiased;
-  overflow-x:hidden;
+  color:var(--body);background:var(--bg);line-height:1.75;-webkit-font-smoothing:antialiased;overflow-x:hidden;
 }
 img{max-width:100%;display:block}
 a{color:inherit;text-decoration:none}
-.wrap{max-width:1200px;margin:0 auto;padding:0 24px}
-.grad-text{background:linear-gradient(96deg,#6C5CE0,#9B7BE8 50%,#35C7D8);-webkit-background-clip:text;background-clip:text;color:transparent;background-size:200% auto;animation:shimmer 4s linear infinite}
-@keyframes shimmer{to{background-position:200% center}}
+code{font-family:Consolas,"Courier New",monospace;background:#F1F2F7;border:1px solid var(--border);border-radius:6px;padding:1px 6px;font-size:12.5px;color:var(--ink)}
+.wrap{max-width:1160px;margin:0 auto;padding:0 24px}
+.muted{color:var(--muted)}
 
-/* ===== 导航 ===== */
-header.nav{position:sticky;top:0;z-index:60;background:rgba(255,255,255,.86);backdrop-filter:blur(14px);border-bottom:1px solid var(--border)}
-.nav-inner{display:flex;align-items:center;gap:26px;height:68px}
-.brand{display:flex;align-items:center;gap:11px;font-weight:800;color:var(--ink);font-size:17px}
-.logo{width:36px;height:36px;border-radius:10px;background:linear-gradient(150deg,#4F46E5,#312E81);display:grid;place-items:center;color:#fff;font-weight:800;font-size:15px;position:relative;box-shadow:0 6px 16px rgba(79,70,229,.35);animation:pulse 3s ease-in-out infinite}
-.logo::after{content:"";position:absolute;right:4px;top:4px;width:7px;height:7px;border-radius:50%;background:#22D3EE}
-@keyframes pulse{0%,100%{box-shadow:0 6px 16px rgba(79,70,229,.35)}50%{box-shadow:0 6px 26px rgba(79,70,229,.6)}}
-.brand small{display:block;font-size:10.5px;color:var(--muted);font-weight:500;letter-spacing:1.6px}
-nav.menu{display:flex;gap:22px;margin-left:auto;font-size:14.5px;color:var(--body)}
-nav.menu a{position:relative;padding:4px 0;transition:color .2s}
-nav.menu a:hover{color:var(--primary)}
-nav.menu a::after{content:"";position:absolute;left:0;bottom:-2px;height:2px;width:0;background:var(--primary);transition:width .25s}
-nav.menu a:hover::after{width:100%}
-.nav-cta{background:var(--primary);color:#fff;padding:9px 18px;border-radius:10px;font-size:14px;font-weight:700;box-shadow:0 8px 20px rgba(108,92,224,.3);transition:transform .2s,background .2s}
-.nav-cta:hover{background:var(--primary-dark);transform:translateY(-1px)}
-.nav-dl{display:inline-flex;align-items:center;gap:6px;background:#fff;color:var(--primary);border:1.5px solid var(--primary);padding:8px 16px;border-radius:10px;font-size:14px;font-weight:700;transition:background .2s,transform .2s}
-.nav-dl:hover{background:var(--primary-soft);transform:translateY(-1px)}
-.nav-dl svg{flex:0 0 auto}
+/* ===================== 通用排版 ===================== */
+.sec{padding:76px 0}
+.sec.alt{background:var(--bg-soft)}
+.sec-head{max-width:660px;margin:0 auto 36px;text-align:center}
+.sec-head .tag{display:inline-block;font-size:12.5px;font-weight:800;letter-spacing:2px;color:var(--lh);text-transform:uppercase;margin-bottom:12px}
+.sec-head h2{font-size:30px;line-height:1.35;color:var(--ink);font-weight:800;letter-spacing:-.4px;margin-bottom:12px}
+.sec-head p{font-size:14.5px;color:var(--body)}
+.sec-head p + p{margin-top:8px}
 
-/* 下载客户端 · 两套产品二选一（2026-09-13） */
-.nav-dl-wrap{position:relative}
-.nav-dl-wrap .nav-dl{cursor:pointer;font-family:inherit;background:#fff}
-.nav-dl-menu{position:absolute;right:0;top:calc(100% + 10px);width:min(340px,calc(100vw - 36px));background:#fff;border:1px solid var(--border);border-radius:14px;box-shadow:var(--shadow-lg);padding:8px;display:none;z-index:70;text-align:left}
-.nav-dl-wrap.open .nav-dl-menu{display:block}
-@media (hover:hover){.nav-dl-wrap:hover .nav-dl-menu{display:block}}
-.nav-dl-menu::before{content:"";position:absolute;top:-12px;left:0;right:0;height:12px}
-.nav-dl-menu a{display:flex;gap:11px;align-items:flex-start;padding:11px 12px;border-radius:10px;transition:background .2s}
-.nav-dl-menu a:hover{background:var(--primary-soft)}
-.nav-dl-menu .dlm-ico{flex:0 0 38px;height:38px;border-radius:11px;display:grid;place-items:center;color:#fff;font-weight:800;font-size:12px;letter-spacing:.5px}
-.nav-dl-menu .dlm-ico.lh{background:linear-gradient(135deg,#6C5CE0,#8B7AF0)}
-.nav-dl-menu .dlm-ico.xhs{background:linear-gradient(135deg,#FF2442,#FF6B6B)}
-.nav-dl-menu b{display:block;color:var(--ink);font-size:13.5px;font-weight:800;line-height:1.4}
-.nav-dl-menu small{display:block;color:var(--muted);font-size:11.5px;line-height:1.5;font-weight:400;margin-top:2px}
-.nav-dl-menu .dlm-all{justify-content:center;text-align:center;margin-top:6px;padding:10px 12px;border-top:1px dashed var(--border);color:var(--primary);font-size:12.5px;font-weight:700;border-radius:10px}
-@media (max-width:1024px){
-  .nav-dl-menu{position:fixed;left:16px;right:16px;top:76px;width:auto;max-height:calc(100vh - 96px);overflow:auto}
-  .nav-dl-menu::before{display:none}
-}
-.burger{display:none;margin-left:auto;background:none;border:1px solid var(--border);border-radius:9px;padding:7px 10px;font-size:16px;color:var(--ink)}
+/* ===================== 按钮 ===================== */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 22px;border-radius:11px;font-size:14.5px;font-weight:700;border:1px solid transparent;cursor:pointer;transition:transform .2s,box-shadow .2s,background .2s,border-color .2s;white-space:nowrap}
+.btn:hover{transform:translateY(-1px)}
+.btn-primary{background:var(--lh);color:#fff;box-shadow:0 10px 24px rgba(108,92,224,.28)}
+.btn-primary:hover{background:#5B4BD0}
+.btn-ghost{background:#fff;color:var(--ink);border-color:var(--border-strong);box-shadow:var(--shadow-sm)}
+.btn-ghost:hover{border-color:var(--lh-line);color:var(--lh)}
+.btn-xhs{background:var(--xhs);color:#fff;box-shadow:0 10px 24px rgba(255,36,66,.24)}
+.btn-xhs:hover{background:#E61E3B}
+.btn-sm{padding:9px 16px;font-size:13.5px;border-radius:9px}
+.btn svg{flex:0 0 auto}
+.actions{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
 
-/* ===== Hero ===== */
-.hero{position:relative;overflow:hidden;padding:72px 0 0}
-.bg-orb{position:absolute;border-radius:50%;filter:blur(60px);opacity:.5;pointer-events:none}
-.orb1{width:520px;height:520px;background:#7B6CF3;top:-160px;left:-120px;animation:float1 14s ease-in-out infinite}
-.orb2{width:440px;height:440px;background:#5ADCE8;top:40px;right:-140px;animation:float2 18s ease-in-out infinite}
-.orb3{width:340px;height:340px;background:#F5A07C;bottom:-140px;left:30%;animation:float1 20s ease-in-out infinite}
-@keyframes float1{0%,100%{transform:translate(0,0)}50%{transform:translate(30px,40px)}}
-@keyframes float2{0%,100%{transform:translate(0,0)}50%{transform:translate(-40px,30px)}}
-.grid-lines{position:absolute;inset:0;background-image:linear-gradient(rgba(108,92,224,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(108,92,224,.05) 1px,transparent 1px);background-size:44px 44px;pointer-events:none;mask-image:radial-gradient(circle at 50% 20%,#000,transparent 75%)}
-.hero-grid{position:relative;display:grid;grid-template-columns:1.06fr .94fr;gap:50px;align-items:center;padding-bottom:60px}
-.badge{display:inline-flex;align-items:center;gap:8px;background:var(--primary-soft);color:var(--primary);font-size:12.5px;font-weight:700;padding:7px 14px;border-radius:99px;border:1px solid rgba(108,92,224,.22)}
-.badge i{width:7px;height:7px;border-radius:50%;background:var(--primary);display:block;animation:blink 1.6s ease-in-out infinite}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
-h1{font-size:46px;line-height:1.22;color:var(--ink);font-weight:800;margin:22px 0 18px;letter-spacing:-.5px}
-.hero p.lead{font-size:16px;color:var(--body);max-width:560px}
-.hero-actions{display:flex;gap:14px;margin-top:30px;flex-wrap:wrap}
-.btn{display:inline-flex;align-items:center;gap:8px;padding:14px 26px;border-radius:12px;font-weight:700;font-size:15px;transition:transform .2s,box-shadow .2s,background .2s;cursor:pointer;border:0;position:relative;overflow:hidden}
-.btn-primary{background:linear-gradient(120deg,var(--primary),#8B7AF0);color:#fff;box-shadow:0 14px 30px rgba(108,92,224,.32)}
-.btn-primary::after{content:"";position:absolute;top:0;left:-80%;width:50%;height:100%;background:linear-gradient(120deg,transparent,rgba(255,255,255,.45),transparent);transform:skewX(-20deg);animation:shine 2.6s ease-in-out infinite}
-@keyframes shine{0%{left:-80%}60%,100%{left:130%}}
-.btn-primary:hover{transform:translateY(-2px);box-shadow:0 18px 38px rgba(108,92,224,.42)}
-.btn-ghost{background:#fff;color:var(--ink);border:1px solid var(--border);box-shadow:var(--shadow)}
-.btn-ghost:hover{transform:translateY(-2px);border-color:rgba(108,92,224,.4);color:var(--primary)}
-.hero-note{margin-top:22px;font-size:13px;color:var(--muted);display:flex;gap:20px;flex-wrap:wrap}
-.hero-note span{display:flex;align-items:center;gap:6px}
-.tick{width:16px;height:16px;border-radius:50%;background:var(--primary-soft);color:var(--primary);display:grid;place-items:center;font-size:10px;font-weight:800}
-.shot-frame{position:relative;border-radius:18px;overflow:hidden;background:#fff;box-shadow:var(--shadow-lg);border:1px solid var(--border);transform:perspective(1200px) rotateY(-6deg) rotateX(2deg);transition:transform .5s ease}
-.shot-frame:hover{transform:perspective(1200px) rotateY(0) rotateX(0)}
-.shot-frame img{width:100%}
-.shot-frame .bar{height:34px;display:flex;align-items:center;gap:6px;padding:0 14px;background:#fff;border-bottom:1px solid var(--border)}
-.shot-frame .bar i{width:10px;height:10px;border-radius:50%;background:#E8EBF4;display:block}
-.shot-frame .bar i:nth-child(1){background:#FF6B6B}.shot-frame .bar i:nth-child(2){background:#FFC53D}.shot-frame .bar i:nth-child(3){background:#4ADE80}
-.floating{position:absolute;right:-16px;bottom:-16px;background:#fff;border:1px solid var(--border);border-radius:14px;box-shadow:var(--shadow-lg);padding:12px 16px;font-size:12.5px;color:var(--body);animation:bob 3.4s ease-in-out infinite}
-.floating b{display:block;color:var(--ink);font-size:16px}
-@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+/* ===================== 顶部导航 ===================== */
+header.top{position:sticky;top:0;z-index:80;background:rgba(255,255,255,.88);backdrop-filter:blur(14px);border-bottom:1px solid var(--border)}
+.top-in{display:flex;align-items:center;gap:22px;height:66px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;color:var(--ink);font-size:16px;flex:0 0 auto}
+.brand .logo{width:34px;height:34px;border-radius:10px;background:linear-gradient(150deg,#6C5CE0,#3F32A8);display:grid;place-items:center;color:#fff;font-weight:800;font-size:14px;box-shadow:0 6px 16px rgba(79,70,229,.3)}
+.brand small{display:block;font-size:10px;color:var(--muted);font-weight:500;letter-spacing:1.5px}
+nav.main{display:flex;gap:20px;margin-left:auto;font-size:14px}
+nav.main a{position:relative;padding:4px 0;color:var(--body);transition:color .2s}
+nav.main a:hover{color:var(--lh)}
+nav.main a::after{content:"";position:absolute;left:0;bottom:-2px;height:2px;width:0;background:var(--lh);transition:width .25s}
+nav.main a:hover::after{width:100%}
+.top-cta{display:flex;align-items:center;gap:10px;flex:0 0 auto}
+.dl-wrap{position:relative}
+.dl-btn{display:inline-flex;align-items:center;gap:7px;padding:9px 16px;border-radius:10px;border:1.5px solid var(--lh);background:#fff;color:var(--lh);font-weight:700;font-size:14px;font-family:inherit;cursor:pointer;transition:background .2s,transform .2s}
+.dl-btn:hover{background:var(--lh-soft);transform:translateY(-1px)}
+.dl-menu{position:absolute;right:0;top:calc(100% + 10px);width:min(340px,calc(100vw - 36px));background:#fff;border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--shadow-lg);padding:8px;display:none;z-index:90;text-align:left}
+.dl-wrap.open .dl-menu{display:block}
+@media (hover:hover){.dl-wrap:hover .dl-menu{display:block}}
+.dl-menu a{display:flex;gap:11px;align-items:flex-start;padding:11px 12px;border-radius:10px;transition:background .2s}
+.dl-menu a:hover{background:var(--lh-soft)}
+.dl-menu .di{flex:0 0 38px;height:38px;border-radius:11px;display:grid;place-items:center;color:#fff;font-weight:800;font-size:12px;letter-spacing:.5px}
+.dl-menu .di.lh{background:linear-gradient(135deg,#6C5CE0,#8B7AF0)}
+.dl-menu .di.xhs{background:linear-gradient(135deg,#FF2442,#FF6B6B)}
+.dl-menu b{display:block;color:var(--ink);font-size:13.5px;font-weight:800;line-height:1.4}
+.dl-menu small{display:block;color:var(--muted);font-size:11.5px;line-height:1.5;margin-top:2px;font-weight:400}
+.dl-menu .all{justify-content:center;text-align:center;margin-top:6px;border-top:1px dashed var(--border);color:var(--lh);font-size:12.5px;font-weight:700;border-radius:0 0 10px 10px}
+.burger{display:none;margin-left:auto;background:none;border:1px solid var(--border-strong);border-radius:9px;padding:7px 11px;font-size:16px;color:var(--ink);cursor:pointer}
 
-/* ===== 滚动入场 ===== */
-.reveal{transition:opacity .7s ease,transform .7s ease}
-html.js .reveal{opacity:0;transform:translateY(24px)}
-html.js .reveal.in{opacity:1;transform:none}
+/* ===================== 首屏 ===================== */
+.hero{padding:58px 0 40px;background:linear-gradient(180deg,#FAFAFF,#FFFFFF)}
+.hero-grid{display:grid;grid-template-columns:1.02fr .98fr;gap:52px;align-items:center}
+.badge{display:inline-flex;align-items:center;gap:8px;background:var(--lh-soft);color:var(--lh);font-size:12.5px;font-weight:700;padding:6px 13px;border-radius:99px;border:1px solid var(--lh-line)}
+.badge i{width:7px;height:7px;border-radius:50%;background:var(--lh);display:block}
+.hero h1{font-size:42px;line-height:1.28;color:var(--ink);font-weight:800;letter-spacing:-.8px;margin:20px 0 16px}
+.hero h1 em{font-style:normal;color:var(--lh)}
+.hero .lead{font-size:15.5px;color:var(--body);max-width:540px}
+.hero .actions{margin-top:28px}
+.ticks{display:flex;gap:18px;flex-wrap:wrap;margin-top:22px;font-size:13px;color:var(--muted)}
+.ticks span{display:flex;align-items:center;gap:6px}
+.ticks .tick{width:16px;height:16px;border-radius:50%;background:var(--lh-soft);color:var(--lh);display:grid;place-items:center;font-size:10px;font-weight:800}
+.frame{border-radius:var(--r-lg);border:1px solid var(--border);background:#fff;box-shadow:var(--shadow-lg);overflow:hidden}
+.frame .bar{height:32px;display:flex;align-items:center;gap:6px;padding:0 14px;border-bottom:1px solid var(--border);background:#FBFBFD}
+.frame .bar i{width:9px;height:9px;border-radius:50%;background:#E4E7F0;display:block}
+.frame .bar i:nth-child(1){background:#FF6B6B}.frame .bar i:nth-child(2){background:#FFC53D}.frame .bar i:nth-child(3){background:#4ADE80}
+.frame img{width:100%}
 
-/* ===== KPI ===== */
-.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:8px}
-.kpi{border-radius:var(--radius);padding:22px;color:#fff;position:relative;overflow:hidden;box-shadow:var(--shadow);transition:transform .3s ease}
-.kpi:hover{transform:translateY(-5px)}
-.kpi.k1{background:linear-gradient(160deg,var(--tile1a),var(--tile1b))}
-.kpi.k2{background:linear-gradient(160deg,var(--tile2a),var(--tile2b))}
-.kpi.k3{background:linear-gradient(160deg,var(--tile3a),var(--tile3b))}
-.kpi.k4{background:linear-gradient(160deg,var(--tile4a),var(--tile4b))}
-.kpi::after{content:"";position:absolute;right:-30px;top:-30px;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,.14);animation:spin 12s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
-.kpi .ico{width:32px;height:32px;border-radius:9px;background:rgba(255,255,255,.25);display:grid;place-items:center;margin-bottom:14px;position:relative;z-index:1}
-.kpi h3{font-size:14px;font-weight:700;opacity:.96;position:relative;z-index:1}
-.kpi b{display:block;font-size:24px;font-weight:800;margin:6px 0 2px;letter-spacing:-.3px;position:relative;z-index:1}
-.kpi span{font-size:12px;opacity:.85;position:relative;z-index:1}
+/* ===================== 信任条 ===================== */
+.strip{display:grid;grid-template-columns:repeat(4,1fr);background:#fff;border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--shadow-sm);overflow:hidden;margin-top:32px}
+.strip div{padding:18px 16px;text-align:center;border-right:1px solid var(--border)}
+.strip div:last-child{border-right:0}
+.strip b{display:block;font-size:20px;font-weight:800;color:var(--ink);letter-spacing:-.3px}
+.strip span{font-size:12.5px;color:var(--muted)}
 
-/* ===== 区块 ===== */
-section{padding:78px 0}
-.sec-head{text-align:center;max-width:740px;margin:0 auto 46px}
-.sec-head .tag{color:var(--primary);font-weight:800;font-size:13px;letter-spacing:2.5px;text-transform:uppercase}
-.sec-head h2{font-size:34px;color:var(--ink);font-weight:800;margin:12px 0 14px;letter-spacing:-.5px}
-.sec-head p{font-size:15px;color:var(--body)}
-.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow)}
-.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-.grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:22px}
-.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
-
-/* ===== 数字统计条 ===== */
-.stats-bar{display:grid;grid-template-columns:repeat(5,1fr);gap:0;background:#fff;border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);margin-bottom:54px;overflow:hidden}
-.stat{padding:22px 14px;text-align:center;border-right:1px solid var(--border)}
-.stat:last-child{border-right:0}
-.stat b{display:block;font-size:30px;font-weight:800;color:var(--primary);letter-spacing:-.5px}
-.stat span{font-size:13px;color:var(--muted)}
-@media (max-width:760px){.stats-bar{grid-template-columns:1fr 1fr}.stat:nth-child(3){border-right:0}.stat:nth-child(-n+2){border-bottom:1px solid var(--border)}}
-
-/* ===== 主打产品 ===== */
-.flagship{background:linear-gradient(180deg,#FBFAFF,#F5F6FA);position:relative;overflow:hidden}
-.feature{display:flex;gap:14px;align-items:flex-start;background:#fff;border:1px solid var(--border);border-radius:14px;padding:20px;transition:transform .3s ease,box-shadow .3s ease,border-color .3s}
-.feature:hover{transform:translateY(-5px);box-shadow:var(--shadow-lg);border-color:rgba(108,92,224,.3)}
-.feature .fi{flex:0 0 42px;height:42px;border-radius:12px;display:grid;place-items:center;font-size:20px;transition:transform .4s ease}
-.feature:hover .fi{transform:scale(1.12) rotate(-4deg)}
-.fi.p{background:var(--primary-soft);color:var(--primary)}
-.fi.c{background:#E6F7FA;color:#0E9FB4}
-.fi.a{background:#FDEDEA;color:#E5654F}
-.fi.g{background:#E7F7EF;color:#22A06B}
-.fi.v{background:#F3EEFD;color:#8B5CE8}
-.fi.o{background:#FDF3E6;color:#E08A2B}
-.feature h4{color:var(--ink);font-size:15.5px;font-weight:800;margin-bottom:6px}
-.feature p{font-size:13.5px;color:var(--body)}
-.shots{display:grid;grid-template-columns:1.5fr 1fr;gap:22px;margin-top:36px}
-.shot{border-radius:14px;overflow:hidden;border:1px solid var(--border);background:#fff;box-shadow:var(--shadow);cursor:zoom-in;transition:transform .35s ease,box-shadow .35s ease}
-.shot:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
-.shot:hover img{transform:scale(1.03)}
-.shot img{transition:transform .5s ease}
-.shot-cap{padding:10px 14px;font-size:12.5px;color:var(--muted);border-top:1px solid var(--border)}
-.tech{display:grid;grid-template-columns:repeat(2,1fr);gap:12px 28px;margin-top:30px}
-.tech div{display:flex;gap:10px;font-size:14px;color:var(--body);align-items:flex-start}
-.tech .k{color:var(--ink);font-weight:700;white-space:nowrap}
-.specs{display:flex;gap:10px;flex-wrap:wrap;margin-top:28px}
-.chip{background:#fff;border:1px solid var(--border);border-radius:99px;padding:7px 15px;font-size:13px;color:var(--body);transition:transform .25s,border-color .25s}
-.chip:hover{transform:translateY(-2px);border-color:rgba(108,92,224,.4)}
-.chip b{color:var(--primary)}
-
-/* ===== 服务 ===== */
-.svc{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:26px;box-shadow:var(--shadow);position:relative;overflow:hidden;transition:transform .3s,box-shadow .3s}
-.svc:hover{transform:translateY(-6px);box-shadow:var(--shadow-lg)}
-.svc::before{content:"";position:absolute;left:0;top:0;height:4px;width:100%;background:linear-gradient(90deg,var(--primary),#9B8CFA);transform:scaleX(0);transform-origin:left;transition:transform .5s ease}
-.svc:hover::before{transform:scaleX(1)}
-.svc.s2::before{background:linear-gradient(90deg,#35C7D8,#5ADCE8)}
-.svc.s3::before{background:linear-gradient(90deg,#EE6C5C,#F5A07C)}
-.svc.s4::before{background:linear-gradient(90deg,#9B7BE8,#B79BF0)}
-.svc .ico{width:48px;height:48px;border-radius:14px;display:grid;place-items:center;font-size:23px;background:var(--primary-soft);color:var(--primary);margin-bottom:16px}
-.svc.s2 .ico{background:#E6F7FA;color:#0E9FB4}
-.svc.s3 .ico{background:#FDEDEA;color:#E5654F}
-.svc.s4 .ico{background:#F3EEFD;color:#8B5CE8}
-.svc h3{color:var(--ink);font-size:19px;font-weight:800;margin-bottom:8px}
-.svc>p{font-size:13.5px;color:var(--body)}
-.svc ul{list-style:none;margin:16px 0;display:grid;gap:9px}
-.svc li{font-size:13.5px;color:var(--body);display:flex;gap:9px;align-items:flex-start;transition:transform .2s}
-.svc li:hover{transform:translateX(4px);color:var(--ink)}
-.svc li::before{content:"✓";color:var(--primary);font-weight:800;font-size:12px;margin-top:3px}
-.svc .out{font-size:12.5px;color:var(--muted);border-top:1px dashed var(--border);padding-top:13px;margin-top:14px}
-.svc .out b{color:var(--ink)}
-
-/* ===== 运作链路 ===== */
-.pipeline{display:flex;align-items:stretch;gap:0;margin:34px 0 0;background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);flex-wrap:wrap}
-.pipeline .node{flex:1;min-width:120px;text-align:center;padding:10px 6px;position:relative;transition:transform .3s}
-.pipeline .node:hover{transform:translateY(-4px)}
-.pipeline .node b{display:block;font-size:16px;color:var(--ink);font-weight:800;margin-bottom:4px}
-.pipeline .node span{font-size:12px;color:var(--muted)}
-.pipeline .flow{display:flex;align-items:center;color:var(--primary);font-size:20px;font-weight:800;animation:flowmove 1.4s ease-in-out infinite}
-@keyframes flowmove{0%,100%{transform:translateX(0);opacity:.5}50%{transform:translateX(4px);opacity:1}}
-@media (max-width:760px){.pipeline .flow{display:none}.pipeline .node{min-width:50%;border-bottom:1px dashed var(--border)}}
-
-/* ===== 下载入口（企业软件下载卡） ===== */
-.download{display:grid;grid-template-columns:auto 1fr;grid-template-rows:auto auto;gap:0 28px;align-items:start;background:#fff;border:1px solid var(--border);border-radius:20px;padding:34px 36px;box-shadow:var(--shadow-lg);margin-top:40px;position:relative;overflow:hidden}
-.download::before{content:"";position:absolute;left:0;top:0;width:100%;height:5px;background:linear-gradient(90deg,var(--primary),#9B8CFA,#35C7D8)}
-.dl-appicon{grid-row:1;grid-column:1;width:76px;height:76px;border-radius:18px;background:linear-gradient(150deg,#4F46E5,#312E81);display:grid;place-items:center;color:#fff;font-weight:800;font-size:30px;box-shadow:0 10px 24px rgba(79,70,229,.3);position:relative}
-.dl-appicon::after{content:"";position:absolute;right:8px;top:8px;width:12px;height:12px;border-radius:50%;background:#22D3EE;border:2px solid #fff}
-.dl-main{grid-row:1;grid-column:2}
-.dl-head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:10px}
-.dl-title{font-size:22px;font-weight:800;color:var(--ink);letter-spacing:-.3px}
-.dl-sub{font-size:13px;color:var(--muted);margin-top:2px}
-.dl-version{background:var(--primary-soft);color:var(--primary);font-size:12.5px;font-weight:700;padding:5px 12px;border-radius:99px;border:1px solid rgba(108,92,224,.2);white-space:nowrap}
-.dl-desc{font-size:14px;color:var(--body);max-width:640px;margin-bottom:18px}
-.dl-actions{display:flex;gap:12px;flex-wrap:wrap}
-.btn-big{padding:15px 28px;font-size:16px}
-.dl-actions .btn-primary{box-shadow:0 14px 30px rgba(108,92,224,.32)}
-.dl-meta{margin-top:18px;font-size:13px;color:var(--muted);display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-.dl-meta b{color:var(--ink);font-weight:700}
-.dl-meta .sep{width:4px;height:4px;border-radius:50%;background:var(--faint)}
-.dl-steps{grid-row:2;grid-column:1 / span 2;display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:28px;padding-top:24px;border-top:1px dashed var(--border)}
-.dl-step{display:flex;align-items:center;gap:12px;background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:14px 16px;transition:transform .25s,border-color .25s}
-.dl-step:hover{transform:translateY(-3px);border-color:rgba(108,92,224,.35)}
-.dl-step b{flex:0 0 34px;height:34px;border-radius:50%;background:var(--primary);color:#fff;display:grid;place-items:center;font-weight:800;font-size:16px}
-.dl-step span{font-size:13px;color:var(--body);font-weight:600;line-height:1.5}
-@media (max-width:760px){
-  .download{grid-template-columns:1fr;padding:26px}
-  .dl-appicon{grid-column:1;margin-bottom:16px}
-  .dl-main{grid-column:1}
-  .dl-steps{grid-column:1;grid-template-columns:1fr}
-  .dl-head{flex-direction:column}
-}
-
-/* ===== 案例 ===== */
-.case{background:#fff;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);transition:transform .3s,box-shadow .3s}
-.case:hover{transform:translateY(-5px);box-shadow:var(--shadow-lg)}
-.case .shot{border:0;box-shadow:none;border-radius:0}
-.case-body{padding:18px 22px 24px}
-.case-body h4{color:var(--ink);font-size:16px;font-weight:800;margin-bottom:8px}
-.case-body p{font-size:13.5px}
-
-/* ===== 流程 ===== */
-.steps{display:grid;grid-template-columns:repeat(5,1fr);gap:16px}
-.step{background:#fff;border:1px solid var(--border);border-radius:14px;padding:22px 18px;position:relative;box-shadow:var(--shadow);transition:transform .3s}
-.step:hover{transform:translateY(-5px)}
-.step .num{font-size:30px;font-weight:800;color:transparent;-webkit-text-stroke:1.5px rgba(108,92,224,.4);margin-bottom:10px}
-.step h4{color:var(--ink);font-size:15px;font-weight:800;margin-bottom:7px}
-.step p{font-size:13px;color:var(--body)}
-
-/* ===== 优势 ===== */
-.adv{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-.adv .item{background:#fff;border:1px solid var(--border);border-radius:14px;padding:22px;box-shadow:var(--shadow);transition:transform .3s}
-.adv .item:hover{transform:translateY(-5px)}
-.adv h4{color:var(--ink);font-size:15.5px;font-weight:800;margin-bottom:9px;display:flex;align-items:center;gap:8px}
-.adv p{font-size:13.5px}
-
-/* ===== 关于我们 ===== */
-.about-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-.about-item{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:28px 26px;box-shadow:var(--shadow);text-align:center;transition:transform .3s,box-shadow .3s}
-.about-item:hover{transform:translateY(-5px);box-shadow:var(--shadow-lg)}
-.ab-ico{width:56px;height:56px;border-radius:16px;background:var(--primary-soft);color:var(--primary);display:grid;place-items:center;font-size:26px;margin:0 auto 16px}
-.about-item h4{color:var(--ink);font-size:17px;font-weight:800;margin-bottom:10px}
-.about-item p{font-size:14px;color:var(--body)}
-@media (max-width:760px){.about-grid{grid-template-columns:1fr}}
-
-/* ===== FAQ ===== */
-.faq{max-width:860px;margin:0 auto;display:grid;gap:12px}
-details{background:#fff;border:1px solid var(--border);border-radius:13px;padding:17px 22px;box-shadow:var(--shadow);transition:border-color .3s}
-details[open]{border-color:rgba(108,92,224,.4)}
-summary{cursor:pointer;font-weight:700;color:var(--ink);font-size:15px;list-style:none;display:flex;justify-content:space-between;gap:12px;align-items:center}
-summary::-webkit-details-marker{display:none}
-summary::after{content:"+";color:var(--primary);font-weight:800;font-size:20px;transition:transform .3s}
-details[open] summary::after{transform:rotate(45deg)}
-details p{margin-top:12px;font-size:14px;animation:fadein .4s ease}
-@keyframes fadein{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
-
-/* ===== 联系 ===== */
-.contact{background:linear-gradient(140deg,#6C5CE0,#8B7AF0 55%,#5ADCE8);border-radius:24px;padding:50px;color:#fff;box-shadow:var(--shadow-lg);position:relative;overflow:hidden}
-.contact::after{content:"";position:absolute;right:-80px;bottom:-80px;width:280px;height:280px;border-radius:50%;background:rgba(255,255,255,.12);animation:spin 20s linear infinite}
-.contact h2{font-size:31px;font-weight:800;margin-bottom:14px;position:relative;z-index:1}
-.contact p{opacity:.92;font-size:15px;max-width:640px;position:relative;z-index:1}
-.contact-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:30px;position:relative;z-index:1}
-.cbox{background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.28);border-radius:14px;padding:20px;backdrop-filter:blur(4px)}
-.cbox small{font-size:12px;opacity:.85;display:block;margin-bottom:7px}
-.cbox b{font-size:18px;font-weight:800;letter-spacing:.4px}
-.copy{margin-top:12px;background:#fff;color:var(--primary);border:0;border-radius:9px;padding:8px 15px;font-size:12.5px;font-weight:700;cursor:pointer;transition:transform .2s}
-.copy:hover{transform:scale(1.05)}
-footer{padding:50px 0 30px;background:#fff;border-top:1px solid var(--border);color:var(--body);font-size:13px}
-.foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:30px;text-align:left;margin-bottom:34px}
-.foot-brand .brand{margin-bottom:12px}
-.foot-brand p{color:var(--muted);font-size:13px}
-.foot-col h4{color:var(--ink);font-weight:800;font-size:14px;margin-bottom:14px}
-.foot-col a{display:block;color:var(--muted);margin-bottom:10px;transition:color .2s}
-.foot-col a:hover{color:var(--primary)}
-.foot-bottom{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;padding-top:22px;border-top:1px solid var(--border);color:var(--faint);font-size:12.5px}
-@media (max-width:760px){.foot-grid{grid-template-columns:1fr 1fr}}
-
-/* ===== 灯箱 ===== */
-.lightbox{position:fixed;inset:0;background:rgba(20,22,32,.88);display:none;place-items:center;z-index:99;padding:28px}
-.lightbox.on{display:grid;animation:fadein .25s ease}
-.lightbox img{max-width:min(1200px,94vw);max-height:88vh;border-radius:12px;box-shadow:0 30px 80px rgba(0,0,0,.5)}
-.lightbox .close{position:absolute;top:18px;right:24px;color:#fff;font-size:28px;cursor:pointer;background:none;border:0}
-
-@media (max-width:1024px){
-  .hero-grid,.shots,.grid3,.grid4,.adv,.contact-grid{grid-template-columns:1fr 1fr}
-  .steps{grid-template-columns:repeat(2,1fr)}
-  h1{font-size:38px}
-}
-@media (max-width:760px){
-  nav.menu{display:none}
-  .burger{display:block}
-  nav.menu.open{display:flex;position:absolute;left:0;right:0;top:68px;background:#fff;flex-direction:column;gap:0;padding:8px 22px 16px;border-bottom:1px solid var(--border)}
-  nav.menu.open a{padding:12px 0;border-bottom:1px solid var(--border)}
-  .nav-cta{display:none}
-  .hero-grid,.shots,.grid3,.grid4,.grid2,.adv,.contact-grid,.tech{grid-template-columns:1fr}
-  .kpis{grid-template-columns:1fr 1fr}
-  .steps{grid-template-columns:1fr}
-  h1{font-size:30px}
-  section{padding:54px 0}
-  .contact{padding:30px}
-  .floating{display:none}
-  .shot-frame{transform:none}
-}
-/* ===== 两款产品的视觉区分（2026-09-13 新增）=====
-   客户反馈"两套配色一样、容易下错"，所以给它们各自一套品牌色：
-   LH Threads = 紫罗兰（沿用软件主色）；小红书 = 品牌红。
-   只改网站显示，不动任何程序。 */
-.brand-card { border-radius: 16px; padding: 22px 22px 18px; border: 2px solid transparent; }
-.brand-badge { display: inline-block; padding: 3px 11px; border-radius: 999px; font-size: 12px;
-  font-weight: 700; color: #fff; letter-spacing: .3px; margin-bottom: 8px; }
-.brand-lh { border-color: #6C5CE0; background: linear-gradient(135deg, rgba(108,92,224,.10), rgba(108,92,224,.02)); }
-.brand-lh .brand-badge { background: #6C5CE0; }
-.brand-lh .btn-primary { background: #6C5CE0; border-color: #6C5CE0; }
-.brand-lh .dl-appicon, .brand-lh .fi { background: linear-gradient(135deg, #6C5CE0, #8B7BF0); }
-.brand-xhs { border-color: #FF2442; background: linear-gradient(135deg, rgba(255,36,66,.10), rgba(255,36,66,.02)); }
-.brand-xhs .brand-badge { background: #FF2442; }
-.brand-xhs .btn-primary { background: #FF2442; border-color: #FF2442; }
-.brand-xhs .dl-appicon, .brand-xhs .fi { background: linear-gradient(135deg, #FF2442, #FF6B6B); }
-.pick-hint { margin: 10px 0 4px; padding: 10px 14px; border-radius: 10px; font-size: 14px;
-  background: #FFF7E6; border: 1px solid #FFD591; color: #8C5A00; }
-.not-this { margin-top: 10px; font-size: 13px; color: #666; }
-
-/* 小红书 · 本次更新说明盒 */
-.updbox{margin-top:26px;background:#fff;border:1px solid #FFD7DE;border-left:5px solid #FF2442;border-radius:14px;padding:18px 22px;box-shadow:var(--shadow)}
-.updbox h4{color:var(--ink);font-size:15.5px;font-weight:800;margin-bottom:12px;display:flex;align-items:center;gap:9px;flex-wrap:wrap}
-.updbox h4 i{background:#FF2442;color:#fff;font-size:11.5px;font-weight:800;padding:3px 10px;border-radius:99px;font-style:normal;letter-spacing:.5px}
-.updbox ul{list-style:none;display:grid;gap:8px}
-.updbox li{font-size:13.5px;color:var(--body);display:flex;gap:9px;align-items:flex-start}
-.updbox li::before{content:"●";color:#FF2442;font-size:8px;line-height:1.9;flex:0 0 auto}
-.updbox li b{color:var(--ink)}
-/* Threads 版用紫罗兰，和红主题的小红书区分开 */
-.updbox-lh{border-color:#DED7FB;border-left-color:var(--primary)}
-.updbox-lh h4 i{background:var(--primary)}
-.updbox-lh li::before{color:var(--primary)}
-.tech span + span{line-height:1.6}
-.tech code{background:#F1F2F7;border:1px solid var(--border);border-radius:6px;padding:1px 6px;font-size:12.5px;color:var(--ink);font-family:Consolas,"Courier New",monospace}
-
-/* ===== 首页产品轮播：两套系统，每屏一图 + 立即下载（2026-09-13） ===== */
-.carousel{position:relative;margin-top:22px;border-radius:20px;background:#fff;border:1px solid var(--border);box-shadow:var(--shadow-lg);overflow:hidden}
+/* ===================== 产品轮播 ===================== */
+.hint{max-width:900px;margin:0 auto 20px;background:#FFF8E6;border:1px solid #F5DFA6;border-radius:var(--r);padding:13px 18px;font-size:13.5px;color:#7A5B12;text-align:center}
+.hint b{color:#5C4409}
+.carousel{position:relative;border-radius:var(--r-lg);background:#fff;border:1px solid var(--border);box-shadow:var(--shadow-lg);overflow:hidden}
 .car-track{display:flex;transition:transform .55s cubic-bezier(.4,0,.2,1)}
 .car-slide{flex:0 0 100%;display:grid;grid-template-columns:1.02fr .98fr;gap:26px;padding:32px 34px 58px;align-items:center;position:relative}
-.car-slide::before{content:"";position:absolute;left:0;top:0;height:5px;width:100%}
+.car-slide::before{content:"";position:absolute;left:0;top:0;height:4px;width:100%}
 .car-slide[data-accent="lh"]::before{background:linear-gradient(90deg,#6C5CE0,#9B7CF3)}
 .car-slide[data-accent="xhs"]::before{background:linear-gradient(90deg,#FF2442,#FF7A8A)}
-.car-slide[data-accent="lh"]{background:linear-gradient(135deg,rgba(108,92,224,.06),rgba(108,92,224,0) 62%)}
-.car-slide[data-accent="xhs"]{background:linear-gradient(135deg,rgba(255,36,66,.06),rgba(255,36,66,0) 62%)}
-.car-slide h3{font-size:26px;color:var(--ink);font-weight:800;margin:11px 0 12px;letter-spacing:-.3px}
-.car-slide p{font-size:14.5px;color:var(--body)}
-.car-badge-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-.car-ver{font-size:12.5px;font-weight:700;color:var(--primary);background:var(--primary-soft);border:1px solid rgba(108,92,224,.2);border-radius:99px;padding:4px 11px;white-space:nowrap}
-.car-slide[data-accent="xhs"] .car-ver{color:#D81B3C;background:#FFEEF1;border-color:rgba(255,36,66,.22)}
-.car-slide[data-accent="xhs"] .brand-badge{background:#FF2442;color:#fff;border-color:#FF2442}
-.car-points{list-style:none;margin:16px 0 0;display:grid;gap:9px}
-.car-points li{font-size:13.5px;color:var(--body);display:flex;gap:9px;align-items:flex-start}
-.car-points li::before{content:"✓";font-weight:800;font-size:12px;margin-top:2px}
-.car-slide[data-accent="lh"] .car-points li::before{color:var(--primary)}
-.car-slide[data-accent="xhs"] .car-points li::before{color:#FF2442}
-.car-shot{border-radius:14px;overflow:hidden;border:1px solid var(--border);box-shadow:var(--shadow);background:#fff}
-.car-shot img{width:100%;display:block}
-.car-bar{position:absolute;left:0;right:0;bottom:0;height:56px;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,rgba(255,255,255,0),#fff 45%);z-index:4}
-.car-dots{display:flex;gap:8px}
-.car-dots button{width:9px;height:9px;border-radius:99px;border:0;background:#D8DCE8;cursor:pointer;transition:all .25s;padding:0}
-.car-dots button.on{width:26px;background:var(--primary)}
-.car-nav{position:absolute;top:44%;transform:translateY(-50%);width:38px;height:38px;border-radius:50%;border:1px solid var(--border);background:#fff;color:var(--ink);font-size:19px;line-height:1;cursor:pointer;box-shadow:var(--shadow);display:grid;place-items:center;z-index:5;transition:background .2s}
-.car-nav:hover{background:var(--primary-soft)}
-.car-nav.prev{left:12px}
-.car-nav.next{right:12px}
+.car-slide[data-accent="lh"]{background:linear-gradient(135deg,rgba(108,92,224,.05),rgba(108,92,224,0) 60%)}
+.car-slide[data-accent="xhs"]{background:linear-gradient(135deg,rgba(255,36,66,.05),rgba(255,36,66,0) 60%)}
+.car-slide h3{font-size:25px;color:var(--ink);font-weight:800;margin:11px 0 10px;letter-spacing:-.3px}
+.car-slide p{font-size:14px;color:var(--body)}
+.badge-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.pill{font-size:12.5px;font-weight:700;border-radius:99px;padding:4px 11px;white-space:nowrap;background:var(--lh-soft);color:var(--lh);border:1px solid var(--lh-line)}
+.pill.xhs{background:var(--xhs-soft);color:#D81B3C;border-color:var(--xhs-line)}
+.pill.lh-dark{background:var(--lh);color:#fff;border-color:var(--lh)}
+.pill.xhs-dark{background:var(--xhs);color:#fff;border-color:var(--xhs)}
+.points{list-style:none;margin:14px 0 0;display:grid;gap:8px}
+.points li{font-size:13.5px;color:var(--body);display:flex;gap:9px;align-items:flex-start}
+.points li::before{content:"✓";font-weight:800;font-size:12px;margin-top:2px;color:var(--lh);flex:0 0 auto}
+.points.xhs li::before{color:var(--xhs)}
+.car-shot{border-radius:var(--r);overflow:hidden;border:1px solid var(--border);box-shadow:var(--shadow);background:#fff}
+.car-shot img{width:100%}
+.car-foot{position:absolute;left:0;right:0;bottom:0;height:54px;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,rgba(255,255,255,0),#fff 46%);z-index:4}
+.dots{display:flex;gap:8px}
+.dots button{width:9px;height:9px;border-radius:99px;border:0;background:#D8DCE8;cursor:pointer;padding:0;transition:all .25s}
+.dots button.on{width:26px;background:var(--lh)}
+.car-nav{position:absolute;top:44%;transform:translateY(-50%);width:36px;height:36px;border-radius:50%;border:1px solid var(--border);background:#fff;color:var(--ink);font-size:18px;line-height:1;cursor:pointer;box-shadow:var(--shadow);display:grid;place-items:center;z-index:5}
+.car-nav:hover{background:var(--lh-soft)}
+.car-nav.prev{left:12px}.car-nav.next{right:12px}
+
+/* ===================== 通用卡片网格 ===================== */
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.card{background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:20px;transition:border-color .25s,box-shadow .25s,transform .25s}
+.card:hover{border-color:var(--border-strong);box-shadow:var(--shadow);transform:translateY(-2px)}
+.card .ci{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;font-size:17px;margin-bottom:12px;background:var(--lh-soft);color:var(--lh)}
+.card.xhs .ci{background:var(--xhs-soft);color:var(--xhs)}
+.card h4{font-size:15px;font-weight:800;color:var(--ink);margin-bottom:7px;line-height:1.45}
+.card p{font-size:13.5px;color:var(--body)}
+
+/* ===================== 产品区 ===================== */
+.prod-head{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:30px;padding-bottom:20px;border-bottom:1px solid var(--border)}
+.prod-head .ph-l{max-width:640px}
+.prod-head h2{font-size:29px;color:var(--ink);font-weight:800;letter-spacing:-.4px;margin-bottom:10px}
+.prod-head p{font-size:14.5px;color:var(--body)}
+.chain{display:flex;flex-wrap:wrap;gap:8px;margin:26px 0 0}
+.chain .n{flex:1;min-width:130px;background:#fff;border:1px solid var(--border);border-radius:var(--r-sm);padding:12px 14px;text-align:center}
+.chain .n b{display:block;color:var(--ink);font-size:13.5px}
+.chain .n span{font-size:12px;color:var(--muted)}
+.thumbs{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:26px}
+.thumb{border:1px solid var(--border);border-radius:var(--r);overflow:hidden;background:#fff;cursor:zoom-in;box-shadow:var(--shadow-sm);transition:transform .3s,box-shadow .3s}
+.thumb:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg)}
+.thumb img{width:100%;aspect-ratio:16/10;object-fit:cover;object-position:top center}
+.thumb figcaption{padding:10px 13px;font-size:12.5px;color:var(--muted);border-top:1px solid var(--border);line-height:1.6}
+.fold{margin-top:24px;border:1px solid var(--border);border-radius:var(--r);background:#fff;overflow:hidden}
+.fold > summary{cursor:pointer;padding:15px 20px;font-weight:800;color:var(--ink);font-size:14.5px;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.fold > summary::-webkit-details-marker{display:none}
+.fold > summary::after{content:"＋";color:var(--muted);font-weight:700}
+.fold[open] > summary::after{content:"－"}
+.fold > summary:hover{background:var(--bg-soft)}
+.fold .fold-body{padding:4px 20px 20px;border-top:1px solid var(--border)}
+.kv{display:grid;grid-template-columns:132px 1fr;gap:10px 16px;margin-top:14px;font-size:13.5px}
+.kv dt{color:var(--ink);font-weight:700}
+.kv dd{color:var(--body)}
+.notes{list-style:none;display:grid;gap:10px;margin-top:14px}
+.notes li{font-size:13.5px;color:var(--body);display:flex;gap:9px;align-items:flex-start}
+.notes li::before{content:"●";font-size:8px;line-height:2;flex:0 0 auto;color:var(--lh)}
+.notes.xhs li::before{color:var(--xhs)}
+.notes li b{color:var(--ink)}
+
+/* ===================== 下载卡 ===================== */
+.dlcard{margin-top:30px;border-radius:var(--r-lg);border:1px solid var(--border);background:#fff;box-shadow:var(--shadow);overflow:hidden}
+.dlcard .top{height:4px}
+.dlcard.lh .top{background:linear-gradient(90deg,#6C5CE0,#9B7CF3)}
+.dlcard.xhs .top{background:linear-gradient(90deg,#FF2442,#FF7A8A)}
+.dlcard .body{padding:26px 28px;display:grid;grid-template-columns:1fr 300px;gap:28px}
+.dlcard h3{font-size:20px;color:var(--ink);font-weight:800;margin:10px 0 6px}
+.dlcard .sub{font-size:13px;color:var(--muted);margin-bottom:14px}
+.dlcard .desc{font-size:13.5px;color:var(--body)}
+.dlcard .meta{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:16px;font-size:12.5px;color:var(--muted)}
+.dlcard .meta b{color:var(--ink);font-weight:700}
+.steps{display:grid;gap:9px;align-content:start}
+.steps .st{display:flex;gap:10px;align-items:flex-start;font-size:13px;color:var(--body);background:var(--bg-soft);border-radius:var(--r-sm);padding:10px 13px}
+.steps .st i{flex:0 0 20px;height:20px;border-radius:50%;background:#fff;border:1px solid var(--border-strong);display:grid;place-items:center;font-style:normal;font-size:11px;font-weight:800;color:var(--ink);margin-top:2px}
+.warn{margin-top:14px;font-size:12.5px;color:#8A6A12;background:#FFF8E6;border:1px solid #F5DFA6;border-radius:var(--r-sm);padding:9px 12px}
+
+/* ===================== 服务 ===================== */
+.svc{background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:24px;box-shadow:var(--shadow-sm);transition:box-shadow .3s,transform .3s}
+.svc:hover{box-shadow:var(--shadow);transform:translateY(-3px)}
+.svc .si{width:44px;height:44px;border-radius:13px;display:grid;place-items:center;font-size:20px;background:var(--lh-soft);color:var(--lh);margin-bottom:14px}
+.svc h3{font-size:18px;color:var(--ink);font-weight:800;margin-bottom:8px}
+.svc > p{font-size:13.5px;color:var(--body)}
+.svc ul{list-style:none;margin:14px 0;display:grid;gap:7px}
+.svc li{font-size:13px;color:var(--body);display:flex;gap:8px;align-items:flex-start}
+.svc li::before{content:"·";color:var(--lh);font-weight:800;font-size:15px;line-height:1.4}
+.svc .out{font-size:12.5px;color:var(--muted);border-top:1px dashed var(--border);padding-top:12px}
+.svc .out b{color:var(--ink)}
+
+/* ===================== 案例 / 流程 / 关于 ===================== */
+.case{background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:22px;box-shadow:var(--shadow-sm)}
+.case h4{font-size:16px;color:var(--ink);font-weight:800;margin-bottom:8px;display:flex;gap:9px;align-items:center}
+.case h4 span{width:24px;height:24px;border-radius:8px;background:var(--lh-soft);color:var(--lh);display:grid;place-items:center;font-size:12px}
+.case p{font-size:13.5px;color:var(--body)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.chip{background:#fff;border:1px solid var(--border);border-radius:99px;padding:6px 13px;font-size:12.5px;color:var(--body)}
+.steps5{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
+.step5{background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:18px}
+.step5 .num{font-size:12.5px;font-weight:800;color:var(--lh);letter-spacing:1px;margin-bottom:8px}
+.step5 h4{font-size:14.5px;color:var(--ink);font-weight:800;margin-bottom:6px}
+.step5 p{font-size:13px;color:var(--body)}
+.about-grid2{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.about-item{background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:22px}
+.about-item .ai{width:40px;height:40px;border-radius:12px;background:var(--lh-soft);color:var(--lh);display:grid;place-items:center;font-size:18px;margin-bottom:12px}
+.about-item h4{font-size:15px;color:var(--ink);font-weight:800;margin-bottom:7px}
+.about-item p{font-size:13.5px;color:var(--body)}
+
+/* ===================== FAQ / 联系 ===================== */
+.faq{max-width:820px;margin:0 auto;border:1px solid var(--border);border-radius:var(--r);background:#fff;overflow:hidden}
+.faq details{border-bottom:1px solid var(--border)}
+.faq details:last-child{border-bottom:0}
+.faq summary{cursor:pointer;padding:16px 22px;font-weight:700;color:var(--ink);font-size:14.5px;list-style:none}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::before{content:"＋ ";color:var(--lh);font-weight:800}
+.faq details[open] summary::before{content:"－ "}
+.faq p{padding:0 22px 18px;font-size:13.5px;color:var(--body)}
+.contact{background:linear-gradient(135deg,#1B2030,#2A3150);border-radius:var(--r-lg);padding:40px;color:#fff;text-align:center}
+.contact h2{font-size:26px;font-weight:800;margin-bottom:10px}
+.contact > p{font-size:14px;color:#C3C9DC;max-width:620px;margin:0 auto}
+.cgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:28px;text-align:left}
+.cbox{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);border-radius:var(--r);padding:16px}
+.cbox small{display:block;font-size:12px;color:#A9B2CB;margin-bottom:6px}
+.cbox b{display:block;font-size:16px;font-weight:800;margin-bottom:10px;word-break:break-all}
+.cbox button{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#fff;border-radius:9px;padding:7px 13px;font-size:12.5px;font-weight:700;cursor:pointer;font-family:inherit}
+.cbox button:hover{background:rgba(255,255,255,.2)}
+
+/* ===================== 页脚 ===================== */
+footer{background:var(--bg-soft);border-top:1px solid var(--border);padding:52px 0 26px}
+.foot-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:30px;margin-bottom:32px}
+.foot-brand p{font-size:13px;color:var(--muted);margin-top:12px}
+.foot-col h4{font-size:13.5px;color:var(--ink);font-weight:800;margin-bottom:12px}
+.foot-col a{display:block;font-size:13px;color:var(--body);padding:4px 0}
+.foot-col a:hover{color:var(--lh)}
+.foot-bottom{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;padding-top:20px;border-top:1px solid var(--border);font-size:12.5px;color:var(--faint)}
+.foot-bottom b{color:var(--muted);font-weight:600}
+
+/* ===================== 灯箱 / 动效 ===================== */
+.lightbox{position:fixed;inset:0;background:rgba(16,19,28,.9);display:none;align-items:center;justify-content:center;z-index:200;padding:24px}
+.lightbox.on{display:flex}
+.lightbox img{max-width:100%;max-height:90vh;border-radius:var(--r);box-shadow:var(--shadow-lg)}
+.lightbox .close{position:absolute;top:22px;right:26px;background:none;border:0;color:#fff;font-size:26px;cursor:pointer;line-height:1}
+.reveal{transition:opacity .6s ease,transform .6s ease}
+html.js .reveal{opacity:0;transform:translateY(18px)}
+html.js .reveal.in{opacity:1;transform:none}
+
+/* ===================== 响应式 ===================== */
 @media (max-width:1024px){
-  .car-slide{grid-template-columns:1fr;padding:24px 20px 60px;gap:20px}
-  .car-slide h3{font-size:22px}
-  .car-nav{width:32px;height:32px;font-size:16px}
+  .cards,.about-grid2{grid-template-columns:repeat(2,1fr)}
+  .steps5{grid-template-columns:repeat(2,1fr)}
+  .car-slide{grid-template-columns:1fr;padding:24px 20px 58px;gap:20px}
+  .dl-menu{position:fixed;left:16px;right:16px;top:74px;width:auto;max-height:calc(100vh - 96px);overflow:auto}
+  .dlcard .body{grid-template-columns:1fr}
+  .hero-grid{grid-template-columns:1fr;gap:32px}
+  .hero h1{font-size:34px}
 }
-@media (prefers-reduced-motion:reduce){.car-track{transition:none}}
+@media (max-width:760px){
+  .sec{padding:60px 0}
+  nav.main{display:none}
+  nav.main.open{display:flex;position:absolute;left:0;right:0;top:66px;background:#fff;flex-direction:column;gap:0;padding:8px 22px 16px;border-bottom:1px solid var(--border)}
+  nav.main.open a{padding:12px 0;border-bottom:1px solid var(--border)}
+  .burger{display:block}
+  .cards,.about-grid2,.steps5,.cgrid,.foot-grid,.thumbs{grid-template-columns:1fr}
+  .strip{grid-template-columns:1fr 1fr}
+  .strip div:nth-child(2){border-right:0}
+  .strip div:nth-child(-n+2){border-bottom:1px solid var(--border)}
+  .sec-head h2{font-size:24px}
+  .hero h1{font-size:29px}
+  .contact{padding:28px 20px}
+  .kv{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){.car-track{transition:none}.reveal{transition:none}}
 </style>
 </head>
 <body>
 
-<header class="nav">
-  <div class="wrap nav-inner">
+<header class="top">
+  <div class="wrap top-in">
     <a class="brand" href="#top">
       <span class="logo">LH</span>
       <span>LH 智能自动化<small>AUTOMATION &amp; AI</small></span>
     </a>
-    <nav class="menu" id="menu">
-      <a href="#product">主打产品</a>
-      <a href="#services">服务类目</a>
-      <a href="#showcase">案例展示</a>
-      <a href="#about">关于我们</a>
+    <nav class="main" id="menu">
+      <a href="#products">两套系统</a>
+      <a href="#services">服务</a>
+      <a href="#showcase">案例</a>
+      <a href="#process">流程</a>
       <a href="#faq">常见问题</a>
     </nav>
-    <div class="nav-dl-wrap" id="navDlWrap">
-      <button class="nav-dl" id="navDlBtn" type="button" aria-haspopup="true" aria-expanded="false">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-        下载客户端
-      </button>
-      <div class="nav-dl-menu" id="navDlMenu" role="menu">
-        <a href="https://api.lihui-cargo.ru/download" target="_blank" rel="noopener" role="menuitem">
-          <span class="dlm-ico lh">LH</span>
-          <span>
-            <b>LH 全链任务系统（Threads 版）</b>
-            <small>紫罗兰界面 · 在 Threads 上找俄语区客户 · 约 870 KB</small>
-          </span>
-        </a>
-        <a href="https://api.lihui-cargo.ru/xhs/package" target="_blank" rel="noopener" role="menuitem">
-          <span class="dlm-ico xhs">XHS</span>
-          <span>
-            <b>小红书私信 AI 获客（小红书版）</b>
-            <small>品牌红界面 · 小红书私信/评论采集 · 完整包约 26 MB（含引擎+说明）</small>
-          </span>
-        </a>
-        <a class="dlm-all" href="#pick" role="menuitem">不确定下哪个？看两套系统的区别 →</a>
+    <div class="top-cta">
+      <div class="dl-wrap" id="navDlWrap">
+        <button class="dl-btn" id="navDlBtn" type="button" aria-haspopup="true" aria-expanded="false">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          下载客户端
+        </button>
+        <div class="dl-menu" id="navDlMenu" role="menu">
+          <a href="https://api.lihui-cargo.ru/download" target="_blank" rel="noopener" role="menuitem">
+            <span class="di lh">LH</span>
+            <span><b>LH 全链任务系统（Threads 版）</b><small>紫罗兰界面 · 在 Threads 上找俄语区客户 · 约 870 KB</small></span>
+          </a>
+          <a href="https://api.lihui-cargo.ru/xhs/package" target="_blank" rel="noopener" role="menuitem">
+            <span class="di xhs">XHS</span>
+            <span><b>小红书私信 AI 获客（小红书版）</b><small>品牌红界面 · 小红书私信 / 评论采集 · 完整包约 26 MB</small></span>
+          </a>
+          <a class="all" href="#products" role="menuitem">不确定下哪个？看两套系统的区别 →</a>
+        </div>
       </div>
+      <button class="burger" id="burger" type="button" aria-label="菜单">☰</button>
     </div>
-    <a class="nav-cta" href="#contact">免费咨询</a>
-    <button class="burger" id="burger" aria-label="menu">☰</button>
   </div>
 </header>
 
 <main id="top">
 
-  <!-- Hero -->
+  <!-- ===================== 首屏 ===================== -->
   <section class="hero">
-    <div class="bg-orb orb1"></div><div class="bg-orb orb2"></div><div class="bg-orb orb3"></div>
-    <div class="grid-lines"></div>
     <div class="wrap">
       <div class="hero-grid">
         <div>
-          <span class="badge"><i></i>AI 部署 · 工作流 · 网站 · 程序定制</span>
-          <h1>把 AI <span class="grad-text">真正落地</span><br>到你的业务里</h1>
-          <p class="lead">
-            不只是"聊 AI"，而是把它做成能每天替你干活的系统：
-            大模型私有化部署、AI 工作流自动跑通、企业官网与定制软件交付，
-            全部远程协作、源码可控、上线即可用。
-          </p>
-          <div class="hero-actions">
-            <a class="btn btn-primary" href="#pick">
-              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-              下载客户端（两套可选）
-            </a>
-            <a class="btn btn-ghost" href="#product">了解产品 →</a>
+          <span class="badge"><i></i>两套自研获客系统 · 已在客户处稳定运行</span>
+          <h1>把 AI 真正<em>落地</em><br>到你的业务里</h1>
+          <p class="lead">大模型部署、AI 工作流、企业网站与定制软件，全部远程协作、源码可控、上线即用；
+            我们自己的两套获客系统也长期在跑，效果看得见。</p>
+          <div class="actions">
+            <a class="btn btn-primary" href="#products">看两套自研系统</a>
+            <a class="btn btn-ghost" href="#services">了解能做什么</a>
           </div>
-          <div class="hero-note">
-            <span><i class="tick">✓</i>Windows 10/11</span>
-                  <span><i class="tick">✓</i>两套自研系统：LH 全链任务 · 小红书私信获客</span>
-            <span><i class="tick">✓</i>免费下载 · 授权激活</span>
+          <div class="ticks">
+            <span><i class="tick">✓</i>Windows 10/11 独立运行</span>
+            <span><i class="tick">✓</i>免费下载 · 机器码授权</span>
+            <span><i class="tick">✓</i>源码可交付</span>
           </div>
         </div>
-        <div class="shot-frame reveal">
+        <div class="frame">
           <div class="bar"><i></i><i></i><i></i></div>
-          <img src="assets/app-main.png?v=20260913d" alt="LH 全链任务系统主界面">
-          <div class="floating">自研桌面系统<b>LH 全链任务系统</b>采集 · AI 审核 · 自动回复 · 云端授权</div>
+          <img src="assets/app-main.png?v=20260913d" alt="LH 全链任务系统 主界面">
         </div>
       </div>
 
-        <!-- 两套自研程序入口（2026-09-13 新增：首页上方直达） -->
-        <div class="sec-head reveal" id="pick" style="margin-top:10px">
-          <div class="tag">自研产品</div>
-          <h2>两套已经在跑的获客系统</h2>
-          <p>都是我们自己开发、自己迭代、客户在用的桌面软件：一套做 Threads（俄语区），一套做小红书。
-            下面两张卡片会自动轮播（也可以点左右箭头或下面的圆点切换），看到合适的直接点「立即下载」。</p>
-        </div>
-        <div class="pick-hint reveal">先看这里，别下错：<b>在 Threads（国外社媒）找俄语区客户 → 下左边的「Threads 版」</b>；
-          <b>在小红书找客户 → 下右边的「小红书版」</b>。两套是两个独立程序，装错版本用不了对方的平台。</div>
-
-        <!-- 两套产品轮播：自动播放 + 手动切换（2026-09-13） -->
-        <div class="carousel reveal" id="prodCarousel" aria-roledescription="轮播" aria-label="两套获客系统">
-          <div class="car-track" id="carTrack">
-            <article class="car-slide" data-accent="lh" role="group" aria-label="1 / 2：LH 全链任务系统">
-              <div class="car-info">
-                <div class="car-badge-row">
-                  <span class="brand-badge">Threads 版 · 紫罗兰</span>
-                  <span class="car-ver" data-ver="threads">最新版</span>
-                </div>
-                <h3>LH 全链任务系统</h3>
-                <p>在 Threads 上按俄语关键词找「从中国购买 / 运输」的买家：多账号拟人采集 → 模型多票审核 →
-                   自动生成俄语回复 → 互动跟进 → 客户台账 + 云端授权，全程无人值守。</p>
-                <ul class="car-points">
-                  <li>最多 3 个账号并行，各自独立浏览器与登录态，A/B/C 错峰上线</li>
-                  <li>采集速度慢 / 标准 / 快三档，可按账号单独设、运行中也能改</li>
-                  <li>回复拟人化（逐字输入 + 发布前停顿），草稿模式与全自动一键切换</li>
-                </ul>
-                <div class="dl-actions" style="margin-top:18px">
-                  <a class="btn btn-primary" href="https://api.lihui-cargo.ru/download" target="_blank" rel="noopener">立即下载</a>
-                  <a class="btn btn-ghost" href="#product">看详细介绍</a>
-                </div>
-              </div>
-              <div class="car-shot">
-                <img src="assets/app-main.png?v=20260913c" alt="LH 全链任务系统 总览控制界面">
-              </div>
-            </article>
-
-            <article class="car-slide" data-accent="xhs" role="group" aria-label="2 / 2：小红书私信 AI 获客">
-              <div class="car-info">
-                <div class="car-badge-row">
-                  <span class="brand-badge">小红书版 · 品牌红</span>
-                  <span class="car-ver" data-ver="xhs">最新版</span>
-                </div>
-                <h3>小红书私信 AI 获客</h3>
-                <p>在小红书按关键词找有采购 / 合作意向的人：私信 + 评论双通道采集 → AI 判断真实意图 → 生成自然话术 →
-                   内置微信引擎自动触达 → 线索台账去重，话术可按行业 / 城市风格自定义。</p>
-                <ul class="car-points">
-                  <li>多账号矩阵 ↔ 微信一一对应，同一客户只推送一次</li>
-                  <li>只回命中意向词的私信，AI 判读真实需求后再留资</li>
-                  <li>留资自动进台账（手机号 / 微信号），内置微信发送引擎</li>
-                </ul>
-                <div class="dl-actions" style="margin-top:18px">
-                  <a class="btn btn-primary" href="https://api.lihui-cargo.ru/xhs/package" target="_blank" rel="noopener">立即下载</a>
-                  <a class="btn btn-ghost" href="#xhs-product">看详细介绍</a>
-                </div>
-              </div>
-              <div class="car-shot">
-                <img src="assets/xhs-main-1019.png?v=20260913b" alt="小红书私信 AI 获客 运行台界面">
-              </div>
-            </article>
-          </div>
-          <button class="car-nav prev" id="carPrev" type="button" aria-label="上一屏">‹</button>
-          <button class="car-nav next" id="carNext" type="button" aria-label="下一屏">›</button>
-          <div class="car-bar">
-            <div class="car-dots" id="carDots" role="tablist" aria-label="切换产品">
-              <button type="button" class="on" aria-label="第 1 屏：LH 全链任务系统"></button>
-              <button type="button" aria-label="第 2 屏：小红书私信 AI 获客"></button>
-            </div>
-          </div>
-        </div>
-
-        <div class="kpis reveal">
-        <div class="kpi k1">
-          <div class="ico">◆</div>
-          <h3>四大服务方向</h3>
-          <b>AI 部署 / 工作流</b>
-          <span>网站设计 / 程序定制</span>
-        </div>
-        <div class="kpi k2">
-          <div class="ico">⏱</div>
-          <h3>交付周期</h3>
-          <b>3 天起</b>
-          <span>小工具 3~7 天，系统级按排期</span>
-        </div>
-        <div class="kpi k3">
-          <div class="ico">◆</div>
-          <h3>运行环境</h3>
-          <b>本地 / 私有云</b>
-          <span>Windows · Linux · 云端</span>
-        </div>
-        <div class="kpi k4">
-          <div class="ico">☁</div>
-          <h3>持续服务</h3>
-          <b>远程支持</b>
-          <span>版本升级 · 策略热更新</span>
-        </div>
+      <div class="strip reveal">
+        <div><b>2 套</b><span>自研系统在跑</span></div>
+        <div><b>20+</b><span>版本持续迭代</span></div>
+        <div><b>4 类</b><span>服务方向</span></div>
+        <div><b>24/7</b><span>远程响应</span></div>
       </div>
     </div>
   </section>
 
-  <!-- 主打产品 -->
-  <section class="flagship" id="product">    <div class="wrap">
-      <!-- 数字滚动统计条 -->
-      <div class="stats-bar reveal">
-        <div class="stat"><b><span data-count="10" data-suffix="+">0</span></b><span>已迭代版本</span></div>
-        <div class="stat"><b><span data-count="4">0</span></b><span>核心服务方向</span></div>
-        <div class="stat"><b><span data-count="24" data-suffix="/7">0</span></b><span>远程响应</span></div>
-        <div class="stat"><b><span data-count="100" data-suffix="%">0</span></b><span>源码可交付</span></div>
-        <div class="stat"><b><span data-count="3" data-suffix="天">0</span></b><span>最快交付周期</span></div>
-      </div>
-
+  <!-- ===================== 两套自研系统 ===================== -->
+  <section class="sec alt" id="products">
+    <div class="wrap">
       <div class="sec-head reveal">
-        <div class="tag">主打产品 · Threads 版</div>
-        <h2>LH 全链任务系统</h2>
-        <p>一套把「在 Threads 上找俄语区客户」全流程自动化的 Windows 桌面系统：
-          多账号拟人采集 → 本地初筛 → 模型多票审核 → 自动回复 / 草稿 → 互动跟进 → 客户台账 → 云端授权与远程管控。
-          <b>不依赖浏览器扩展，也不依赖任何第三方桌面程序，采集与回复引擎全部内置</b>，已稳定迭代 20+ 个版本。</p>
+        <div class="tag">自研产品</div>
+        <h2>两套已经在跑的获客系统</h2>
+        <p>都是我们自己开发、自己迭代、客户正在用的 Windows 桌面软件。左右切换看看，或者直接下载试用。</p>
       </div>
+      <div class="hint reveal">先看这里，别下错：<b>在 Threads（国外社媒）找俄语区客户 → 下载 Threads 版</b>；
+        <b>在小红书找客户 → 下载小红书版</b>。两套是独立程序，装错版本用不了对方的平台。</div>
 
-      <div class="grid3">
-        <div class="feature reveal"><div class="fi p">⚙</div><div><h4>账号矩阵 · 独立登录态</h4><p>最多 3 个 Threads 号并行：每个号独立控制端口、独立 Edge / Chrome 资料目录、独立登录态；A / B / C 错峰上线，互不串号、互不抢登录。</p></div></div>
-        <div class="feature reveal"><div class="fi c">⌁</div><div><h4>采集速度三档 · 可按账号单独设</h4><p>慢 / 标准 / 快换的是<b>整套浏览器行为</b>——滚动步长、滚动间隔、每页滚动上限、页内停留、审核并发一起换。运行中改档位下一轮就生效，不用重启任务。</p></div></div>
-        <div class="feature reveal"><div class="fi a">◈</div><div><h4>模型门禁：关思考 + 3 票表决</h4><p>同一条帖子连问 3 次取多数，避免单次调用的随机性把真实线索判掉；「多数跳过但有一票可回复」的边缘样本会自动复判一次。</p></div></div>
-        <div class="feature reveal"><div class="fi g">✎</div><div><h4>自动回复 / 草稿双模式</h4><p>默认只写草稿、由你人工确认后再发；取消勾选才全自动。两种模式都保留每小时上限与异常停号保护，结果全程记台账。</p></div></div>
-        <div class="feature reveal"><div class="fi v">💬</div><div><h4>互动跟进：回评 / 私信再捞一遍</h4><p>评论之后有人回评或私信，程序会判断内容里有没有真实意图，命中就生成自然话术引导对方看主页资料里的联系方式；<b>只在侧栏出现新消息提示时才点进去看</b>，不频繁刷新。</p></div></div>
-        <div class="feature reveal"><div class="fi o">◎</div><div><h4>API 当大脑：关键词自进化</h4><p>模型不只判帖，还负责策略层——按真实产出新增 / 淘汰 / 加权关键词，每轮输出中文复盘报告；所有改动必须过词形、额度、淘汰节奏等 6 道安全护栏。</p></div></div>
-        <div class="feature reveal"><div class="fi p">⏱</div><div><h4>每个账号各自计时</h4><p>设置「跑 40 分钟、休 20 分钟」时，A / B / C <b>各自跑满 40 分钟再各自休息 20 分钟</b>；不会出现 B、C 延时启动后「刚开跑任务就快结束了」。</p></div></div>
-        <div class="feature reveal"><div class="fi c">▣</div><div><h4>客户台账 + 作者端管控</h4><p>每条动作都落盘成台账（data\activity.jsonl）；配套作者端可看客户名单、在线状态、授权签发与远程停用 / 恢复，一屏管理。</p></div></div>
-        <div class="feature reveal"><div class="fi a">⚡</div><div><h4>云端策略 + 自动更新</h4><p>核心策略与提示词云端热更新，不用重新发版；客户端启动自动检查更新，侧栏也有「⟳ 检查更新」按钮，可自动下载替换重启。</p></div></div>
-        <div class="feature reveal"><div class="fi g">🛡</div><div><h4>软件保护（防破解 / 防分析）</h4><p>编译机锁 + 出厂水印 + 混淆签名 + 运行时反分析检测；核心授权逻辑放云端，词库与公钥不再以明文存在客户端里。</p></div></div>
-        <div class="feature reveal"><div class="fi v">📘</div><div><h4>内置《使用说明》</h4><p>说明书直接内嵌在程序里，首次运行自动释放到程序目录，点侧栏「07 使用说明」随时打开；换电脑、换人接手都不用另外找文档。</p></div></div>
-        <div class="feature reveal"><div class="fi o">🧾</div><div><h4>日志全程可查</h4><p>logs\launcher.log 把每页采集、每轮审核的票型与结论、每次发送结果都记下来；一条线索为什么跳过、为什么没发出去，照日志一分钟能定位。</p></div></div>
-      </div>
-
-      <!-- 运作链路 -->
-      <div class="pipeline reveal">
-        <div class="node"><b>多账号采集</b><span>三档节奏 · 错峰上线</span></div><div class="flow">→</div>
-        <div class="node"><b>本地初筛</b><span>关键词 + 词形规则</span></div><div class="flow">→</div>
-        <div class="node"><b>模型审核</b><span>关思考 · 3 票表决</span></div><div class="flow">→</div>
-        <div class="node"><b>生成回复</b><span>外文文案 · 草稿/自动</span></div><div class="flow">→</div>
-        <div class="node"><b>互动跟进</b><span>回评 / 私信再捞</span></div><div class="flow">→</div>
-        <div class="node"><b>客户沉淀</b><span>台账 + 云端授权</span></div>
-      </div>
-
-      <div class="shots">
-        <div class="shot reveal" data-src="assets/app-main.png?v=20260913c">
-          <img src="assets/app-main.png?v=20260913c" alt="LH 全链任务系统 总览控制">
-          <div class="shot-cap">总览控制：本次已回复 / 待审核 / 已扫描帖子 / 授权剩余四张实时卡 + 任务参数、三档采集速度、运行日志</div>
-        </div>
-        <div class="shot reveal" data-src="assets/app-accounts.png?v=20260913c">
-          <img src="assets/app-accounts.png?v=20260913c" alt="账号矩阵设置">
-          <div class="shot-cap">账号矩阵：参与运行 / 账号代号 / 浏览器选择 / Threads 账号 / 采集速度 / 独立登录态目录，一表管完</div>
-        </div>
-        <div class="shot reveal" data-src="assets/app-model.png?v=20260913c">
-          <img src="assets/app-model.png?v=20260913c" alt="模型 API 设置">
-          <div class="shot-cap">模型 API：选服务商自动带出接口地址与推荐模型（DeepSeek 一键填），只需粘 API Key；Key 只在当前 Windows 用户下加密保存、不写日志</div>
-        </div>
-        <div class="shot reveal" data-src="assets/app-safety.png?v=20260913c">
-          <img src="assets/app-safety.png?v=20260913c" alt="安全与限速设置">
-          <div class="shot-cap">安全与限速：单账号 / 全局每小时回复上限、草稿模式开关、互动跟进开关，以及去重、错峰、异常停号等内置规则</div>
-        </div>
-        <div class="shot reveal" data-src="assets/app-brain.png?v=20260913c">
-          <img src="assets/app-brain.png?v=20260913c" alt="API 大脑设置">
-          <div class="shot-cap">API 大脑：关键词自进化 + 每轮复盘开关、复盘间隔与词库护栏额度、写给大脑看的业务说明、复盘报告一键打开</div>
-        </div>
-      </div>
-
-            <div class="updbox updbox-lh reveal">
-            <h4>最近更新 <i data-ver="threads">最新</i></h4>
-              <ul data-notes="threads">
-          <li><b>每个账号各自计时</b>：设置「跑 40 分钟 / 休 20 分钟」时，A / B / C 各自跑满 40 分钟、再各自休息 20 分钟。以前 A 先启动、B 和 C 延时启动，B / C 一上来任务就快结束了——现在不会了。</li>
-          <li><b>回复更拟人</b>：回复内容改成<b>逐字输入</b>（不再是整段粘贴），并且点发布前会停顿几秒。</li>
-          <li><b>统计改成「本次启动后清零」</b>：界面上的回复 / 草稿 / 扫描数字不再永久累计，一眼看清这一轮跑了多少。</li>
-          <li><b>新增互动跟进</b>：有人回评或私信时分析内容意图，命中就引导对方看主页资料里的联系方式；只在侧栏出现新消息提示时才点进去看。</li>
-          <li><b>修「审核通过却发不出去」</b>：回复入口与发布按钮支持中 / 英 / 俄 / 乌 / 哈多种界面文案并轮询重试；确实找不到时，把弹层里<b>真实的按钮文案</b>打进日志，一次就能定位。</li>
-          <li><b>软件保护升级</b>：编译机锁 + 出厂水印 + 混淆签名 + 反分析检测，词库与公钥不再以明文存在客户端里。</li>
-        </ul>
-      </div>
-
-      <div class="tech reveal">
-        <div><span class="k">独立运行</span><span>不依赖 Codex / ChatGPT 桌面版 / 浏览器扩展，采集与回复引擎内置在程序里</span></div>
-        <div><span class="k">浏览器环境</span><span>Edge（默认 9222 / 9224 / 9226 端口）或 Chrome（9322 / 9324 / 9326），每个账号独立资料目录</span></div>
-        <div><span class="k">采集速度</span><span>慢 / 标准 / 快三档，整套浏览器行为一起换；可给三个号设成不同档位，运行中也能改</span></div>
-        <div><span class="k">模型接入</span><span>任意兼容 OpenAI <code>/chat/completions</code> 的服务；DeepSeek 可直接一键带出地址与推荐模型</span></div>
-        <div><span class="k">审核口径</span><span>关闭思考 + 3 票表决取多数；慢速档还会逐条打开作者主页做人工式核查</span></div>
-        <div><span class="k">去重规则</span><span>帖子级永久去重，多个账号不会重复回复同一篇帖子、也不会重复触达同一个作者</span></div>
-        <div><span class="k">限速与保护</span><span>单账号 / 全部账号每小时上限；验证码、平台风控、登录失效时立即停止该账号，不盲目点击</span></div>
-        <div><span class="k">发送方式</span><span>草稿模式（默认，只写待审队列）或全自动发送；失败会清理回复层继续采集，不停机</span></div>
-        <div><span class="k">互动跟进</span><span>只在侧栏出现新消息提示时才看通知 / 私信，每轮最多处理 3 条，回复里不写电话与链接</span></div>
-        <div><span class="k">数据落地</span><span>data\activity.jsonl（动作台账）、data\engagement.jsonl（互动记录）、data\brain\*.md（复盘报告）</span></div>
-        <div><span class="k">授权方式</span><span>机器码绑定 · V2 离线签名校验 · 到期自动停用；核心运行许可放云端滚动续签</span></div>
-        <div><span class="k">程序保护</span><span>编译机锁 · 出厂水印 · 混淆签名 · 运行时反分析检测；密钥与词库不以明文外发</span></div>
-      </div>
-
-      <div class="specs reveal">
-        <span class="chip">当前版本 <b data-ver="threads">以客户端「检查更新」为准</b></span>
-        <span class="chip">运行环境 <b>Windows 10/11 · .NET 4.8</b></span>
-        <span class="chip">账号 <b>最多 3 个 Threads 号并行</b></span>
-        <span class="chip">浏览器 <b>Edge / Chrome · 独立登录态</b></span>
-        <span class="chip">模型 <b>任意 OpenAI 兼容 API</b></span>
-        <span class="chip">发送 <b>草稿模式 / 全自动</b></span>
-        <span class="chip">授权 <b>机器码绑定 · 可远程停用</b></span>
-        <span class="chip">体积 <b>约 870 KB（免安装）</b></span>
-      </div>
-
-      <!-- 下载入口：独立专业下载卡 -->
-        <div class="download reveal brand-card brand-lh" id="download">
-        <div class="dl-appicon">
-          <span>LH</span>
-        </div>
-        <div class="dl-main">
-          <div class="dl-head">
+      <div class="carousel reveal" id="prodCarousel" aria-roledescription="轮播" aria-label="两套获客系统">
+        <div class="car-track" id="carTrack">
+          <article class="car-slide" data-accent="lh" role="group" aria-label="1 / 2：LH 全链任务系统">
             <div>
-                <span class="brand-badge">Threads 版 · 紫罗兰</span>
-                <div class="dl-title">LH 全链任务系统</div>
-              <div class="dl-sub">桌面智能获客客户端 · Windows 独立版</div>
+              <div class="badge-row">
+                <span class="pill lh-dark">Threads 版 · 紫罗兰</span>
+                <span class="pill" data-ver="threads">最新版</span>
+              </div>
+              <h3>LH 全链任务系统</h3>
+              <p>在 Threads 上按俄语关键词找「从中国购买 / 运输」的买家：多账号拟人采集 → 模型多票审核 →
+                 自动回复 → 互动跟进 → 客户台账，全程无人值守。</p>
+              <ul class="points">
+                <li>最多 3 个账号并行，各自独立浏览器与登录态，A/B/C 错峰上线</li>
+                <li>采集速度慢 / 标准 / 快三档，可按账号单独设、运行中也能改</li>
+                <li>草稿模式与全自动一键切换，回复逐字输入更拟人</li>
+              </ul>
+              <div class="actions" style="margin-top:18px">
+                <a class="btn btn-primary" href="https://api.lihui-cargo.ru/download" target="_blank" rel="noopener">立即下载</a>
+                <a class="btn btn-ghost" href="#product">看详细介绍</a>
+              </div>
             </div>
-                <span class="dl-version" data-ver="threads">最新版</span>
+            <div class="car-shot"><img src="assets/app-main.png?v=20260913d" alt="LH 全链任务系统 总览控制"></div>
+          </article>
+
+          <article class="car-slide" data-accent="xhs" role="group" aria-label="2 / 2：小红书私信 AI 获客">
+            <div>
+              <div class="badge-row">
+                <span class="pill xhs-dark">小红书版 · 品牌红</span>
+                <span class="pill xhs" data-ver="xhs">最新版</span>
+              </div>
+              <h3>小红书私信 AI 获客</h3>
+              <p>在小红书按关键词找有采购 / 合作意向的人：私信 + 评论采集 → AI 判断真实意图 → 生成自然话术 →
+                 通过内置微信引擎自动触达。</p>
+              <ul class="points xhs">
+                <li>多账号矩阵 ↔ 微信一一对应，同一客户只推送一次</li>
+                <li>只回命中意向词的私信，AI 判读需求后再留资</li>
+                <li>留资自动进台账（手机号 / 微信号），可导出跟进</li>
+              </ul>
+              <div class="actions" style="margin-top:18px">
+                <a class="btn btn-xhs" href="https://api.lihui-cargo.ru/xhs/package" target="_blank" rel="noopener">立即下载</a>
+                <a class="btn btn-ghost" href="#xhs-product">看详细介绍</a>
+              </div>
+            </div>
+            <div class="car-shot"><img src="assets/xhs-main-1019.png?v=20260913b" alt="小红书私信 AI 获客 运行台"></div>
+          </article>
+        </div>
+        <button class="car-nav prev" id="carPrev" type="button" aria-label="上一屏">‹</button>
+        <button class="car-nav next" id="carNext" type="button" aria-label="下一屏">›</button>
+        <div class="car-foot">
+          <div class="dots" id="carDots" role="tablist" aria-label="切换产品">
+            <button type="button" class="on" aria-label="第 1 屏：LH 全链任务系统"></button>
+            <button type="button" aria-label="第 2 屏：小红书私信 AI 获客"></button>
           </div>
-              <p class="dl-desc">智能采集、AI 审核、自动回复、客户台账与云端授权一体化。<b>程序已内置《使用说明》，首次运行会自动在程序目录生成 使用说明.md</b>（也可点程序左侧「07 使用说明」直接打开）。下载后首次启动会显示机器码，发送给我们即可获得授权激活码；未激活可完整预览界面与全部功能说明。</p>
-          <div class="dl-actions">
-            <a class="btn btn-primary btn-big" href="https://api.lihui-cargo.ru/download" target="_blank" rel="noopener">
-              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                  下载主程序（自带使用说明）
-            </a>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- ===================== 产品一：LH 全链任务系统 ===================== -->
+  <section class="sec" id="product">
+    <div class="wrap">
+      <div class="prod-head reveal">
+        <div class="ph-l">
+          <div class="badge-row" style="margin-bottom:12px">
+            <span class="pill lh-dark">Threads 版</span>
+            <span class="pill" data-ver="threads">最新版</span>
+          </div>
+          <h2>LH 全链任务系统</h2>
+          <p>面向俄语区市场的社媒获客客户端：多账号拟人采集 → 模型多票审核 → 自动回复 → 互动跟进 → 客户台账。
+             不依赖浏览器扩展，采集与回复引擎全部内置在程序里。</p>
+        </div>
+        <div class="actions">
+          <a class="btn btn-primary" href="https://api.lihui-cargo.ru/download" target="_blank" rel="noopener">下载客户端</a>
+          <a class="btn btn-ghost" href="#faq">常见问题</a>
+        </div>
+      </div>
+
+      <div class="cards">
+        <div class="card reveal"><div class="ci">⚙</div><h4>多账号矩阵 · 独立登录态</h4><p>最多 3 个 Threads 号并行，每个号独立端口、独立浏览器资料目录，A/B/C 错峰上线，互不串号。</p></div>
+        <div class="card reveal"><div class="ci">⌁</div><h4>采集速度三档</h4><p>慢 / 标准 / 快换的是整套浏览器行为（步长、间隔、页停留、审核并发），可按账号单独设，运行中也能改。</p></div>
+        <div class="card reveal"><div class="ci">◈</div><h4>模型门禁 · 3 票表决</h4><p>同一条帖子连问 3 次取多数，避免单次调用的随机性把真实线索判掉；边缘样本还会自动复判一次。</p></div>
+        <div class="card reveal"><div class="ci">✎</div><h4>草稿 / 全自动双模式</h4><p>默认只写草稿由你人工确认，取消勾选才自动发送；两种模式都保留每小时上限与异常停号保护。</p></div>
+        <div class="card reveal"><div class="ci">⏱</div><h4>每个账号各自计时</h4><p>跑 40 分钟 / 休 20 分钟各自循环。B、C 延时启动也不会出现「刚开跑任务就快结束了」。</p></div>
+        <div class="card reveal"><div class="ci">💬</div><h4>互动跟进</h4><p>有人回评或私信时判断内容意图，命中就生成自然话术引导对方看主页联系方式；只在有红点时才进去看。</p></div>
+        <div class="card reveal"><div class="ci">◎</div><h4>API 大脑 · 关键词自进化</h4><p>按真实产出新增 / 淘汰 / 加权关键词，每轮出中文复盘报告；模型想改词库必须过 6 道安全护栏。</p></div>
+        <div class="card reveal"><div class="ci">▣</div><h4>客户台账 + 作者端管控</h4><p>每条动作都落盘可查；配套作者端能看客户名单、在线状态、授权签发与远程停用 / 恢复。</p></div>
+        <div class="card reveal"><div class="ci">⚡</div><h4>云端策略 + 自动更新</h4><p>核心策略与提示词云端热更新，不用重新发版；客户端可自动检查更新、下载替换并重启。</p></div>
+      </div>
+
+      <div class="chain reveal">
+        <div class="n"><b>多账号采集</b><span>三档节奏 · 错峰上线</span></div>
+        <div class="n"><b>本地初筛</b><span>关键词 + 词形规则</span></div>
+        <div class="n"><b>模型审核</b><span>关思考 · 3 票表决</span></div>
+        <div class="n"><b>生成回复</b><span>外文文案 · 草稿/自动</span></div>
+        <div class="n"><b>互动跟进</b><span>回评 / 私信再捞</span></div>
+        <div class="n"><b>客户沉淀</b><span>台账 + 云端授权</span></div>
+      </div>
+
+      <div class="thumbs">
+        <figure class="thumb reveal" data-src="assets/app-main.png?v=20260913d"><img src="assets/app-main.png?v=20260913d" alt="总览控制"><figcaption>总览控制：回复 / 待审 / 扫描 / 授权四张实时卡 + 任务参数与运行日志</figcaption></figure>
+        <figure class="thumb reveal" data-src="assets/app-accounts.png?v=20260913c"><img src="assets/app-accounts.png?v=20260913c" alt="账号矩阵"><figcaption>账号矩阵：账号代号 / 浏览器 / 登录账号 / 采集速度 / 独立登录态目录</figcaption></figure>
+        <figure class="thumb reveal" data-src="assets/app-model.png?v=20260913c"><img src="assets/app-model.png?v=20260913c" alt="模型 API"><figcaption>模型 API：选服务商自动带出接口与推荐模型，密钥只在当前 Windows 用户下加密保存</figcaption></figure>
+        <figure class="thumb reveal" data-src="assets/app-safety.png?v=20260913c"><img src="assets/app-safety.png?v=20260913c" alt="安全与限速"><figcaption>安全与限速：每小时上限、草稿模式开关、互动跟进开关与内置风控规则</figcaption></figure>
+        <figure class="thumb reveal" data-src="assets/app-brain.png?v=20260913c"><img src="assets/app-brain.png?v=20260913c" alt="API 大脑"><figcaption>API 大脑：关键词自进化、每轮复盘、词库护栏额度与业务说明</figcaption></figure>
+      </div>
+
+      <details class="fold reveal">
+        <summary>技术清单（运行环境 / 去重 / 授权 / 数据落地）</summary>
+        <div class="fold-body">
+          <dl class="kv">
+            <dt>独立运行</dt><dd>不依赖 Codex / ChatGPT 桌面版 / 浏览器扩展，采集与回复引擎全部内置</dd>
+            <dt>浏览器环境</dt><dd>Edge（默认 9222 / 9224 / 9226 端口）或 Chrome（9322 / 9324 / 9326），每账号独立资料目录</dd>
+            <dt>模型接入</dt><dd>任意兼容 OpenAI <code>/chat/completions</code> 的服务，DeepSeek 可一键带出地址与推荐模型</dd>
+            <dt>去重规则</dt><dd>帖子级永久去重，多账号不会重复回复同一篇帖子、也不会重复触达同一个作者</dd>
+            <dt>限速与保护</dt><dd>单账号 / 全部账号每小时上限；验证码、风控、登录失效时立即停止该账号，不盲目点击</dd>
+            <dt>数据落地</dt><dd><code>data\activity.jsonl</code>（动作台账）、<code>data\engagement.jsonl</code>（互动记录）、<code>data\brain\*.md</code>（复盘报告）</dd>
+            <dt>授权方式</dt><dd>机器码绑定 · V2 离线签名校验 · 到期自动停用；核心运行许可放云端滚动续签</dd>
+            <dt>程序保护</dt><dd>编译机锁 · 出厂水印 · 混淆签名 · 运行时反分析检测；密钥与词库不以明文外发</dd>
+            <dt>使用说明</dt><dd>《使用说明》内嵌在程序里，首次运行自动释放到程序目录，侧栏「07 使用说明」随时打开</dd>
+            <dt>运行日志</dt><dd><code>logs\launcher.log</code> 记录每页采集、每轮审核票型与结论、每次发送结果</dd>
+          </dl>
+        </div>
+      </details>
+
+      <details class="fold reveal">
+        <summary>最近更新（自动同步自云端，发新版这里会跟着变）</summary>
+        <div class="fold-body">
+          <ul class="notes" data-notes="threads">
+            <li>正在从云端读取更新说明…</li>
+          </ul>
+        </div>
+      </details>
+
+      <div class="dlcard lh reveal" id="download-lh">
+        <div class="top"></div>
+        <div class="body">
+          <div>
+            <div class="badge-row">
+              <span class="pill lh-dark">Threads 版 · 紫罗兰</span>
+              <span class="pill" data-ver="threads">最新版</span>
+            </div>
+            <h3>LH 全链任务系统</h3>
+            <div class="sub">Windows 免安装桌面客户端 · 程序内置《使用说明》</div>
+            <p class="desc">下载后双击运行即可，首次启动会显示本机机器码，把机器码发给我们换取授权激活码。
+              未激活也能完整预览界面与全部功能说明。</p>
+            <div class="meta">
+              <span>系统要求 <b>Windows 10 / 11</b></span>
+              <span>体积 <b>约 870 KB</b></span>
+              <span>授权 <b>机器码绑定 · 7 天滚动续签</b></span>
+              <span>支持 <b>自动更新</b></span>
+            </div>
+            <div class="actions" style="margin-top:20px">
+              <a class="btn btn-primary" href="https://api.lihui-cargo.ru/download" target="_blank" rel="noopener">下载主程序</a>
               <a class="btn btn-ghost" href="#contact">获取授权码</a>
             </div>
-            <div class="not-this">⚠ 这是 <b>Threads 版</b>：用于在国外社媒 Threads 上找俄语区客户。想在小红书找客户，请下载下面的「小红书版」↓</div>
-          <div class="dl-meta">
-            <span>系统要求 <b>Windows 10 / 11</b></span>
-            <span class="sep"></span>
-                  <span>文件大小 <b>约 870 KB</b></span>
-            <span class="sep"></span>
-                  <span>授权 <b>机器码绑定 · 需联网续签（7 天滚动）</b></span>
-                  <span class="sep"></span>
-                  <span>支持 <b>自动更新</b></span>
-            <span class="sep"></span>
-                  <span>更新日期 <b>2026-09-13</b></span>
+            <div class="warn">⚠ 这是 <b>Threads 版</b>，用于在国外社媒 Threads 上找俄语区客户。想在小红书找客户，请用下面的「小红书版」。</div>
+          </div>
+          <div class="steps">
+            <div class="st"><i>1</i><span>下载并运行客户端</span></div>
+            <div class="st"><i>2</i><span>复制界面上的机器码</span></div>
+            <div class="st"><i>3</i><span>发送给我们获取激活码</span></div>
+            <div class="st"><i>4</i><span>粘贴激活，开始使用</span></div>
           </div>
         </div>
-        <div class="dl-steps">
-          <div class="dl-step"><b>1</b><span>下载并运行客户端</span></div>
-          <div class="dl-step"><b>2</b><span>复制界面上的机器码</span></div>
-          <div class="dl-step"><b>3</b><span>发送给我们获取激活码</span></div>
-          <div class="dl-step"><b>4</b><span>粘贴激活，开始使用</span></div>
-        </div>
-      </div>
-
-        <!-- 产品线二：小红书私信 AI 获客（2026-09-13 新增：功能区 + 截图） -->
-        <section class="flagship" id="xhs-product">
-          <div class="wrap" style="max-width:none;padding:0">
-            <div class="sec-head reveal">
-              <div class="tag">产品线 · 小红书</div>
-              <h2>小红书私信 AI 获客</h2>
-              <p>跑在小红书上的「私信 → 留资 → 微信」全链自动化：多账号采集私信与评论 → AI 大脑判断真实意向并生成话术
-                → 通过内置微信引擎把线索推到对应微信。界面已经换成全新的<b>小红书红主题</b>，和 Threads 版一眼区分。
-                适合旅拍/写真、装修建材、医美、教育、跨境物流等靠私聊成交的行业。</p>
-            </div>
-
-            <div class="grid3">
-              <div class="feature reveal"><div class="fi p">▣</div><div><h4>运行台：一屏看清全链数据</h4><p>今日私信 / 留资命中 / 已推微信 / AI 大脑状态四张实时卡片；下面是采集控制、运行体检与滚动日志，开机即知今天出了多少线索。</p></div></div>
-              <div class="feature reveal"><div class="fi a">⌘</div><div><h4>多账号矩阵 ↔ 微信一一对应</h4><p>每个小红书账号独立浏览器、独立登录态并发采集，并各自绑定一个微信（如 9333→微信1）；同一客户只发一次，避免重复打扰。</p></div></div>
-              <div class="feature reveal"><div class="fi g">◎</div><div><h4>AI 大脑 + 自进化</h4><p>接入你自己的大模型（如 deepseek-chat）判断是否有真实意向；支持「立即复盘 / 自动进化」，根据真实留资反馈优化筛选与话术。</p></div></div>
-              <div class="feature reveal"><div class="fi v">✎</div><div><h4>只回意向词 · 相似词自动扩展</h4><p>按行业填意向词（约拍、报价、多少钱、怎么约…），命中才回复；还能配置相似词——语义相近的私信也照样识别，不漏单。</p></div></div>
-              <div class="feature reveal"><div class="fi o">⚙</div><div><h4>采集控制：节奏与上限可调</h4><p>轮询间隔、每天回复上限、全自动发送或「AI 生成草稿、先审后发」都能设；节奏跟着账号走，避免猛发被风控。</p></div></div>
-              <div class="feature reveal"><div class="fi c">✆</div><div><h4>内置微信发送引擎</h4><p>留资（手机号 / 微信号）自动推送到对应微信；引擎自带指纹校验，被替换即拒绝发送，保证发出去的是官方引擎。</p></div></div>
-              <div class="feature reveal"><div class="fi v">▤</div><div><h4>留资台账 · 商家档案 · 回复统计</h4><p>线索自动落台账（手机号/微信号），按月/日看回复统计，商家档案沉淀客户资料，随时导出跟进。</p></div></div>
-              <div class="feature reveal"><div class="fi p">☁</div><div><h4>云端策略 + 自动更新 + 一键体检</h4><p>提示词与话术策略云端热更新；客户端检查更新、自动升级；内置一键体检（浏览器登录、AI、微信引擎、档案状态一目了然）。</p></div></div>
-            </div>
-
-            <div class="pipeline reveal">
-              <div class="node"><b>多账号采集</b><span>私信 + 评论</span></div><div class="flow">→</div>
-              <div class="node"><b>意向词 / 相似词</b><span>命中才回</span></div><div class="flow">→</div>
-              <div class="node"><b>AI 大脑判读</b><span>真实意向才留资</span></div><div class="flow">→</div>
-              <div class="node"><b>推送到微信</b><span>账号 ↔ 微信对应</span></div><div class="flow">→</div>
-              <div class="node"><b>留资台账</b><span>手机号 / 微信号沉淀</span></div>
-            </div>
-
-            <div class="shots">
-              <div class="shot reveal" data-src="assets/xhs-main-1019.png?v=20260913b">
-                <img src="assets/xhs-main-1019.png?v=20260913b" alt="小红书私信AI获客 运行台（全新小红书红主题）">
-                <div class="shot-cap">运行台（全新小红书红主题）：今日私信 / 留资命中 / 已推微信 / AI 大脑状态四张实时卡 + 采集控制、一键体检与滚动日志</div>
-              </div>
-              <div class="shot reveal" data-src="assets/xhs-brain-1019.png?v=20260913b">
-                <img src="assets/xhs-brain-1019.png?v=20260913b" alt="小红书私信AI获客 AI 大脑设置">
-                <div class="shot-cap">AI 大脑设置：模型 / API 密钥 / 业务简介 / 意向词与相似词 / 自进化开关，一个入口配完</div>
-              </div>
-              <div class="shot reveal" data-src="assets/xhs-accounts-1019.png?v=20260913b">
-                <img src="assets/xhs-accounts-1019.png?v=20260913b" alt="小红书私信AI获客 账号与微信推送">
-                <div class="shot-cap">账号与微信推送：多账号各自独立浏览器登录态，每个小红书号单独指定推到哪个微信</div>
-              </div>
-              <div class="shot reveal" data-src="assets/xhs-stats-1019.png?v=20260913b">
-                <img src="assets/xhs-stats-1019.png?v=20260913b" alt="小红书私信AI获客 回复统计">
-                <div class="shot-cap">回复统计（每个账号 · 日 / 月）：AI 成功生成多少条、按账号分开记，跨重启累计</div>
-              </div>
-              <div class="shot reveal" data-src="assets/xhs-leads-1019.png?v=20260913b">
-                <img src="assets/xhs-leads-1019.png?v=20260913b" alt="小红书私信AI获客 留资台账">
-                <div class="shot-cap">留资台账：客户留下的手机号 / 微信号自动入表 + 推送状态，最新在最上面</div>
-              </div>
-              <div class="shot reveal" data-src="assets/xhs-merchant-1019.png?v=20260913b">
-                <img src="assets/xhs-merchant-1019.png?v=20260913b" alt="小红书私信AI获客 商家档案">
-                <div class="shot-cap">商家档案：客户问「你们是哪儿的 / 有什么风格」，AI 就按这份档案回答</div>
-              </div>
-            </div>
-
-            <div class="updbox reveal">
-              <h4>最近更新 <i data-ver="xhs">最新</i></h4>
-              <ul data-notes="xhs">
-                <li><b>全新小红书红主题</b>：左侧栏白底 + 左上角红色品牌块 + 红色选中标记，四张数据卡统一红色系——和另一套 Threads 版一眼区分，客户不会再装错。</li>
-                <li><b>程序名统一为「小红书私信 AI 获客」</b>（去掉旧版"离线版"字样），窗口标题、任务栏、开始菜单保持一致。</li>
-                <li><b>左侧菜单图标全部重新绘制</b>：六个入口改成矢量图标、位置重新对齐，不再高低不齐。</li>
-                <li><b>默认不开机自启</b>：需要开机就自动跑的客户，在界面上自己勾一下「开机自启」即可。</li>
-                <li><b>安全加固延续</b>：核心逻辑与微信发送引擎加密、运行时防分析备案；引擎文件被替换即拒绝发送，线索照记台账。</li>
-              </ul>
-            </div>
-
-            <div class="specs reveal">
-        <span class="chip">当前版本 <b data-ver="xhs">以下载页显示为准</b></span>
-              <span class="chip">运行环境 <b>Windows 10/11</b></span>
-              <span class="chip">账号 <b>多账号 · 独立浏览器登录态</b></span>
-              <span class="chip">触达 <b>微信（内置引擎）</b></span>
-              <span class="chip">模型 <b>任意 OpenAI 兼容 API</b></span>
-              <span class="chip">留资 <b>手机号 / 微信号自动入台账</b></span>
-              <span class="chip">授权 <b>机器码绑定 · 可远程管理</b></span>
-            </div>
-
-        <div class="download reveal brand-card brand-xhs" id="xhs" style="margin-top:22px">
-          <div class="dl-appicon"><span>XHS</span></div>
-          <div class="dl-main">
-            <div class="dl-head">
-              <div>
-                <span class="brand-badge">小红书版 · 品牌红</span>
-                <div class="dl-title">小红书私信 AI 获客</div>
-                <div class="dl-sub">桌面自动获客客户端 · 私信 / 评论采集 + 微信自动触达</div>
-              </div>
-              <span class="dl-version" data-ver="xhs">最新版</span>
-            </div>
-            <p class="dl-desc">在小红书按关键词找有采购/合作意向的用户，采集私信与评论，AI 判断意图并生成回复，再通过内置微信引擎自动触达；支持自定义话术、城市/行业风格，台账与词库全部存本机。<b>下载完整包即含程序 + 使用说明 + 发送引擎</b>；首次启动显示机器码，发给我们即可获得授权激活码。</p>
-            <div class="dl-actions">
-              <a class="btn btn-primary btn-big" href="https://api.lihui-cargo.ru/xhs/package" target="_blank" rel="noopener">下载完整包（推荐）</a>
-              <a class="btn btn-ghost" href="https://api.lihui-cargo.ru/xhs/download" target="_blank" rel="noopener">只要主程序</a>
-              <a class="btn btn-ghost" href="https://api.lihui-cargo.ru/xhs" target="_blank" rel="noopener">打开下载页</a>
-            </div>
-            <div class="not-this">⚠ 这是 <b>小红书版</b>：用于在小红书找客户并推送到微信。想在 Threads 上找俄语区客户，请下载上面的「Threads 版」↑</div>
-            <div class="dl-meta">
-              <span>系统要求 <b>Windows 10 / 11</b></span>
-              <span class="sep"></span>
-              <span>完整包 <b>约 26 MB</b>（含发送引擎）</span>
-              <span class="sep"></span>
-              <span>支持 <b>自动更新</b></span>
-              <span class="sep"></span>
-              <span>更新日期 <b>2026-09-13</b></span>
-            </div>
-          </div>
-          <div class="dl-steps">
-            <div class="dl-step"><b>1</b><span>下载完整包并解压</span></div>
-            <div class="dl-step"><b>2</b><span>运行程序，复制机器码</span></div>
-            <div class="dl-step"><b>3</b><span>发送给我们获取激活码</span></div>
-            <div class="dl-step"><b>4</b><span>粘贴激活，开始使用</span></div>
-          </div>
-        </div>
-          </div>
-        </section>
-
-        <div class="tech reveal">
-        <div><span class="k">完整性签名</span>主程序 RSA 签名，被篡改即拒绝运行并自毁，保护你的定制成果</div>
-        <div><span class="k">网络时间授权</span>到期判断走网络时间，改本机时间无法延长授权</div>
-        <div><span class="k">在线验签 + 吊销</span>授权可云端随时停用/恢复，改本地文件无效</div>
-        <div><span class="k">数据本地化</span>台账、词库、日志全部存本机，不上传第三方</div>
-        <div><span class="k">模型可换</span>兼容任意 OpenAI 接口大模型（DeepSeek / Kimi / GLM / Ollama…）</div>
-        <div><span class="k">界面可定制</span>配色、字段、行业词库、话术都能按业务重做</div>
-      </div>
-
-      <div class="specs reveal">
-        <span class="chip">运行环境 <b>Windows 10/11</b></span>
-        <span class="chip">浏览器 <b>Edge / Chrome</b></span>
-        <span class="chip">模型 <b>任意 OpenAI 兼容 API</b></span>
-        <span class="chip">交付 <b>安装包 + 说明</b></span>
-        <span class="chip">授权 <b>机器码绑定 · 可远程管理</b></span>
       </div>
     </div>
   </section>
 
-  <!-- 服务类目 -->
-  <section id="services">
+  <!-- ===================== 产品二：小红书私信 AI 获客 ===================== -->
+  <section class="sec alt" id="xhs-product">
+    <div class="wrap">
+      <div class="prod-head reveal">
+        <div class="ph-l">
+          <div class="badge-row" style="margin-bottom:12px">
+            <span class="pill xhs-dark">小红书版</span>
+            <span class="pill xhs" data-ver="xhs">最新版</span>
+          </div>
+          <h2>小红书私信 AI 获客</h2>
+          <p>跑在小红书上的「私信 → 留资 → 微信」全链自动化：多账号采集私信与评论 → AI 判断真实意向 →
+             生成自然话术 → 通过内置微信引擎把线索推到对应微信。</p>
+        </div>
+        <div class="actions">
+          <a class="btn btn-xhs" href="https://api.lihui-cargo.ru/xhs/package" target="_blank" rel="noopener">下载完整包</a>
+          <a class="btn btn-ghost" href="#faq">常见问题</a>
+        </div>
+      </div>
+
+      <div class="cards">
+        <div class="card xhs reveal"><div class="ci">▣</div><h4>运行台：一屏看清全链数据</h4><p>今日私信 / 留资命中 / 已推微信 / AI 大脑状态四张实时卡，下面是采集控制、运行体检与滚动日志。</p></div>
+        <div class="card xhs reveal"><div class="ci">⌘</div><h4>多账号矩阵 ↔ 微信一一对应</h4><p>每个小红书号独立浏览器、独立登录态并发采集，并各自绑定一个微信；同一客户只推送一次。</p></div>
+        <div class="card xhs reveal"><div class="ci">◎</div><h4>AI 大脑 + 自进化</h4><p>接入你自己的大模型判断真实意向，并根据真实留资反馈持续优化筛选口径与话术。</p></div>
+        <div class="card xhs reveal"><div class="ci">✎</div><h4>只回意向词 · 相似词扩展</h4><p>按行业填意向词（约拍、报价、多少钱、怎么约…），命中才回复；语义相近的私信也能识别。</p></div>
+        <div class="card xhs reveal"><div class="ci">⚙</div><h4>采集控制：节奏与上限可调</h4><p>轮询间隔、每天回复上限、全自动发送或「先生成草稿、先审后发」都能设，避免猛发被风控。</p></div>
+        <div class="card xhs reveal"><div class="ci">✆</div><h4>内置微信发送引擎</h4><p>留资（手机号 / 微信号）自动推送到对应微信；引擎自带指纹校验，被替换即拒绝发送。</p></div>
+        <div class="card xhs reveal"><div class="ci">▤</div><h4>留资台账 · 商家档案 · 统计</h4><p>线索自动落台账并可导出；按月 / 日看回复统计；商家档案沉淀客户资料，AI 按档案口径回答。</p></div>
+        <div class="card xhs reveal"><div class="ci">☁</div><h4>云端策略 + 一键体检</h4><p>提示词与话术策略云端热更新；内置一键体检，浏览器登录、AI、微信引擎、档案状态一目了然。</p></div>
+        <div class="card xhs reveal"><div class="ci">🛡</div><h4>安全加固</h4><p>核心逻辑与发送引擎加密、运行时防分析备案；引擎文件被替换即拒绝推送，线索照常记台账。</p></div>
+      </div>
+
+      <div class="chain reveal">
+        <div class="n"><b>多账号采集</b><span>私信 + 评论</span></div>
+        <div class="n"><b>意向词筛选</b><span>命中才回</span></div>
+        <div class="n"><b>AI 判读</b><span>真实意向才留资</span></div>
+        <div class="n"><b>推送到微信</b><span>账号 ↔ 微信对应</span></div>
+        <div class="n"><b>留资台账</b><span>手机号 / 微信号沉淀</span></div>
+      </div>
+
+      <div class="thumbs">
+        <figure class="thumb reveal" data-src="assets/xhs-main-1019.png?v=20260913b"><img src="assets/xhs-main-1019.png?v=20260913b" alt="运行台"><figcaption>运行台：私信 / 留资 / 已推微信 / AI 大脑四张实时卡 + 采集控制与一键体检</figcaption></figure>
+        <figure class="thumb reveal" data-src="assets/xhs-brain-1019.png?v=20260913b"><img src="assets/xhs-brain-1019.png?v=20260913b" alt="AI 大脑设置"><figcaption>AI 大脑设置：模型 / 密钥 / 业务简介 / 意向词与相似词 / 自进化开关</figcaption></figure>
+        <figure class="thumb reveal" data-src="assets/xhs-accounts-1019.png?v=20260913b"><img src="assets/xhs-accounts-1019.png?v=20260913b" alt="账号与微信推送"><figcaption>账号与微信推送：每个小红书号单独指定推送到哪个微信</figcaption></figure>
+        <figure class="thumb reveal" data-src="assets/xhs-stats-1019.png?v=20260913b"><img src="assets/xhs-stats-1019.png?v=20260913b" alt="回复统计"><figcaption>回复统计：按账号分别统计，日 / 月可查，跨重启累计</figcaption></figure>
+        <figure class="thumb reveal" data-src="assets/xhs-leads-1019.png?v=20260913b"><img src="assets/xhs-leads-1019.png?v=20260913b" alt="留资台账"><figcaption>留资台账：客户留下的手机号 / 微信号 + 推送状态，最新在最上面</figcaption></figure>
+        <figure class="thumb reveal" data-src="assets/xhs-merchant-1019.png?v=20260913b"><img src="assets/xhs-merchant-1019.png?v=20260913b" alt="商家档案"><figcaption>商家档案：客户问「你们是哪儿的 / 有什么风格」，AI 按这份档案回答</figcaption></figure>
+      </div>
+
+      <details class="fold reveal">
+        <summary>使用与规格（运行环境 / 账号 / 留资 / 数据）</summary>
+        <div class="fold-body">
+          <dl class="kv">
+            <dt>运行环境</dt><dd>Windows 10 / 11；多账号各自独立浏览器与登录态，互不干扰</dd>
+            <dt>账号</dt><dd>支持多账号矩阵，每个小红书号可单独绑定一个微信推送目标</dd>
+            <dt>触达</dt><dd>内置微信发送引擎，留资自动推送到对应微信，推送结果记入台账</dd>
+            <dt>模型</dt><dd>任意 OpenAI 兼容 API（如 deepseek-chat），密钥加密保存在本机</dd>
+            <dt>留资</dt><dd>手机号 / 微信号自动识别并入台账，同号码只推一次</dd>
+            <dt>数据</dt><dd>台账、词库、日志全部存本机程序目录，不上传第三方</dd>
+            <dt>授权</dt><dd>机器码绑定 · 可远程管理；首次启动显示机器码，发给我们换取激活码</dd>
+          </dl>
+        </div>
+      </details>
+
+      <details class="fold reveal">
+        <summary>最近更新（自动同步自云端，发新版这里会跟着变）</summary>
+        <div class="fold-body">
+          <ul class="notes xhs" data-notes="xhs">
+            <li>正在从云端读取更新说明…</li>
+          </ul>
+        </div>
+      </details>
+
+      <div class="dlcard xhs reveal" id="download-xhs">
+        <div class="top"></div>
+        <div class="body">
+          <div>
+            <div class="badge-row">
+              <span class="pill xhs-dark">小红书版 · 品牌红</span>
+              <span class="pill xhs" data-ver="xhs">最新版</span>
+            </div>
+            <h3>小红书私信 AI 获客</h3>
+            <div class="sub">完整包 = 程序 + 发送引擎 + 使用说明</div>
+            <p class="desc">在小红书按关键词找有采购 / 合作意向的用户，采集私信与评论、AI 判断意图并生成回复，
+              再通过内置微信引擎自动触达。首次启动显示机器码，发给我们即可获得授权激活码。</p>
+            <div class="meta">
+              <span>系统要求 <b>Windows 10 / 11</b></span>
+              <span>完整包 <b>约 26 MB</b></span>
+              <span>授权 <b>机器码绑定 · 可远程管理</b></span>
+              <span>支持 <b>自动更新</b></span>
+            </div>
+            <div class="actions" style="margin-top:20px">
+              <a class="btn btn-xhs" href="https://api.lihui-cargo.ru/xhs/package" target="_blank" rel="noopener">下载完整包（推荐）</a>
+              <a class="btn btn-ghost" href="https://api.lihui-cargo.ru/xhs" target="_blank" rel="noopener">打开下载页</a>
+            </div>
+            <div class="warn">⚠ 这是 <b>小红书版</b>，用于在小红书找客户并推送到微信。想在 Threads 上找俄语区客户，请用上面的「Threads 版」。</div>
+          </div>
+          <div class="steps">
+            <div class="st"><i>1</i><span>下载完整包并解压</span></div>
+            <div class="st"><i>2</i><span>运行程序，复制机器码</span></div>
+            <div class="st"><i>3</i><span>发送给我们获取激活码</span></div>
+            <div class="st"><i>4</i><span>粘贴激活，开始使用</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- ===================== 服务 ===================== -->
+  <section class="sec" id="services">
     <div class="wrap">
       <div class="sec-head reveal">
         <div class="tag">服务类目</div>
         <h2>我们能帮你做什么</h2>
-        <p>从"把 AI 跑起来"到"让 AI 替你跑业务"，四类服务可单独采买，也可组合成完整方案。</p>
+        <p>从「把 AI 跑起来」到「让 AI 替你跑业务」，四类服务可单独采买，也可以组合成完整方案。</p>
       </div>
-
-      <div class="grid2">
+      <div class="cards" style="grid-template-columns:repeat(2,1fr)">
         <div class="svc reveal">
-          <div class="ico">◆</div>
+          <div class="si">◆</div>
           <h3>AI 部署</h3>
           <p>让大模型在你自己的电脑或服务器上稳定跑起来，数据不出内网。</p>
           <ul>
@@ -878,13 +666,11 @@ footer{padding:50px 0 30px;background:#fff;border-top:1px solid var(--border);co
             <li>云端 API 接入与统一网关、限流与成本控制</li>
             <li>多模型路由与降级（主力 + 备用自动切换）</li>
             <li>离线 / 内网环境部署，断网可用</li>
-            <li>现有系统接入 AI 能力（补丁式改造，不推翻重来）</li>
           </ul>
           <div class="out">交付物：<b>可运行环境 + 部署文档 + 调优参数说明</b></div>
         </div>
-
-        <div class="svc s2 reveal">
-          <div class="ico">◈</div>
+        <div class="svc reveal">
+          <div class="si">◈</div>
           <h3>AI 工作流搭建</h3>
           <p>把重复的脑力活变成自动跑的流程：定时、触发、批处理、人机协同。</p>
           <ul>
@@ -892,14 +678,12 @@ footer{padding:50px 0 30px;background:#fff;border-top:1px solid var(--border);co
             <li>采集 → 清洗 → AI 加工 → 分发 的全链路自动化</li>
             <li>多智能体编排：会判断、会分工、会自我复核</li>
             <li>定时任务 / Webhook 触发 / 异常自动重试</li>
-            <li>AI + 人工双审：低风险自动过，高风险转人工</li>
             <li>飞书 / 微信 / 邮件 / Telegram 通知与告警</li>
           </ul>
           <div class="out">交付物：<b>工作流文件 + 运行手册 + 监控告警配置</b></div>
         </div>
-
-        <div class="svc s3 reveal">
-          <div class="ico">▤</div>
+        <div class="svc reveal">
+          <div class="si">▤</div>
           <h3>网站搭建与设计</h3>
           <p>做得好看，也做得能被搜到、能承接客户。适配手机与电脑。</p>
           <ul>
@@ -907,20 +691,17 @@ footer{padding:50px 0 30px;background:#fff;border-top:1px solid var(--border);co
             <li>响应式布局 + 现代视觉（品牌配色、动效、图标体系）</li>
             <li>SEO 基础优化：标题描述、语义化结构、站点地图</li>
             <li>表单收集、在线客服、留言通知到微信 / 邮箱</li>
-            <li>多语言站点（中 / 英 / 俄 等）</li>
-            <li>域名与服务器部署、SSL、CDN 加速、免费托管方案</li>
+            <li>多语言站点、域名与服务器部署、SSL 与 CDN 加速</li>
           </ul>
           <div class="out">交付物：<b>上线站点 + 源码 + 后台使用说明</b></div>
         </div>
-
-        <div class="svc s4 reveal">
-          <div class="ico">⚙</div>
+        <div class="svc reveal">
+          <div class="si">⚙</div>
           <h3>程序定制</h3>
-          <p>你业务里"每天手工做、又累又容易错"的环节，我们做成软件。</p>
+          <p>你业务里「每天手工做、又累又容易错」的环节，我们做成软件。</p>
           <ul>
             <li>Windows 桌面工具（采集、批处理、定时任务）</li>
             <li>数据采集 / 报表自动化 / Excel 自动化</li>
-            <li>消息机器人、群发助手、通知推送</li>
             <li>跨系统对接：API 打通、数据同步、格式转换</li>
             <li>软件授权体系：机器码绑定、到期控制、远程停用</li>
             <li>自动更新 + 防篡改签名（保护你的商业软件）</li>
@@ -931,136 +712,109 @@ footer{padding:50px 0 30px;background:#fff;border-top:1px solid var(--border);co
     </div>
   </section>
 
-  <!-- 案例 -->
-  <section id="showcase" class="flagship">
+  <!-- ===================== 案例 ===================== -->
+  <section class="sec alt" id="showcase">
     <div class="wrap">
       <div class="sec-head reveal">
         <div class="tag">案例展示</div>
         <h2>不只是演示，是已经跑起来的系统</h2>
-        <p>下面是真实交付的界面（点击放大）。你也可以把需求丢过来，我们照你的业务再做一套。</p>
+        <p>上面的截图都来自真实交付的程序。你也可以把需求丢过来，我们照你的业务再做一套。</p>
       </div>
-
-      <div class="grid2">
+      <div class="cards">
         <div class="case reveal">
-          <div class="shot" data-src="assets/app-main.png?v=20260913c"><img src="assets/app-main.png?v=20260913c" alt="桌面获客系统主界面"></div>
-          <div class="case-body"><h4>① 行业获客自动化系统</h4><p>面向跨境 / 物流 / 外贸的社媒获客：多账号矩阵采集、AI 判断意向、自动生成外文回复、客户台账沉淀，全程无人值守。附作者端客户管理与远程授权控制台。</p></div>
-        </div>
-        <div class="case reveal">
-          <div class="shot" data-src="assets/app-brain.png?v=20260913c"><img src="assets/app-brain.png?v=20260913c" alt="API 大脑策略设置"></div>
-          <div class="case-body"><h4>② 会自己调策略的 AI 大脑</h4><p>把模型从「单条判断器」升级成策略层：按真实产出进化关键词、每轮出中文复盘报告；模型想改词库必须过 6 道安全护栏，幻觉写不进线上策略。</p></div>
+          <h4><span>①</span>行业获客自动化系统</h4>
+          <p>面向跨境 / 物流 / 外贸的社媒获客：多账号矩阵采集、AI 判断意向、自动生成外文回复、客户台账沉淀，
+            全程无人值守，配套作者端客户管理与远程授权控制台。</p>
         </div>
         <div class="case reveal">
-          <div class="shot" data-src="assets/app-safety.png?v=20260913c"><img src="assets/app-safety.png?v=20260913c" alt="安全与限速设置"></div>
-          <div class="case-body"><h4>③ 安全策略与风控面板</h4><p>人工审核开关、每小时上限、异常自动停止、独立浏览器环境，把自动化的风险控制在可接受范围内。</p></div>
+          <h4><span>②</span>会自己调策略的 AI 大脑</h4>
+          <p>把模型从「单条判断器」升级成策略层：按真实产出进化关键词、每轮出中文复盘报告；
+            模型想改词库必须过 6 道安全护栏，幻觉写不进线上策略。</p>
         </div>
-        <div class="case reveal" style="display:flex;flex-direction:column;justify-content:center">
-          <div class="case-body">
-            <h4>④ 可复制到你的业务</h4>
-            <p style="margin-bottom:16px">同一套技术底座，换个行业就是新工具：</p>
-            <div class="specs" style="margin-top:0">
-              <span class="chip">电商选品采集</span><span class="chip">招标信息监控</span><span class="chip">招聘简历筛选</span>
-              <span class="chip">本地生活点评抓取</span><span class="chip">行业情报日报</span><span class="chip">AI 客服知识库</span>
-              <span class="chip">批量文案生成</span><span class="chip">数据报表自动化</span>
-            </div>
-            <p style="margin-top:18px">告诉我们要抓什么、判断什么、输出什么，剩下的交给我们。</p>
-          </div>
+        <div class="case reveal">
+          <h4><span>③</span>安全策略与风控面板</h4>
+          <p>人工审核开关、每小时上限、异常自动停止、独立浏览器环境，
+            把自动化的风险控制在可接受范围内，适合长期无人值守。</p>
         </div>
+      </div>
+      <div class="case reveal" style="margin-top:18px">
+        <h4><span>④</span>同一套底座，换个行业就是新工具</h4>
+        <div class="chips">
+          <span class="chip">电商选品采集</span><span class="chip">招标信息监控</span><span class="chip">招聘简历筛选</span>
+          <span class="chip">本地生活点评抓取</span><span class="chip">行业情报日报</span><span class="chip">AI 客服知识库</span>
+          <span class="chip">批量文案生成</span><span class="chip">数据报表自动化</span>
+        </div>
+        <p style="margin-top:14px">告诉我们要抓什么、判断什么、输出什么，剩下的交给我们。</p>
       </div>
     </div>
   </section>
 
-  <!-- 流程 -->
-  <section id="process">
+  <!-- ===================== 流程 ===================== -->
+  <section class="sec" id="process">
     <div class="wrap">
       <div class="sec-head reveal">
         <div class="tag">合作流程</div>
         <h2>五步交付，全程透明</h2>
         <p>先出方案再动手，做一版验一版，不满意随时调整方向。</p>
       </div>
-      <div class="steps">
-        <div class="step reveal"><div class="num">01</div><h4>需求沟通</h4><p>聊清业务目标、现有工具、数据来源与预算范围，先判断"值不值得做"。</p></div>
-        <div class="step reveal"><div class="num">02</div><h4>方案报价</h4><p>给出实现路径、交付清单、周期与费用，确认后再开工。</p></div>
-        <div class="step reveal"><div class="num">03</div><h4>开发搭建</h4><p>分阶段交付可运行版本，关键节点给你看真实效果，不做黑盒。</p></div>
-        <div class="step reveal"><div class="num">04</div><h4>联调验收</h4><p>按真实场景跑通全流程，修到能用、好用为止。</p></div>
-        <div class="step reveal"><div class="num">05</div><h4>交付维护</h4><p>源码 / 安装包 + 使用文档交付，后续提供远程支持与版本升级。</p></div>
+      <div class="steps5">
+        <div class="step5 reveal"><div class="num">01</div><h4>需求沟通</h4><p>聊清业务目标、现有工具与预算范围，先判断「值不值得做」。</p></div>
+        <div class="step5 reveal"><div class="num">02</div><h4>方案报价</h4><p>给出实现路径、交付清单、周期与费用，确认后再开工。</p></div>
+        <div class="step5 reveal"><div class="num">03</div><h4>开发搭建</h4><p>分阶段交付可运行版本，关键节点给你看真实效果。</p></div>
+        <div class="step5 reveal"><div class="num">04</div><h4>联调验收</h4><p>按真实场景跑通全流程，修到能用、好用为止。</p></div>
+        <div class="step5 reveal"><div class="num">05</div><h4>交付维护</h4><p>源码 / 安装包 + 使用文档交付，后续远程支持与版本升级。</p></div>
       </div>
     </div>
   </section>
 
-  <!-- 优势 -->
-  <section id="why" class="flagship">
-    <div class="wrap">
-      <div class="sec-head reveal">
-        <div class="tag">为什么选我们</div>
-        <h2>既懂业务，也懂代码</h2>
-      </div>
-      <div class="adv">
-        <div class="item reveal"><h4>◆ 一条龙，不转包</h4><p>需求、设计、开发、部署、运维同一团队完成，沟通成本低，扯皮少。</p></div>
-        <div class="item reveal"><h4>◆ 先小后大</h4><p>先小成本验证效果，跑出结果再扩展成系统，不让你一上来压大预算。</p></div>
-        <div class="item reveal"><h4>◆ 交付源码可控</h4><p>程序和网站源码交给你，不被平台绑架，后续自己维护或换人接手都行。</p></div>
-        <div class="item reveal"><h4>◆ 真的会用 AI</h4><p>自研系统已在跑大模型做判断、写文案、做策略进化——不是套壳聊天机器人。</p></div>
-        <div class="item reveal"><h4>◆ 稳定性优先</h4><p>失败不停机、异常有兜底、关键动作可回溯，适合长期无人值守运行。</p></div>
-        <div class="item reveal"><h4>◆ 长期陪跑</h4><p>上线只是开始：数据变、平台变、业务变，我们持续小步迭代。</p></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 关于我们 -->
-  <section id="about">
+  <!-- ===================== 关于 ===================== -->
+  <section class="sec alt" id="about">
     <div class="wrap">
       <div class="sec-head reveal">
         <div class="tag">关于我们</div>
         <h2>一支把 AI 落地做成产品的小团队</h2>
-        <p>我们不追热点，只解决真实问题：用工程化能力，把「找客户、做内容、管软件」这些耗人的事变成能稳定运行的系统和工具。</p>
+        <p>我们不追热点，只解决真实问题：用工程化能力，把「找客户、做内容、管软件」这些耗人的事，
+          变成能稳定运行的系统。</p>
       </div>
-      <div class="about-grid">
-        <div class="about-item reveal">
-          <div class="ab-ico">⚙</div>
-          <h4>工程化交付</h4>
-          <p>从需求、设计到开发、部署、运维一条线负责，交付可运行、可维护、可追溯的系统，不是只给一段演示。</p>
-        </div>
-        <div class="about-item reveal">
-          <div class="ab-ico">◈</div>
-          <h4>真实 AI 能力</h4>
-          <p>自研系统长期在跑大模型做判断、写文案、做策略进化，对模型能力与边界有实战理解，不做套壳货。</p>
-        </div>
-        <div class="about-item reveal">
-          <div class="ab-ico">▣</div>
-          <h4>长期陪跑</h4>
-          <p>上线只是开始：数据变了、平台变了、业务变了，我们持续小步迭代，做你长期的技术后盾。</p>
-        </div>
+      <div class="about-grid2">
+        <div class="about-item reveal"><div class="ai">⚙</div><h4>工程化交付</h4><p>需求、设计、开发、部署、运维一条线负责，交付可运行、可维护、可追溯的系统，不是只给一段演示。</p></div>
+        <div class="about-item reveal"><div class="ai">◈</div><h4>真实 AI 能力</h4><p>自研系统长期在跑大模型做判断、写文案、做策略进化，对模型能力与边界有实战理解，不做套壳货。</p></div>
+        <div class="about-item reveal"><div class="ai">▣</div><h4>长期陪跑</h4><p>上线只是开始：数据变了、平台变了、业务变了，我们持续小步迭代，做你长期的技术后盾。</p></div>
+        <div class="about-item reveal"><div class="ai">◇</div><h4>一条龙，不转包</h4><p>需求、设计、开发、部署、运维同一团队完成，沟通成本低，不扯皮。</p></div>
+        <div class="about-item reveal"><div class="ai">▤</div><h4>先小后大</h4><p>先用小成本验证效果，跑出结果再扩展成系统，不让你一上来就压大预算。</p></div>
+        <div class="about-item reveal"><div class="ai">◆</div><h4>源码可控</h4><p>程序和网站源码交给你，不被平台绑架，后续自己维护或换人接手都行。</p></div>
       </div>
     </div>
   </section>
 
-  <!-- FAQ -->
-  <section id="faq">
+  <!-- ===================== FAQ ===================== -->
+  <section class="sec" id="faq">
     <div class="wrap">
       <div class="sec-head reveal">
         <div class="tag">常见问题</div>
         <h2>你可能想先问清楚</h2>
       </div>
-      <div class="faq">
-        <details open><summary>AI 部署需要什么样的电脑？</summary><p>取决于模型大小：7B~8B 级别，8GB 显存普通显卡就能流畅跑；更大模型用云端 API 或服务器方案。我们会先评估你的硬件，再给性价比最高的路径。</p></details>
-        <details><summary>数据会不会被上传到外面？</summary><p>可以完全本地化：模型、知识库、业务数据都留在你自己的电脑或内网服务器。只有你主动选择云端大模型 API 时，提问内容才会发给对应服务商。</p></details>
-        <details><summary>AI 工作流和"直接用现成平台"有什么区别？</summary><p>平台只是工具，真正决定效果的是流程设计：什么时候触发、怎么判断、异常怎么办、结果给谁。我们负责把流程设计到能长期稳定运行，并接进你现有系统。</p></details>
-        <details><summary>网站多久能上线？</summary><p>单页落地页 2~3 天，多页企业站 5~10 天，含设计、开发、上线部署。想更快也可先用模板站当天上线，再逐步替换成定制设计。</p></details>
-        <details><summary>定制程序的版权和授权怎么算？</summary><p>按项目约定：可以只买使用权（我们维护），也可以买断源码自己运营。拿去做商业软件分发，我们还能做机器码绑定、到期控制、远程停用与自动更新一整套授权体系。</p></details>
-        <details><summary>预算有限，能做点什么？</summary><p>推荐从小处切入：先解决一个最耗人力的环节（自动采集 / 报表 / 回复），几千元级工具就能每天省几小时。跑出效果再逐步扩展。</p></details>
+      <div class="faq reveal">
+        <details open><summary>两套获客系统我怎么选？</summary><p>看你客户在哪：客户在国外社媒（Threads）用 <b>LH 全链任务系统</b>；客户在小红书用 <b>小红书私信 AI 获客</b>。两套是独立程序，装错版本用不了对方的平台。都想要也可以分别下载，授权各算各的。</p></details>
+        <details><summary>拿到程序后怎么开始用？</summary><p>下载后双击运行，程序会显示本机机器码；把机器码发给我们，我们签发一张绑定这台电脑的授权码，粘贴即可使用。桌面版内置《使用说明》，客户端的「官方网站」按钮也能随时打开本页。</p></details>
+        <details><summary>需要什么样的电脑？会不会很吃配置？</summary><p>Windows 10 / 11 即可，免安装、体积小（Threads 版约 870 KB，小红书完整包约 26 MB）。程序本身不吃配置；AI 判断用的是你自己配置的模型 API（如 DeepSeek），按用量计费。</p></details>
+        <details><summary>用我自己的模型 API 吗？数据会不会外泄？</summary><p>用你自己的 API Key，密钥只在你本机加密保存、不写入日志、不上传。台账、词库、日志也全部存在本机程序目录。只有送审的帖子/私信内容会发给你自己配置的模型服务商。</p></details>
+        <details><summary>会不会被平台风控？</summary><p>程序内置多重保护：帖子级永久去重、多账号错峰上线、每小时回复上限、验证码 / 风控 / 登录失效时立即停止该账号，且默认是「只出草稿、人工确认后再发」。我们建议先用低频跑稳再逐步放量。</p></details>
+        <details><summary>AI 部署 / 网站 / 定制程序怎么报价？</summary><p>按需求复杂度报价：单页落地页 2~3 天可上线；AI 工作流与定制程序按模块评估，先出方案与清单再开工。预算有限也可以先解决一个最耗人力的环节，几千元级工具就能每天省几小时。</p></details>
       </div>
     </div>
   </section>
 
-  <!-- 联系 -->
-  <section id="contact">
+  <!-- ===================== 联系 ===================== -->
+  <section class="sec alt" id="contact">
     <div class="wrap">
       <div class="contact reveal">
         <h2>聊聊你的想法，先给方案不收费</h2>
-        <p>把需求、现状或一句模糊的想法丢过来，我们会告诉你"能不能做、大概怎么做、要多少时间和预算"。加之前不用准备任何材料。</p>
-        <div class="contact-grid">
-          <div class="cbox"><small>抖音（可私信）</small><b>85760793813</b><button class="copy" data-copy="85760793813">复制抖音号</button></div>
-          <div class="cbox"><small>QQ</small><b>1114536579</b><button class="copy" data-copy="1114536579">复制 QQ 号</button></div>
-          <div class="cbox"><small>服务内容</small><b>AI 部署 · 工作流 · 网站 · 程序</b><button class="copy" data-copy="抖音号 85760793813  QQ 1114536579">复制联系方式</button></div>
+        <p>把需求、现状，或者一句模糊的想法丢过来，我们会告诉你「能不能做、大概怎么做、要多少时间和预算」。加之前不用准备任何材料。</p>
+        <div class="cgrid">
+          <div class="cbox"><small>抖音（可私信）</small><b>85760793813</b><button class="copy" data-copy="85760793813" type="button">复制抖音号</button></div>
+          <div class="cbox"><small>QQ</small><b>1114536579</b><button class="copy" data-copy="1114536579" type="button">复制 QQ 号</button></div>
+          <div class="cbox"><small>服务内容</small><b>AI 部署 · 工作流 · 网站 · 程序</b><button class="copy" data-copy="抖音号 85760793813  QQ 1114536579" type="button">复制联系方式</button></div>
         </div>
       </div>
     </div>
@@ -1072,11 +826,18 @@ footer{padding:50px 0 30px;background:#fff;border-top:1px solid var(--border);co
   <div class="wrap">
     <div class="foot-grid">
       <div class="foot-brand">
-        <a class="brand" href="#top" style="color:var(--ink)">
+        <a class="brand" href="#top">
           <span class="logo">LH</span>
-          <span style="color:var(--ink)">LH 智能自动化<small style="color:var(--muted)">AUTOMATION &amp; AI</small></span>
+          <span>LH 智能自动化<small>AUTOMATION &amp; AI</small></span>
         </a>
         <p>AI 部署 · AI 工作流搭建 · 网站搭建与设计 · 程序定制</p>
+      </div>
+      <div class="foot-col">
+        <h4>产品</h4>
+        <a href="#product">LH 全链任务系统</a>
+        <a href="#xhs-product">小红书私信 AI 获客</a>
+        <a href="https://api.lihui-cargo.ru/download" target="_blank" rel="noopener">下载 Threads 版</a>
+        <a href="https://api.lihui-cargo.ru/xhs/package" target="_blank" rel="noopener">下载 小红书版</a>
       </div>
       <div class="foot-col">
         <h4>服务</h4>
@@ -1086,27 +847,21 @@ footer{padding:50px 0 30px;background:#fff;border-top:1px solid var(--border);co
         <a href="#services">程序定制</a>
       </div>
       <div class="foot-col">
-        <h4>产品</h4>
-        <a href="#product">LH 全链任务系统</a>
-        <a href="https://api.lihui-cargo.ru/download" target="_blank" rel="noopener">下载 LH 全链任务系统</a>
-        <a href="https://api.lihui-cargo.ru/xhs/package" target="_blank" rel="noopener">下载 小红书私信 AI 获客</a>
-        <a href="#showcase">案例展示</a>
-      </div>
-      <div class="foot-col">
         <h4>联系</h4>
         <a href="#contact">抖音 85760793813</a>
         <a href="#contact">QQ 1114536579</a>
+        <a href="#faq">常见问题</a>
       </div>
     </div>
     <div class="foot-bottom">
       <span>© 2026 LH 智能自动化 · 保留所有权利</span>
-      <span>本页面内容与截图均为真实交付成果 · 构建 <b data-build>20260913-024429</b></span>
+      <span>本页面内容与截图均为真实交付成果 · 构建 <b data-build>20260913-030312</b></span>
     </div>
   </div>
 </footer>
 
 <div class="lightbox" id="lightbox">
-  <button class="close" id="lbClose">✕</button>
+  <button class="close" id="lbClose" type="button" aria-label="关闭">✕</button>
   <img src="" alt="查看大图" id="lbImg">
 </div>
 
@@ -1114,101 +869,102 @@ footer{padding:50px 0 30px;background:#fff;border-top:1px solid var(--border);co
 document.documentElement.classList.add('js');
 
 // 移动端菜单
-    document.getElementById('burger').addEventListener('click', function(){ document.getElementById('menu').classList.toggle('open'); });
-    document.querySelectorAll('#menu a').forEach(function(a){ a.addEventListener('click', function(){ document.getElementById('menu').classList.remove('open'); }); });
+(function(){
+  var b = document.getElementById('burger'), m = document.getElementById('menu');
+  if(!b || !m) return;
+  b.addEventListener('click', function(){ m.classList.toggle('open'); });
+  m.querySelectorAll('a').forEach(function(a){ a.addEventListener('click', function(){ m.classList.remove('open'); }); });
+})();
 
-    // 下载客户端：两套产品下拉（触屏点一下开，点别处关）
-    (function(){
-      var wrap = document.getElementById('navDlWrap'), btn = document.getElementById('navDlBtn');
-      if(!wrap || !btn) return;
-      btn.addEventListener('click', function(e){
-        e.preventDefault();
-        var open = wrap.classList.toggle('open');
-        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
-      });
-      document.addEventListener('click', function(e){ if(!wrap.contains(e.target)){ wrap.classList.remove('open'); btn.setAttribute('aria-expanded','false'); } });
-      document.addEventListener('keydown', function(e){ if(e.key === 'Escape'){ wrap.classList.remove('open'); btn.setAttribute('aria-expanded','false'); } });
-      wrap.querySelectorAll('.nav-dl-menu a').forEach(function(a){ a.addEventListener('click', function(){ wrap.classList.remove('open'); }); });
-    })();
+// 下载客户端：两套产品下拉（触屏点一下开，点别处关）
+(function(){
+  var wrap = document.getElementById('navDlWrap'), btn = document.getElementById('navDlBtn');
+  if(!wrap || !btn) return;
+  btn.addEventListener('click', function(e){
+    e.preventDefault();
+    var open = wrap.classList.toggle('open');
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  document.addEventListener('click', function(e){ if(!wrap.contains(e.target)){ wrap.classList.remove('open'); btn.setAttribute('aria-expanded','false'); } });
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape'){ wrap.classList.remove('open'); btn.setAttribute('aria-expanded','false'); } });
+  wrap.querySelectorAll('.dl-menu a').forEach(function(a){ a.addEventListener('click', function(){ wrap.classList.remove('open'); }); });
+})();
 
-    // 首页产品轮播：自动播放 + 箭头 / 圆点 / 左右方向键 / 触屏滑动
-    (function(){
-      var box = document.getElementById('prodCarousel');
-      var track = document.getElementById('carTrack');
-      if(!box || !track || track.children.length < 2) return;
-      var slides = track.children, dots = document.getElementById('carDots');
-      var prev = document.getElementById('carPrev'), next = document.getElementById('carNext');
-      var n = slides.length, i = 0, timer = null;
-      var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      function go(k){
-        i = (k % n + n) % n;
-        track.style.transform = 'translateX(' + (-i * 100) + '%)';
-        if(dots) for(var d = 0; d < dots.children.length; d++) dots.children[d].classList.toggle('on', d === i);
-        if(!reduce) restart();
-      }
-      function restart(){ stop(); if(!reduce) timer = setInterval(function(){ go(i + 1); }, 7000); }
-      function stop(){ if(timer){ clearInterval(timer); timer = null; } }
-      if(prev) prev.addEventListener('click', function(){ go(i - 1); });
-      if(next) next.addEventListener('click', function(){ go(i + 1); });
-      if(dots) Array.prototype.forEach.call(dots.children, function(b, d){ b.addEventListener('click', function(){ go(d); }); });
-      box.addEventListener('mouseenter', stop);
-      box.addEventListener('mouseleave', restart);
-      box.addEventListener('focusin', stop);
-      box.addEventListener('focusout', restart);
-      document.addEventListener('visibilitychange', function(){ if(document.hidden){ stop(); } else { restart(); } });
-      var x0 = null;
-      box.addEventListener('touchstart', function(e){ x0 = e.touches[0].clientX; }, { passive: true });
-      box.addEventListener('touchend', function(e){
-        if(x0 === null) return;
-        var dx = e.changedTouches[0].clientX - x0;
-        if(Math.abs(dx) > 40) go(dx < 0 ? i + 1 : i - 1);
-        x0 = null;
-      });
-      document.addEventListener('keydown', function(e){
-        if(e.target && /INPUT|TEXTAREA|SELECT/.test(e.target.tagName)) return;
-        if(e.key === 'ArrowLeft') go(i - 1);
-        else if(e.key === 'ArrowRight') go(i + 1);
-      });
-      restart();
-    })();
+// 产品轮播：自动播放 + 箭头 / 圆点 / 左右方向键 / 触屏滑动
+(function(){
+  var box = document.getElementById('prodCarousel');
+  var track = document.getElementById('carTrack');
+  if(!box || !track || track.children.length < 2) return;
+  var n = track.children.length, dots = document.getElementById('carDots');
+  var prev = document.getElementById('carPrev'), next = document.getElementById('carNext');
+  var i = 0, timer = null;
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function go(k){
+    i = (k % n + n) % n;
+    track.style.transform = 'translateX(' + (-i * 100) + '%)';
+    if(dots) for(var d = 0; d < dots.children.length; d++) dots.children[d].classList.toggle('on', d === i);
+    if(!reduce) restart();
+  }
+  function restart(){ stop(); if(!reduce) timer = setInterval(function(){ go(i + 1); }, 7000); }
+  function stop(){ if(timer){ clearInterval(timer); timer = null; } }
+  if(prev) prev.addEventListener('click', function(){ go(i - 1); });
+  if(next) next.addEventListener('click', function(){ go(i + 1); });
+  if(dots) Array.prototype.forEach.call(dots.children, function(b, d){ b.addEventListener('click', function(){ go(d); }); });
+  box.addEventListener('mouseenter', stop);
+  box.addEventListener('mouseleave', restart);
+  box.addEventListener('focusin', stop);
+  box.addEventListener('focusout', restart);
+  document.addEventListener('visibilitychange', function(){ if(document.hidden){ stop(); } else { restart(); } });
+  var x0 = null;
+  box.addEventListener('touchstart', function(e){ x0 = e.touches[0].clientX; }, { passive: true });
+  box.addEventListener('touchend', function(e){
+    if(x0 === null) return;
+    var dx = e.changedTouches[0].clientX - x0;
+    if(Math.abs(dx) > 40) go(dx < 0 ? i + 1 : i - 1);
+    x0 = null;
+  });
+  document.addEventListener('keydown', function(e){
+    if(e.target && /INPUT|TEXTAREA|SELECT/.test(e.target.tagName)) return;
+    if(e.key === 'ArrowLeft') go(i - 1);
+    else if(e.key === 'ArrowRight') go(i + 1);
+  });
+  restart();
+})();
 
-    // 版本号与更新说明全部从云端清单动态读取 —— 页面里不写死任何版本号 / 文件名
-    (function(){
-      var API = 'https://api.lihui-cargo.ru';
-      var MARKS = /[\u2460-\u2473]/;   // ①…⑳
-      function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-      function fillVersion(kind, ver){
-        var txt = ver ? ('v' + ver) : '最新版';
-        document.querySelectorAll('[data-ver="' + kind + '"]').forEach(function(el){
-          el.textContent = txt + (el.classList.contains('dl-version') ? ' 正式版' : '');
-        });
-      }
-      function fillNotes(kind, text){
-        var ul = document.querySelector('[data-notes="' + kind + '"]');
-        if(!ul || !text) return;
-        var body = text.replace(/^[\s\S]*?(?=[\u2460-\u2473])/, '');   // 砍掉第一个序号之前的开头
-        var parts = body.split(/[\u2460-\u2473]/).map(function(s){ return s.trim().replace(/[；;]\s*$/, ''); })
-                        .filter(function(s){ return s.length > 4; });
-        if(parts.length < 2) return;
-        ul.innerHTML = parts.map(function(s){
-          var k = s.search(/[：:]/);
-          if(k > 0 && k <= 24) return '<li><b>' + esc(s.slice(0, k + 1)) + '</b>' + esc(s.slice(k + 1)) + '</li>';
-          return '<li>' + esc(s) + '</li>';
-        }).join('');
-      }
-      function load(path, kind){
-        fetch(API + path, { cache: 'no-store' })
-          .then(function(r){ return r.json(); })
-          .then(function(j){
-            if(!j) return;
-            if(j.version) fillVersion(kind, j.version);
-            if(j.notes) fillNotes(kind, j.notes);
-          })
-          .catch(function(){ /* 取不到就保留页面上的兜底文案，不影响其它功能 */ });
-      }
-      load('/manifest', 'threads');
-      load('/xhs/manifest', 'xhs');
-    })();
+// 版本号与更新说明全部从云端清单动态读取 —— 页面里不写死任何版本号 / 文件名
+(function(){
+  var API = 'https://api.lihui-cargo.ru';
+  function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+  function fillVersion(kind, ver){
+    var txt = ver ? ('v' + ver) : '最新版';
+    document.querySelectorAll('[data-ver="' + kind + '"]').forEach(function(el){ el.textContent = txt; });
+  }
+  function fillNotes(kind, text){
+    var ul = document.querySelector('[data-notes="' + kind + '"]');
+    if(!ul || !text) return;
+    var body = text.replace(/^[\s\S]*?(?=[\u2460-\u2473])/, '');
+    var parts = body.split(/[\u2460-\u2473]/).map(function(s){ return s.trim().replace(/[；;]\s*$/, ''); })
+                    .filter(function(s){ return s.length > 4; });
+    if(parts.length < 2) return;
+    ul.innerHTML = parts.map(function(s){
+      var k = s.search(/[：:]/);
+      if(k > 0 && k <= 24) return '<li><b>' + esc(s.slice(0, k + 1)) + '</b>' + esc(s.slice(k + 1)) + '</li>';
+      return '<li>' + esc(s) + '</li>';
+    }).join('');
+  }
+  function load(path, kind){
+    fetch(API + path, { cache: 'no-store' })
+      .then(function(r){ return r.json(); })
+      .then(function(j){
+        if(!j) return;
+        if(j.version) fillVersion(kind, j.version);
+        if(j.notes) fillNotes(kind, j.notes);
+      })
+      .catch(function(){ /* 取不到就保留页面上的兜底文案，不影响其它功能 */ });
+  }
+  load('/manifest', 'threads');
+  load('/xhs/manifest', 'xhs');
+})();
 
 // 复制联系方式
 document.querySelectorAll('.copy').forEach(function(btn){
@@ -1221,41 +977,30 @@ document.querySelectorAll('.copy').forEach(function(btn){
 });
 
 // 截图灯箱
-var lb = document.getElementById('lightbox'), lbImg = document.getElementById('lbImg');
-document.querySelectorAll('.shot').forEach(function(s){ s.addEventListener('click', function(){ lbImg.src = s.getAttribute('data-src'); lb.classList.add('on'); }); });
-document.getElementById('lbClose').addEventListener('click', function(){ lb.classList.remove('on'); });
-lb.addEventListener('click', function(e){ if (e.target === lb) lb.classList.remove('on'); });
-document.addEventListener('keydown', function(e){ if (e.key === 'Escape') lb.classList.remove('on'); });
+(function(){
+  var lb = document.getElementById('lightbox'), lbImg = document.getElementById('lbImg');
+  if(!lb) return;
+  document.querySelectorAll('.thumb').forEach(function(s){
+    s.addEventListener('click', function(){ lbImg.src = s.getAttribute('data-src'); lb.classList.add('on'); });
+  });
+  document.getElementById('lbClose').addEventListener('click', function(){ lb.classList.remove('on'); });
+  lb.addEventListener('click', function(e){ if (e.target === lb) lb.classList.remove('on'); });
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape') lb.classList.remove('on'); });
+})();
 
 // 滚动入场（交错延迟 + 兜底）
-var io = new IntersectionObserver(function(entries){
-  entries.forEach(function(en){ if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } });
-}, { threshold: 0.12 });
-document.querySelectorAll('.reveal').forEach(function(el, i){
-  el.style.transitionDelay = (i % 3) * 0.08 + 's';
-  io.observe(el);
-});
-setTimeout(function(){ document.querySelectorAll('.reveal').forEach(function(el){ el.classList.add('in'); }); }, 1500);
-
-// 数字滚动（滚入视野时从 0 涨到目标值）
-function animateCount(el){
-  var target = parseInt(el.getAttribute('data-count'), 10);
-  if (isNaN(target)) return;
-  var suffix = el.getAttribute('data-suffix') || '';
-  var dur = 1400, start = null;
-  function step(ts){
-    if (!start) start = ts;
-    var p = Math.min((ts - start) / dur, 1);
-    var eased = 1 - Math.pow(1 - p, 3);
-    el.textContent = Math.round(target * eased) + suffix;
-    if (p < 1) requestAnimationFrame(step);
+(function(){
+  var els = document.querySelectorAll('.reveal');
+  if(!('IntersectionObserver' in window)){
+    els.forEach(function(el){ el.classList.add('in'); });
+    return;
   }
-  requestAnimationFrame(step);
-}
-var cio = new IntersectionObserver(function(entries){
-  entries.forEach(function(en){ if (en.isIntersecting) { animateCount(en.target); cio.unobserve(en.target); } });
-}, { threshold: 0.6 });
-document.querySelectorAll('[data-count]').forEach(function(el){ cio.observe(el); });
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); } });
+  }, { threshold: 0.12 });
+  els.forEach(function(el, i){ el.style.transitionDelay = (i % 3) * 0.06 + 's'; io.observe(el); });
+  setTimeout(function(){ els.forEach(function(el){ el.classList.add('in'); }); }, 1500);
+})();
 </script>
 </body>
 </html>
