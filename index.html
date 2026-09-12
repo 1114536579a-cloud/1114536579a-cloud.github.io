@@ -324,9 +324,15 @@ body{background:linear-gradient(180deg,#FFFFFF,#FAFBFF 45%,#FFFFFF)}
 /* —— 首屏在小屏也要好看 —— */
 /* —— 结尾深色带：联系 + 页脚，和首屏首尾呼应 —— */
 /* —— 顶部导航：浮在深色首屏上，滚动后变深色磨砂 —— */
-header.top{position:fixed;top:0;left:0;right:0;background:transparent;border-bottom:1px solid transparent;transition:background .28s ease,border-color .28s ease,backdrop-filter .28s ease}
+header.top{position:fixed;top:0;left:0;right:0;
+  background:rgba(8,11,24,.82);
+  -webkit-backdrop-filter:blur(10px) saturate(120%);
+  backdrop-filter:blur(10px) saturate(120%);
+  border-bottom:1px solid rgba(255,255,255,.14);
+  box-shadow:0 1px 0 rgba(255,255,255,.05);
+  transition:background .28s ease,border-color .28s ease,box-shadow .28s ease}
 header.top::before{content:"";position:absolute;left:0;top:0;height:3px;width:100%;background:linear-gradient(90deg,#6C5CE0,#35C7D8 48%,#FF2442)}
-header.top.scrolled{background:rgba(15,19,36,.92);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-bottom-color:rgba(255,255,255,.1)}
+header.top.scrolled{background:rgba(11,14,30,.96);border-bottom-color:rgba(255,255,255,.15);box-shadow:0 10px 28px rgba(0,0,0,.3)}
 header.top .brand{color:#fff}
 header.top .brand small{color:#8A93B0}
 nav.main a{color:#C4CBE1}
@@ -965,7 +971,7 @@ footer::before{content:"";position:absolute;left:0;top:0;height:3px;width:100%;b
     </div>
     <div class="foot-bottom">
       <span>© 2026 LH 智能自动化 · 保留所有权利</span>
-      <span>本页面内容与截图均为真实交付成果 · 构建 <b data-build>20260913-031250</b></span>
+      <span>本页面内容与截图均为真实交付成果 · 构建 <b data-build>20260913-031546</b></span>
     </div>
   </div>
 </footer>
