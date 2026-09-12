@@ -304,6 +304,24 @@ footer{padding:50px 0 30px;background:#fff;border-top:1px solid var(--border);co
   .floating{display:none}
   .shot-frame{transform:none}
 }
+/* ===== 两款产品的视觉区分（2026-09-13 新增）=====
+   客户反馈"两套配色一样、容易下错"，所以给它们各自一套品牌色：
+   LH Threads = 紫罗兰（沿用软件主色）；小红书 = 品牌红。
+   只改网站显示，不动任何程序。 */
+.brand-card { border-radius: 16px; padding: 22px 22px 18px; border: 2px solid transparent; }
+.brand-badge { display: inline-block; padding: 3px 11px; border-radius: 999px; font-size: 12px;
+  font-weight: 700; color: #fff; letter-spacing: .3px; margin-bottom: 8px; }
+.brand-lh { border-color: #6C5CE0; background: linear-gradient(135deg, rgba(108,92,224,.10), rgba(108,92,224,.02)); }
+.brand-lh .brand-badge { background: #6C5CE0; }
+.brand-lh .btn-primary { background: #6C5CE0; border-color: #6C5CE0; }
+.brand-lh .dl-appicon, .brand-lh .fi { background: linear-gradient(135deg, #6C5CE0, #8B7BF0); }
+.brand-xhs { border-color: #FF2442; background: linear-gradient(135deg, rgba(255,36,66,.10), rgba(255,36,66,.02)); }
+.brand-xhs .brand-badge { background: #FF2442; }
+.brand-xhs .btn-primary { background: #FF2442; border-color: #FF2442; }
+.brand-xhs .dl-appicon, .brand-xhs .fi { background: linear-gradient(135deg, #FF2442, #FF6B6B); }
+.pick-hint { margin: 10px 0 4px; padding: 10px 14px; border-radius: 10px; font-size: 14px;
+  background: #FFF7E6; border: 1px solid #FFD591; color: #8C5A00; }
+.not-this { margin-top: 10px; font-size: 13px; color: #666; }
 </style>
 </head>
 <body>
@@ -372,28 +390,32 @@ footer{padding:50px 0 30px;background:#fff;border-top:1px solid var(--border);co
           <h2>两套已经在跑的获客系统</h2>
           <p>都是我们自己开发、自己迭代、客户在用的桌面软件：一套做 Threads（俄语区），一套做小红书。点下面直接看介绍或下载。</p>
         </div>
+        <div class="pick-hint reveal">先看这里，别下错：<b>在 Threads（国外社媒）找俄语区客户 → 下左边的「Threads 版」</b>；
+          <b>在小红书找客户 → 下右边的「小红书版」</b>。两套是两个独立程序，装错版本用不了对方的平台。</div>
         <div class="grid3" style="grid-template-columns:repeat(2,1fr)">
-          <div class="feature reveal" style="align-items:flex-start">
+          <div class="feature reveal brand-card brand-lh" style="align-items:flex-start">
             <div class="fi v">TH</div>
             <div>
-              <h4>LH 全链任务系统 <span style="font-weight:400;opacity:.7">· Threads 俄语区</span></h4>
+              <span class="brand-badge">Threads 版 · 紫罗兰</span>
+              <h4>LH 全链任务系统</h4>
               <p>在 Threads 上按俄语关键词找「从中国购买 / 运输」的买家：拟人采集 → AI 多票审核 → 自动生成俄语回复 →
                 自动发布 → 客户台账 + 云端授权。支持多账号独立环境、云端策略热更新、一键自动更新，程序内置《使用说明》。</p>
               <div class="dl-actions" style="margin-top:10px">
                 <a class="btn btn-primary" href="#product">看详细介绍</a>
-                <a class="btn btn-ghost" href="https://api.lihui-cargo.ru/download" target="_blank" rel="noopener">直接下载</a>
+                <a class="btn btn-ghost" href="https://api.lihui-cargo.ru/download" target="_blank" rel="noopener">下载 Threads 版客户端</a>
               </div>
             </div>
           </div>
-          <div class="feature reveal" style="align-items:flex-start">
+          <div class="feature reveal brand-card brand-xhs" style="align-items:flex-start">
             <div class="fi a">XHS</div>
             <div>
-              <h4>小红书私信 AI 获客 <span style="font-weight:400;opacity:.7">· 小红书</span></h4>
+              <span class="brand-badge">小红书版 · 品牌红</span>
+              <h4>小红书私信 AI 获客</h4>
               <p>在小红书按关键词找有采购 / 合作意向的人：私信 + 评论双通道采集 → AI 判断真实意图 → 生成自然话术 →
                 内置微信引擎自动触达 → 线索台账去重。话术可按行业 / 城市风格自定义。</p>
               <div class="dl-actions" style="margin-top:10px">
                 <a class="btn btn-primary" href="#xhs-product">看详细介绍</a>
-                <a class="btn btn-ghost" href="https://api.lihui-cargo.ru/xhs/dl?f=XhsLead-package-1.0.17.zip" target="_blank" rel="noopener">直接下载</a>
+                <a class="btn btn-ghost" href="https://api.lihui-cargo.ru/xhs/dl?f=XhsLead-package-1.0.17.zip" target="_blank" rel="noopener">下载 小红书版完整包</a>
               </div>
             </div>
           </div>
@@ -474,14 +496,15 @@ footer{padding:50px 0 30px;background:#fff;border-top:1px solid var(--border);co
       </div>
 
       <!-- 下载入口：独立专业下载卡 -->
-      <div class="download reveal" id="download">
+        <div class="download reveal brand-card brand-lh" id="download">
         <div class="dl-appicon">
           <span>LH</span>
         </div>
         <div class="dl-main">
           <div class="dl-head">
             <div>
-              <div class="dl-title">LH 全链任务系统</div>
+                <span class="brand-badge">Threads 版 · 紫罗兰</span>
+                <div class="dl-title">LH 全链任务系统</div>
               <div class="dl-sub">桌面智能获客客户端 · Windows 独立版</div>
             </div>
                 <span class="dl-version">v6.5.22 正式版</span>
@@ -492,8 +515,9 @@ footer{padding:50px 0 30px;background:#fff;border-top:1px solid var(--border);co
               <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
                   下载主程序（自带使用说明）
             </a>
-            <a class="btn btn-ghost" href="#contact">获取授权码</a>
-          </div>
+              <a class="btn btn-ghost" href="#contact">获取授权码</a>
+            </div>
+            <div class="not-this">⚠ 这是 <b>Threads 版</b>：用于在国外社媒 Threads 上找俄语区客户。想在小红书找客户，请下载下面的「小红书版」↓</div>
           <div class="dl-meta">
             <span>系统要求 <b>Windows 10 / 11</b></span>
             <span class="sep"></span>
@@ -546,15 +570,7 @@ footer{padding:50px 0 30px;background:#fff;border-top:1px solid var(--border);co
             <div class="shots">
               <div class="shot reveal" data-src="assets/xhs-main.png">
                 <img src="assets/xhs-main.png" alt="小红书私信AI获客 主界面">
-                <div class="shot-cap">主界面：账号、关键词、采集与发送控制集中在一屏</div>
-              </div>
-              <div class="shot reveal" data-src="assets/xhs-dm.png">
-                <img src="assets/xhs-dm.png" alt="私信采集与 AI 判断">
-                <div class="shot-cap">私信采集：自动翻页读取会话，AI 逐条判断意向</div>
-              </div>
-              <div class="shot reveal" data-src="assets/xhs-comment.png">
-                <img src="assets/xhs-comment.png" alt="评论采集">
-                <div class="shot-cap">评论采集：从评论区再捞一批有意向的线索</div>
+                <div class="shot-cap">最新版运行台（v1.0.17）：今日私信 / 留资命中 / 已推微信 / AI 大脑状态 + 多账号采集控制与一键体检</div>
               </div>
             </div>
 
@@ -567,11 +583,12 @@ footer{padding:50px 0 30px;background:#fff;border-top:1px solid var(--border);co
               <span class="chip">授权 <b>机器码绑定 · 可远程管理</b></span>
             </div>
 
-        <div class="download reveal" id="xhs" style="margin-top:22px">
+        <div class="download reveal brand-card brand-xhs" id="xhs" style="margin-top:22px">
           <div class="dl-appicon"><span>XHS</span></div>
           <div class="dl-main">
             <div class="dl-head">
               <div>
+                <span class="brand-badge">小红书版 · 品牌红</span>
                 <div class="dl-title">小红书私信 AI 获客</div>
                 <div class="dl-sub">桌面自动获客客户端 · 私信 / 评论采集 + 微信自动触达</div>
               </div>
@@ -582,6 +599,7 @@ footer{padding:50px 0 30px;background:#fff;border-top:1px solid var(--border);co
               <a class="btn btn-primary btn-big" href="https://api.lihui-cargo.ru/xhs/dl?f=XhsLead-package-1.0.17.zip" target="_blank" rel="noopener">下载完整包（推荐）</a>
               <a class="btn btn-ghost" href="https://api.lihui-cargo.ru/xhs/dl?f=XhsLead-1.0.17.exe" target="_blank" rel="noopener">只要主程序</a>
             </div>
+            <div class="not-this">⚠ 这是 <b>小红书版</b>：用于在小红书找客户并推送到微信。想在 Threads 上找俄语区客户，请下载上面的「Threads 版」↑</div>
             <div class="dl-meta">
               <span>系统要求 <b>Windows 10 / 11</b></span>
               <span class="sep"></span>
