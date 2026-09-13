@@ -1194,6 +1194,10 @@ document.documentElement.classList.add('js');
         if(!j) return;
         if(j.version) fillVersion(kind, j.version);
         if(j.notes) fillNotes(kind, j.notes);
+        // 小红书下载按钮跟随云端 manifest 的带版本地址，避免固定短链被浏览器缓存成旧安装包。
+        if(kind === 'xhs' && j.package){
+          document.querySelectorAll('a[href*="/xhs/package"]').forEach(function(a){ a.href = j.package; });
+        }
       })
       .catch(function(){ /* 取不到就保留页面上的兜底文案，不影响其它功能 */ });
   }
